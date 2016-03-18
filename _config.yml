@@ -27,8 +27,8 @@ sharing:
     reddit: true
 
 # Disqus comments configuration (leave blank to disable comments)
-disqus_shortname: 'perfectlyrandom-trio'
-# disqus_shortname: 'leolishiting'
+# disqus_shortname: 'perfectlyrandom-trio'
+ disqus_shortname: 'leolishiting'
 
 # Jekyll configuration
 permalink: /:year/:month/:day/:title/

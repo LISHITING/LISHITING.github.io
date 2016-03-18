@@ -1,7 +1,7 @@
 # Site wide configuration
-title: Trio
+title: LISHITING
 description: 'A simple content-focused Jekyll theme'
-url: http://www.perfectlyrandom.org/trio
+url: http://www.leolishiting.com
 date_format: '%B %d, %Y'
 fort_awesome_icon: 'cog fa-spin'
 
@@ -9,12 +9,12 @@ fort_awesome_icon: 'cog fa-spin'
 # name and email are required (change code to remove these)
 # (leave the rest blank to disable the corresponding sharing button)
 owner:
-    name: Ankur Gupta
-    email: ankur@perfectlyrandom.org
-    github: ankur-gupta
-    twitter: ankurIO
+    name: LI SHITING
+    email: leocatch@yeah.net
+    github: LISHITING
+    twitter: LEO__LI
     linkedin: ankurguptawisc
-    facebook:
+    facebook: LISHITING
     google_plus:
     youtube:
 

@@ -1,58 +1,19 @@
-# Site wide configuration
-title: LISHITING
-description: 'A simple content-focused Jekyll theme'
-url: http://leolishiting.com
-date_format: '%B %d, %Y'
-fort_awesome_icon: 'cog fa-spin'
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
 
-# Owner configuration
-# name and email are required (change code to remove these)
-# (leave the rest blank to disable the corresponding sharing button)
-owner:
-    name: Ankur Gupta
-    email: ankur@perfectlyrandom.org
-    github: ankur-gupta
-    twitter: ankurIO
-    linkedin: ankurguptawisc
-    facebook:
-    google_plus:
-    youtube:
+# Site settings
+title: LI SHITING
+email: leocatch@yeah.net
+description: > # this means to ignore newlines until "baseurl:"
+  Keep writing, Keep thinking
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://leolishiting.com" # the base hostname & protocol for your site
+twitter_username: Leo__LI
+github_username:  lishiting
 
-# Post sharing icons
-sharing:
-    twitter: true
-    linkedin: true
-    facebook: true
-    google_plus: true
-    reddit: true
-
-# Disqus comments configuration (leave blank to disable comments)
-# disqus_shortname: 'perfectlyrandom-trio'
- disqus_shortname: 'leolishiting'
-
-# Jekyll configuration
-permalink: /:year/:month/:day/:title/
-paginate: 4
-
-# Markdown
-markdown: redcarpet
-highlighter: pygments
-
-# Enable when using redcarpet
-redcarpet:
-  extensions: ['smart', 'tables', 'with_toc_data', 'footnotes']
-
-# Enable when using kramdown (you will need to use ~~~ instead of ```)
-# kramdown:
-#   auto_ids: true
-#   footnote_nr: 1
-#   entity_output: as_char
-#   toc_levels: 1..6
-#   use_coderay: false
-
-# Gems
-gems: ['jekyll-paginate']
-
-# Exclude
-exclude: ['README.md']
-
+# Build settings
+markdown: kramdown

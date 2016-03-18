@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LI SHITING</title>
+    <description>Keep writing, Keep thinking
+</description>
+    <link>http://leolishiting.com/</link>
+    <atom:link href="http://leolishiting.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 18 Mar 2016 23:15:49 +0100</pubDate>
+    <lastBuildDate>Fri, 18 Mar 2016 23:15:49 +0100</lastBuildDate>
+    <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Hello World!</title>
+        <description>&lt;p&gt;Hello world&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 18 Mar 2016 20:07:34 +0100</pubDate>
+        <link>http://leolishiting.com/helloworld/2016/03/18/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://leolishiting.com/helloworld/2016/03/18/welcome-to-jekyll.html</guid>
+        
+        
+        <category>helloworld</category>
+        
+      </item>
+    
+  </channel>
+</rss>

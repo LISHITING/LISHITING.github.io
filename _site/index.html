@@ -2,19 +2,22 @@
 <html>
 
   <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>LI SHITING</title>
-  <meta name="description" content="Keep writing, Keep thinking
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LI SHITING</title>
+    <link rel="stylesheet" href=" /css/main.css ">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href=" /css/main.css ">
+   
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="Keep writing, Keep thinking
 ">
-
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://leolishiting.com/">
-  <link rel="alternate" type="application/rss+xml" title="LI SHITING" href="http://leolishiting.com/feed.xml">
+    <!-- 导航栏 -->
+    
+    <link rel="canonical" href="http://leolishiting.com/">
+    <link rel="alternate" type="application/rss+xml" title="LI SHITING" href="http://leolishiting.com /feed.xml ">
 </head>
-
 
   <body>
 
@@ -36,7 +39,15 @@
       <div class="trigger">
         
           
+        
+          
           <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="/articles/">Articles</a>
           
         
           
@@ -55,50 +66,42 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
-
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Mar 18, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/helloworld/2016/03/18/helloworld.html">Hello World!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 16, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/diary/2016/03/16/Far-away-from-home.html">Far away from home</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 9, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/diary/2015/06/09/A-city-full-of-virgos.html">A City full of Virgos</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Aug 30, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/diary/2014/08/30/Last-Summer-Vocation.html">Last Summer vocation</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
+        <head>
+    <title>boothstrap</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<div id="myCarousel" class="carousel slide">
+    <!--   <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active">1</li>
+            <li data-target="#myCarousel" data-slide-to="1">2</li>
+            <li data-target="#myCarousel" data-slide-to="2">3</li>
+        </ol> -->
+    <div class="carousel-inner">
+        <div class="item active" style="background: #000000;"><img src="img/slide1.jpg" alt="picture1"></div>
+        <div class="item" style="background: #000000;"><img src="img/slide2.jpg" alt="picture2"></div>
+        <div class="item" style="background: #000000;"><img src="img/slide3.jpg" alt="picture3"></div>
+    </div>
+    <a href="#myCarousel" data-slide="prev" class="carousel-control left"></span>
+    </a>
+    <a href="#myCarousel" data-slide="next" class="carousel-control right"></a>
 </div>
 
+<div>
+	<a href="article.html"></a>
+</div>
+
+
+<script src="js/jquery-2.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    //AUTOPLAY
+    $('#myCarousel').carousel({
+        interval: 5000,
+    });
+});
+</script>
       </div>
     </div>
 

@@ -4,12 +4,19 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+本科自动化专业，留法转学计算机的摄影爱好者。
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+空闲会折腾一些新奇事物。
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+热爱日志，轻度强迫症排版控，图文并茂
+
+喜欢旅游，虽然游记偏向流水账，可以在[这里][id]搜寻我的旧文。
+
+本个人网站就是想把自己生活中遇到的一些有趣的事情记录下来，或者是漂亮的小城镇，或者是有趣的食物，或者是设计的灵感，亦或者是学习的笔记。
+
+###网站进化日志
+
+估计留言板设在这里有点奇怪，但实在不想分太多页面。
+
+
+[id]: http://25.io/mou/ "Markdown editor on Mac OS X"

@@ -6,59 +6,9 @@
 </description>
     <link>http://leolishiting.com/</link>
     <atom:link href="http://leolishiting.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 19 Mar 2016 12:06:16 +0100</pubDate>
-    <lastBuildDate>Sat, 19 Mar 2016 12:06:16 +0100</lastBuildDate>
+    <pubDate>Sat, 19 Mar 2016 12:10:18 +0100</pubDate>
+    <lastBuildDate>Sat, 19 Mar 2016 12:10:18 +0100</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
-    
-      <item>
-        <title>Hello World!</title>
-        <description>&lt;h2&gt;你好啊世界!&lt;/h2&gt;
-&lt;p&gt;伟大的编程界有个小惯例，那就是无论拿到什么新东西都设法弄一个Hello World。 根据维娘的解释：Hello, World程序指的是指在计算机屏幕上输出“Hello, World!”（意为“你好，世界！”）这行字符串的计算机程序。一般来说，这是每一种计算机编程语言中最基本、最简单的程序，亦通常是初学者所编写的第一个程序。它还可以用来确定该语言的编译器、程序开发环境，以及运行环境是否已经安装妥当。
-但是好像有点奇怪 o -_-)=○)°O°)
-还是用英文原版来一个&lt;/p&gt;
-
-&lt;h3&gt;Hello world!&lt;/h3&gt;
-
-&lt;p&gt;貌似身在法国应该也要来点洋气一点的&lt;/p&gt;
-
-&lt;h3&gt;Bonjour le monde!&lt;/h3&gt;
-&lt;p&gt;感觉应该亲切一点不是吗？&lt;/p&gt;
-
-&lt;h3&gt;Coucou le monde!&lt;/h3&gt;
-&lt;p&gt;再来&lt;/p&gt;
-
-&lt;h3&gt;bisou le monde&lt;/h3&gt;
-&lt;p&gt;PHP也来一个&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-PHP&quot;&gt;&amp;lt;?php Echo &quot;Hello, World!&quot;; ?&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;JS也来一个&lt;/p&gt;
-
-&lt;p&gt;&lt;button onclick=&quot;myFunction()&quot;&gt;
-    按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾”
-  &lt;/button&gt;&lt;/p&gt;
-
-&lt;script&gt;
-function myFunction()
-{
-    alert(&quot;Hello World！&quot;);
-}
-&lt;/script&gt;
-
-&lt;p&gt;&lt;i&gt;注：本篇文章毫无意义&lt;/i&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/Hello_World&quot;&gt;维娘的解释在此&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 03 Mar 2016 20:07:34 +0100</pubDate>
-        <link>http://leolishiting.com/helloworld/2016/03/03/helloworld.html</link>
-        <guid isPermaLink="true">http://leolishiting.com/helloworld/2016/03/03/helloworld.html</guid>
-        
-        
-        <category>helloworld</category>
-        
-      </item>
     
       <item>
         <title>A City full of Virgos</title>

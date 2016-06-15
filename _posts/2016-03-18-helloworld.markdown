@@ -30,9 +30,19 @@ PHP也来一个
 JS也来一个
 
 
-<button onclick="myFunction()">
+<button onclick="myFunction()" class = "mybtn">
     按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾"
   </button>
+
+<style>
+	.mybtn{
+		border: 2px solid red;
+	
+	}
+	
+	
+</style>
+
 
 <script>
 function myFunction()

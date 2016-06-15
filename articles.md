@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Articles
+title: 文章Articles
 permalink: /articles/
 ---
 

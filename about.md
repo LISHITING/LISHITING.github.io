@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: 关于About
 permalink: /about/
 ---
 <h3>WHO IS LEO</h3>

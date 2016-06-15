@@ -30,26 +30,28 @@ PHP也来一个
 JS也来一个
 
 
-<button onclick="myFunction()" class = "mybtn">
-    按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾"
-  </button>
-
-<style>
-	.mybtn{
-		border: 2px solid red;
-	
-	}
-	
-	
-</style>
+<div style="text-align:center">
+<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm"> 按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾"</button>
+</div>
 
 
-<script>
-function myFunction()
-{
-    alert("Hello World！");
-}
-</script>
+
+
+<!-- Small modal -->
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    	<div class = "container">
+    	<h1>Hello World！</h1>
+    	
+      	</div>
+    </div>
+  </div>
+</div>
+
+
 
 <i>注：本篇文章毫无意义</i>
 

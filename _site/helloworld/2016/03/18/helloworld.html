@@ -58,7 +58,17 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Hello World!</h1>
@@ -89,25 +99,22 @@
 
 <p>JS也来一个</p>
 
-<p><button onclick="myFunction()" class="mybtn">
-    按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾”
-  </button></p>
+<div style="text-align:center">
+<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm"> 按我按我⁽⁽٩(๑˃̶͈̀ ᗨ ˂̶͈́)۶⁾⁾"</button>
+</div>
 
-<style>
-	.mybtn{
-		border: 2px solid red;
-	
-	}
-	
-	
-</style>
+<!-- Small modal -->
 
-<script>
-function myFunction()
-{
-    alert("Hello World！");
-}
-</script>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    	<div class="container">
+    	<h1>Hello World！</h1>
+    	
+      	</div>
+    </div>
+  </div>
+</div>
 
 <p><i>注：本篇文章毫无意义</i></p>
 
@@ -189,5 +196,5 @@ s.setAttribute('data-timestamp', +new Date());
 
 
   </body>
-
 </html>
+

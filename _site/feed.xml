@@ -6,8 +6,8 @@
 </description>
     <link>http://leolishiting.com/</link>
     <atom:link href="http://leolishiting.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 18 Jul 2016 11:18:34 +0200</pubDate>
-    <lastBuildDate>Mon, 18 Jul 2016 11:18:34 +0200</lastBuildDate>
+    <pubDate>Mon, 18 Jul 2016 11:27:23 +0200</pubDate>
+    <lastBuildDate>Mon, 18 Jul 2016 11:27:23 +0200</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
@@ -22,8 +22,7 @@
 &lt;p&gt;为了使得Laravel知道哪个模块应该和哪个数据表对应，在命名数据表和对象的时候有一定限制。
 例子：创建一个商品(id，名字，价格，描述)在数据库中，并在网页里可以访问。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Step1:&lt;/strong&gt;
-######Step1:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step1:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php artisan make:model product
 &lt;/code&gt;&lt;/pre&gt;
@@ -31,17 +30,23 @@
 
 &lt;p&gt;这条语句在Laravel里创建了一个模块，名字为product&lt;/p&gt;
 
-&lt;p&gt;######Step2:
-	php artisan make:migration create_products_table
-这条语句在Laravel里创建了一个数据迁移。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step2:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php artisan make:migration create_products_table 这条语句在Laravel里创建了一个数据迁移。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;⚠️数据迁移的命名最好是create_xxx_table，这样生成的数据迁移的名字将会是CreateXxxTable&lt;/p&gt;
 
 &lt;p&gt;⚠️数据迁移是一个特殊的类，继承自Migration。&lt;/p&gt;
 
-&lt;p&gt;######Step3:&lt;/p&gt;
+&lt;p&gt;⚠️数据迁移整一个文件不容易删除，但是数据迁移里的数据库表的结构可以轻易使用migrate 和rollback 修改&lt;/p&gt;
 
-&lt;p&gt;此时我们有了数据迁移和模块，&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step3:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;此时我们有了数据迁移和模块，便能够以对象的方式直接操纵数据。&lt;/p&gt;
+
+&lt;p&gt;（未完）&lt;/p&gt;
 </description>
         <pubDate>Tue, 14 Jun 2016 20:00:00 +0200</pubDate>
         <link>http://leolishiting.com/php/2016/06/14/Learn-Laravel.html</link>

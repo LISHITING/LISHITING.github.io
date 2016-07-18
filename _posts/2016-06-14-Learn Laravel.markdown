@@ -15,13 +15,13 @@ Laravel是较新而且方便的PHP框架。开始接触Laravel纯粹是因为实
 例子：创建一个商品(id，名字，价格，描述)在数据库中，并在网页里可以访问。
 
 <strong>Step1:</strong>
-######Step1: 
 	
 	php artisan make:model product
 
 这条语句在Laravel里创建了一个模块，名字为product
 
-######Step2:
+<strong>Step2:</strong>
+
 	php artisan make:migration create_products_table
 这条语句在Laravel里创建了一个数据迁移。
 
@@ -29,6 +29,10 @@ Laravel是较新而且方便的PHP框架。开始接触Laravel纯粹是因为实
 
 ⚠️数据迁移是一个特殊的类，继承自Migration。
 
-######Step3:
+⚠️数据迁移整一个文件不容易删除，但是数据迁移里的数据库表的结构可以轻易使用migrate 和rollback 修改
 
-此时我们有了数据迁移和模块，
+<strong>Step3:</strong>
+
+此时我们有了数据迁移和模块，便能够以对象的方式直接操纵数据。
+
+（未完）

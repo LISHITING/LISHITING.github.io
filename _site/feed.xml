@@ -6,22 +6,49 @@
 </description>
     <link>http://leolishiting.com/</link>
     <atom:link href="http://leolishiting.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Jun 2016 16:05:18 +0200</pubDate>
-    <lastBuildDate>Wed, 15 Jun 2016 16:05:18 +0200</lastBuildDate>
+    <pubDate>Mon, 18 Jul 2016 11:18:34 +0200</pubDate>
+    <lastBuildDate>Mon, 18 Jul 2016 11:18:34 +0200</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
         <title>Learn Laravel</title>
         <description>&lt;h1&gt;关于Laravel&lt;/h1&gt;
-&lt;p&gt;在学习了PHP一段时间后，&lt;/p&gt;
+&lt;p&gt;Laravel是较新而且方便的PHP框架。开始接触Laravel纯粹是因为实习原因需要快速搭建一个站点。本文记录Laravel使用的心得。然而并不会从入门开始介绍，仅仅介绍这个MVC框架中一些自己摸索了许久的关键概念。&lt;/p&gt;
 
+&lt;h2&gt;模块和数据表&lt;/h2&gt;
+
+&lt;p&gt;在Laravel里，可以使用ORM进行便捷的数据访问。即把每一个数据表转为一个PHP对象，通过：&lt;strong&gt;$对象名-&amp;gt;属性&lt;/strong&gt; 来访问 &lt;strong&gt;$表名-&amp;gt;字段&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了使得Laravel知道哪个模块应该和哪个数据表对应，在命名数据表和对象的时候有一定限制。
+例子：创建一个商品(id，名字，价格，描述)在数据库中，并在网页里可以访问。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Step1:&lt;/strong&gt;
+######Step1:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php artisan make:model product
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这条语句在Laravel里创建了一个模块，名字为product&lt;/p&gt;
+
+&lt;p&gt;######Step2:
+	php artisan make:migration create_products_table
+这条语句在Laravel里创建了一个数据迁移。&lt;/p&gt;
+
+&lt;p&gt;⚠️数据迁移的命名最好是create_xxx_table，这样生成的数据迁移的名字将会是CreateXxxTable&lt;/p&gt;
+
+&lt;p&gt;⚠️数据迁移是一个特殊的类，继承自Migration。&lt;/p&gt;
+
+&lt;p&gt;######Step3:&lt;/p&gt;
+
+&lt;p&gt;此时我们有了数据迁移和模块，&lt;/p&gt;
 </description>
         <pubDate>Tue, 14 Jun 2016 20:00:00 +0200</pubDate>
-        <link>http://leolishiting.com/helloworld/2016/06/14/Learn-Laravel.html</link>
-        <guid isPermaLink="true">http://leolishiting.com/helloworld/2016/06/14/Learn-Laravel.html</guid>
+        <link>http://leolishiting.com/php/2016/06/14/Learn-Laravel.html</link>
+        <guid isPermaLink="true">http://leolishiting.com/php/2016/06/14/Learn-Laravel.html</guid>
         
         
-        <category>helloworld</category>
+        <category>PHP</category>
         
       </item>
     
@@ -39,11 +66,11 @@
 
 </description>
         <pubDate>Sun, 03 Apr 2016 20:00:00 +0200</pubDate>
-        <link>http://leolishiting.com/helloworld/2016/04/03/Attitude.html</link>
-        <guid isPermaLink="true">http://leolishiting.com/helloworld/2016/04/03/Attitude.html</guid>
+        <link>http://leolishiting.com/diary/2016/04/03/Attitude.html</link>
+        <guid isPermaLink="true">http://leolishiting.com/diary/2016/04/03/Attitude.html</guid>
         
         
-        <category>helloworld</category>
+        <category>Diary</category>
         
       </item>
     
@@ -95,11 +122,11 @@
 
 </description>
         <pubDate>Fri, 18 Mar 2016 20:07:34 +0100</pubDate>
-        <link>http://leolishiting.com/helloworld/2016/03/18/helloworld.html</link>
-        <guid isPermaLink="true">http://leolishiting.com/helloworld/2016/03/18/helloworld.html</guid>
+        <link>http://leolishiting.com/diary/2016/03/18/helloworld.html</link>
+        <guid isPermaLink="true">http://leolishiting.com/diary/2016/03/18/helloworld.html</guid>
         
         
-        <category>helloworld</category>
+        <category>Diary</category>
         
       </item>
     

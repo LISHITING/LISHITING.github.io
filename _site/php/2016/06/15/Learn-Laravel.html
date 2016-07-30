@@ -13,12 +13,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>文章Articles</title>
-  <meta name="description" content="Keep writing, Keep thinking
-">
+  <title>Learn Laravel</title>
+  <meta name="description" content="关于LaravelLaravel是较新而且方便的PHP框架。开始接触Laravel纯粹是因为实习原因需要快速搭建一个站点。本文记录Laravel使用的心得。然而并不会从入门开始介绍，仅仅介绍这个MVC框架中一些自己摸索了许久的关键概念。">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://leolishiting.com/articles/">
+  <link rel="canonical" href="http://leolishiting.com/php/2016/06/15/Learn-Laravel.html">
   <link rel="alternate" type="application/rss+xml" title="LI SHITING 黎诗霆" href="http://leolishiting.com/feed.xml">
 </head>
 
@@ -74,76 +73,75 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">文章Articles</h1>
+    <h1 class="post-title" itemprop="name headline">Learn Laravel</h1>
+    <p class="post-meta"><time datetime="2016-06-15T02:00:00+08:00" itemprop="datePublished">Jun 15, 2016</time></p>
   </header>
 
-  <div class="post-content">
-    <div class="home">
+  <div class="post-content" itemprop="articleBody">
+    <h1>关于Laravel</h1>
+<p>Laravel是较新而且方便的PHP框架。开始接触Laravel纯粹是因为实习原因需要快速搭建一个站点。本文记录Laravel使用的心得。然而并不会从入门开始介绍，仅仅介绍这个MVC框架中一些自己摸索了许久的关键概念。</p>
 
-  <h1 class="page-heading">Posts</h1>
+<h2>模块和数据表</h2>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jul 23, 2016</span>
+<p>在Laravel里，可以使用ORM进行便捷的数据访问。即把每一个数据表转为一个PHP对象，通过：<strong>$对象名-&gt;属性</strong> 来访问 <strong>$表名-&gt;字段</strong></p>
 
-        <h2>
-          <a class="post-link" href="/study/2016/07/23/%E7%95%99%E6%B3%95%E6%94%BB%E7%95%A5.html">South France</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jul 23, 2016</span>
+<p>为了使得Laravel知道哪个模块应该和哪个数据表对应，在命名数据表和对象的时候有一定限制。
+例子：创建一个商品(id，名字，价格，描述)在数据库中，并在网页里可以访问。</p>
 
-        <h2>
-          <a class="post-link" href="/voyage/2016/07/23/South-France.html">South France</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jul 15, 2016</span>
+<p><strong>Step1:</strong></p>
 
-        <h2>
-          <a class="post-link" href="/voyage/2016/07/15/Zucich.html">Zürich</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 15, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/php/2016/06/15/Learn-Laravel.html">Learn Laravel</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 4, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/diary/2016/04/04/Attitude.html">Summer come here</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 19, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/diary/2016/03/19/helloworld.html">Hello World!</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
+<div class="highlighter-rouge"><pre class="highlight"><code>php artisan make:model product
+</code></pre>
 </div>
+
+<p>这条语句在Laravel里创建了一个模块，名字为product</p>
+
+<p><strong>Step2:</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>php artisan make:migration create_products_table 这条语句在Laravel里创建了一个数据迁移。
+</code></pre>
+</div>
+
+<p>⚠️数据迁移的命名最好是create_xxx_table，这样生成的数据迁移的名字将会是CreateXxxTable</p>
+
+<p>⚠️数据迁移是一个特殊的类，继承自Migration。</p>
+
+<p>⚠️数据迁移整一个文件不容易删除，但是数据迁移里的数据库表的结构可以轻易使用migrate 和rollback 修改</p>
+
+<p><strong>Step3:</strong></p>
+
+<p>此时我们有了数据迁移和模块，便能够以对象的方式直接操纵数据。</p>
+
+<p>（未完）</p>
 
   </div>
 
 </article>
+<div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//leoli.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
       </div>
     </div>

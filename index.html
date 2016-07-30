@@ -1,39 +1,38 @@
 --- 
 layout: welcome 
 ---
-
 <!-- <style type="text/css" href="css/jquery.fullPage.css"></style> -->
 <script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
 <script type="text/javascript" src="/js/ScrollMagic.js"></script>
 <style>
-    /* Defining each section background and styles
+/* Defining each section background and styles
     * --------------------------------------- */
-    #trigger1{
-        background: -webkit-gradient(linear, top left, bottom left, from(#ffffff), to(#7e8db7));
-        background: -webkit-linear-gradient(#ffffff, #7e8db7);
-        background: linear-gradient(#ffffff,#7e8db7);
-    }
 
-    #trigger2{
-        background: -webkit-gradient(linear, top left, bottom left, from(#7e8db7), to(#7baabe));
-        background: -webkit-linear-gradient(#7e8db7, #7BAABE);
-        background: linear-gradient(#7e8db7,#7BAABE);
-    }
+#trigger1 {
+    background: -webkit-gradient(linear, top left, bottom left, from(#ffffff), to(#7e8db7));
+    background: -webkit-linear-gradient(#ffffff, #7e8db7);
+    background: linear-gradient(#ffffff, #7e8db7);
+}
 
-    #trigger3{
-        background: -webkit-gradient(linear, top left, bottom left, from(#7baabe), to(#636F8F));
-        background: -webkit-linear-gradient(#7baabe, #636F8F);
-        background: linear-gradient(#7baabe,#636F8F);
-    }
+#trigger2 {
+    background: -webkit-gradient(linear, top left, bottom left, from(#7e8db7), to(#7baabe));
+    background: -webkit-linear-gradient(#7e8db7, #7BAABE);
+    background: linear-gradient(#7e8db7, #7BAABE);
+}
 
-    #trigger4{
-        background: -webkit-gradient(linear, top left, bottom left, from(#636F8F), to(#000000));
-        background: -webkit-linear-gradient(#636F8F, #000000);
-        background: linear-gradient(#636F8F,#000000);
-    }
+#trigger3 {
+    background: -webkit-gradient(linear, top left, bottom left, from(#7baabe), to(#636F8F));
+    background: -webkit-linear-gradient(#7baabe, #636F8F);
+    background: linear-gradient(#7baabe, #636F8F);
+}
+
+#trigger4 {
+    background: -webkit-gradient(linear, top left, bottom left, from(#636F8F), to(#000000));
+    background: -webkit-linear-gradient(#636F8F, #000000);
+    background: linear-gradient(#636F8F, #000000);
+}
 
 .section {
-
     padding-top: 50px;
 }
 </style>
@@ -68,16 +67,13 @@ layout: welcome
                     </div>
                 </div>
             </div>
-
+            
         </div>
         <!--  =====================section1=================== -->
 
         <!-- =====================section2=================== -->
-
         <!-- =====================section3=================== -->
-
         <!-- =====================section4=================== -->
-
     </div>
 </div>
 <script type="text/javascript">
@@ -89,8 +85,8 @@ $(document).ready(function() {
     $("[data-toggle=popover]").popover();
 
     //=====================Section0 no scean====================
-    $('#welcometext').addClass("animated bounceIn").delay(1000).fadeOut(400,function(){
-        $(this).html("I am Leo").css("color","#000000").fadeIn(400);
+    $('#welcometext').addClass("animated bounceIn").delay(1000).fadeOut(400, function() {
+        $(this).html("I am Leo").css("color", "#000000").fadeIn(400);
     });
 
 
@@ -125,7 +121,7 @@ $(document).ready(function() {
     });
 
     scene1.on("start", function() {
-        DisplayBuilding ();
+        DisplayBuilding();
     });
     scene1.addTo(controller);
 
@@ -140,87 +136,87 @@ $(document).ready(function() {
     });
 
     scene1.on("start", function() {
-        DisplayBuilding ();
+        DisplayBuilding();
     });
     scene1.addTo(controller);
 });
 
 
 
-  function DisplayBuilding (){
+function DisplayBuilding() {
     // show all the building
-     $('.s1-b1-l').animate({
-            "left": "0px"
-        }, 400);
-        $('.s1-b2-l').animate({
-            "left": "0px"
-        }, 600);
-        $('.s1-b3-l').animate({
-            "left": "0px"
-        }, 500);
+    $('.s1-b1-l').animate({
+        "left": "0px"
+    }, 400);
+    $('.s1-b2-l').animate({
+        "left": "0px"
+    }, 600);
+    $('.s1-b3-l').animate({
+        "left": "0px"
+    }, 500);
 
-        $('.s1-b1').animate({
-            "right": "0px"
-        }, 400);
-        $('.s1-b2').animate({
-            "right": "0px"
-        }, 600);
-        $('.s1-b3').animate({
-            "right": "0px"
-        }, 500);
-        $('.s1-tower').animate({
-            "right": "0px"
-        }, 800, function() {
-            // $('#s1-title').slideDown(1000);
-        });
+    $('.s1-b1').animate({
+        "right": "0px"
+    }, 400);
+    $('.s1-b2').animate({
+        "right": "0px"
+    }, 600);
+    $('.s1-b3').animate({
+        "right": "0px"
+    }, 500);
+    $('.s1-tower').animate({
+        "right": "0px"
+    }, 800, function() {
+        // $('#s1-title').slideDown(1000);
+    });
     //hide school and collage img
-        $('.s1-zhixin').animate({
-            "left": "-800px"
-        }, 500);
+    $('.s1-zhixin').animate({
+        "left": "-800px"
+    }, 500);
 
-        $('.s1-scut').animate({
-            "right": "-800"
-        }, 500);
+    $('.s1-scut').animate({
+        "right": "-800"
+    }, 500);
 
-  }
+}
 
-  function DisplaySchool (){
-        //hide all the building and tower
-        $('.s1-b1,.s1-b2,.s1-b3,.s1-tower').animate({
-            "right": "-800"
-        },500);
-        $('.s1-b1-l,.s1-b2-l,.s1-b3-l').animate({
-            "left":"-800"
-        },500);
+function DisplaySchool() {
+    //hide all the building and tower
+    $('.s1-b1,.s1-b2,.s1-b3,.s1-tower').animate({
+        "right": "-800"
+    }, 500);
+    $('.s1-b1-l,.s1-b2-l,.s1-b3-l').animate({
+        "left": "-800"
+    }, 500);
 
-        //hide the collage img
-        $('.s1-scut').animate({
-            "right": "-800"
-        }, 500);
+    //hide the collage img
+    $('.s1-scut').animate({
+        "right": "-800"
+    }, 500);
 
-        //show the school img
-        $('.s1-zhixin').animate({
-            "left": "0px"
-        }, 500);
-  }
+    //show the school img
+    $('.s1-zhixin').animate({
+        "left": "0px"
+    }, 500);
+}
 
 
 
-  function DisplayCollage (){
-         //hide all the building and tower
-        $('.s1-b1,.s1-b2,.s1-b3,.s1-tower').animate({
-            "right": "-800"
-        },500);
-        $('.s1-b1-l,.s1-b2-l,.s1-b3-l').animate({
-            "left":"-800"
-        },500);
-        //hide the school img
-        $('.s1-zhixin').animate({
-            "left": "-800px"
-        }, 500);
-        //show the collage img
-         $('.s1-scut').animate({
-            "right": "0px"
-        }, 500);
-  }
+function DisplayCollage() {
+    //hide all the building and tower
+    $('.s1-b1,.s1-b2,.s1-b3,.s1-tower').animate({
+        "right": "-800"
+    }, 500);
+    $('.s1-b1-l,.s1-b2-l,.s1-b3-l').animate({
+        "left": "-800"
+    }, 500);
+    //hide the school img
+    $('.s1-zhixin').animate({
+        "left": "-800px"
+    }, 500);
+    //show the collage img
+    $('.s1-scut').animate({
+        "right": "0px"
+    }, 500);
+}
 </script>

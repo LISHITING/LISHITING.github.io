@@ -6,9 +6,63 @@
 </description>
     <link>http://leolishiting.com/</link>
     <atom:link href="http://leolishiting.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 31 Oct 2016 12:28:20 +0100</pubDate>
-    <lastBuildDate>Mon, 31 Oct 2016 12:28:20 +0100</lastBuildDate>
+    <pubDate>Mon, 31 Oct 2016 17:12:37 +0100</pubDate>
+    <lastBuildDate>Mon, 31 Oct 2016 17:12:37 +0100</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Get Started with Tensorflow</title>
+        <description>&lt;h1&gt;入门&lt;/h1&gt;
+&lt;p&gt;本人使用的是目前最新的MacOS Sierra 10.12.1。如果不清楚版本，可以在：左上角苹果标志-关于本机 查看。&lt;/p&gt;
+
+&lt;h1&gt;总括&lt;/h1&gt;
+&lt;p&gt;先附上完整代码。
+运行环境是python 2.7.10&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;Functions for downloading and reading MNIST data.&quot;&quot;&quot;
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import tensorflow as tf
+from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
+
+mnist = read_data_sets(&quot;MNIST_data/&quot;, one_hot=True)
+
+x = tf.placeholder(tf.float32, [None, 784])
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
+y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+y_ = tf.placeholder(&quot;float&quot;, [None, 10])
+cross_entropy = -tf.reduce_sum(y_*tf.log(y))
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+init = tf.initialize_all_variables()
+sess = tf.Session()
+sess.run(init)
+for i in range(1000):
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+
+# evaluate the model
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, &quot;float&quot;))
+print (sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1&gt;解析&lt;/h1&gt;
+
+</description>
+        <pubDate>Thu, 20 Oct 2016 20:00:00 +0200</pubDate>
+        <link>http://leolishiting.com/info/2016/10/20/Get-started-with-Tensorflow.html</link>
+        <guid isPermaLink="true">http://leolishiting.com/info/2016/10/20/Get-started-with-Tensorflow.html</guid>
+        
+        
+        <category>info</category>
+        
+      </item>
     
       <item>
         <title>Learning Django</title>

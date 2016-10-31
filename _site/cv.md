@@ -1,5 +1,4 @@
---- 
-layout: page 
+--- layout: page 
 permalink: /cv/ 
 ---
 <html>
@@ -15,9 +14,10 @@ permalink: /cv/
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#french" aria-controls="french" role="tab" data-toggle="tab">Français</a></li>
-                
+                <li role="presentation"><a href="#english" aria-controls="english" role="tab" data-toggle="tab">English</a></li>
+                <li role="presentation"><a href="#chinese" aria-controls="chinese" role="tab" data-toggle="tab">中文</a></li>
             </ul>
-            <div class="tab-content" style="margin-top: 20px;">
+            <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="french">
                     <h3>EXPÉRIENCES PROFESSIONNELLES</h3>
                     <h4>2016.8-2016.10 Stagiaire Business intelligence </h4>
@@ -55,10 +55,10 @@ permalink: /cv/
                     </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="english">
-                    
+                    bbdedednllalalal
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="chinese">
-                    
+                    cc
                 </div>
             </div>
         </div>

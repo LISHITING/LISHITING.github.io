@@ -1,8 +1,7 @@
----
+--- 
 layout: page
-title: 文章Articles
-permalink: /articles/
 ---
+
 
 <div class="home">
 

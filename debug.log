@@ -3436,3 +3436,5 @@
 {"name":"hexo","hostname":"Leo-2.local","pid":2499,"level":20,"msg":"Rendering archive: \u001b[35mtags/diary/index.html\u001b[39m","time":"2016-11-14T19:42:51.214Z","v":0}
 {"name":"hexo","hostname":"Leo-2.local","pid":2499,"level":20,"msg":"Rendering archive: \u001b[35marchives/index.html\u001b[39m","time":"2016-11-14T19:42:51.926Z","v":0}
 {"name":"hexo","hostname":"Leo-2.local","pid":2499,"level":20,"msg":"Rendering index: \u001b[35mindex.html\u001b[39m","time":"2016-11-14T19:42:53.276Z","v":0}
+{"name":"hexo","hostname":"Leo-2.local","pid":2499,"level":20,"msg":"Rendering archive: \u001b[35mtags/diary/index.html\u001b[39m","time":"2016-11-14T19:44:17.206Z","v":0}
+{"name":"hexo","hostname":"Leo-2.local","pid":2499,"level":20,"msg":"Rendering archive: \u001b[35marchives/index.html\u001b[39m","time":"2016-11-14T19:44:18.813Z","v":0}

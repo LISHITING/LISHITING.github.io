@@ -83,9 +83,9 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="LeetCode"><a href="#LeetCode" class="headerlink" title="LeetCode"></a>LeetCode</h1><p>Here are the notes of LeetCode that I finished. LeetCode is a website that full of resource of algorithme and data structer problems. I am trying to complete one or two problem per week to keep me in <strong> a status of programming </strong>.</p>
+        <h1 id="LeetCode"><a href="#LeetCode" class="headerlink" title="LeetCode"></a>LeetCode</h1><p>Here are the notes of LeetCode that I finished. LeetCode is a website that full of resource of algorithme and data structure problems. I am trying to complete one or two problem per week to keep me in <strong> a status of programming </strong>.</p>
 <h2 id="About-using-Javascript"><a href="#About-using-Javascript" class="headerlink" title="About using Javascript"></a>About using Javascript</h2><p>In these notes, I will mainly marked down the idea when I try to solve the problem. The programming language I used is Javascript because I think Javascript is easy to use and test: What you need is a node.js and a text editor. </p>
-<h3 id="How-I-run-the-javascript-to-test-the-code"><a href="#How-I-run-the-javascript-to-test-the-code" class="headerlink" title="How I run the javascript to test the code"></a>How I run the javascript to test the code</h3><p>I suggest to use Sublime text with nodejs that you can complie the javascript on it.</p>
+<h3 id="How-I-run-the-javascript-to-test-the-code"><a href="#How-I-run-the-javascript-to-test-the-code" class="headerlink" title="How I run the javascript to test the code"></a>How I run the javascript to test the code</h3><p>I suggest to use Sublime text with nodejs that you can compile the javascript on it.</p>
 <ul>
 <li><p>install the V8 in sublime text</p>
 </li>
@@ -97,7 +97,7 @@
 <h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="TwoSum"><a href="#TwoSum" class="headerlink" title="TwoSum"></a>TwoSum</h2><p><strong>Problem</strong>: <a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="external">https://leetcode.com/problems/two-sum/</a></p>
 <p>#Solution</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* @param &#123;number[]&#125; nums</div><div class="line">* @param &#123;number&#125; target</div><div class="line">* @return &#123;number[]&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i+<span class="number">1</span>; j &lt; nums.length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[i]+nums[j]==target) &#123;</div><div class="line">                result[result.length]=i;</div><div class="line">                result[result.length]=j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//test case</span></div><div class="line"><span class="keyword">var</span> result = twoSum(nums=[<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>],target=<span class="number">9</span>);</div><div class="line"><span class="built_in">console</span>.log(result);</div></pre></td></tr></table></figure>
-<p>The whole basci idea is use two loop to get all the combination.That means: We first add the element 1 and the other element begins by 2,3,4….n. Then we adjust to the second round, add the element 2 and other element begins by 3,4,5….n. The complexity is $ (n*(1+(n-1)))/2 $ =&gt; O(n^2), it is not so efficient. </p>
+<p>The whole basic idea is use two loop to get all the combination.That means: We first add the element 1 and the other element begins by 2,3,4….n. Then we adjust to the second round, add the element 2 and other element begins by 3,4,5….n. The complexity is $ (n*(1+(n-1)))/2 $ =&gt; O(n^2), it is not so efficient. </p>
 <p>//to be continue</p>
 
       
@@ -126,7 +126,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/11/02/Notes-of-LeetCode/#comment">评论</a>
+          <a href="2016/11/02/Notes-of-LeetCode/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -201,7 +201,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/10/30/Create-a-PostGIS-database/#comment">评论</a>
+          <a href="2016/10/30/Create-a-PostGIS-database/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -265,7 +265,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/10/14/Tensorflow-Install-and-test/#comment">评论</a>
+          <a href="2016/10/14/Tensorflow-Install-and-test/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -353,7 +353,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/10/01/Get-started-to-ReactJS/#comment">评论</a>
+          <a href="2016/10/01/Get-started-to-ReactJS/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -431,7 +431,73 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/09/30/Get-started-with-ReactJS-0/#comment">评论</a>
+          <a href="2016/09/30/Get-started-with-ReactJS-0/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/08/22/Hololens-Apps-Development/"><span>Hololens Apps Development</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/08/22/Hololens-Apps-Development/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-08-22T20:34:33.000Z">
+          2016-08-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Microsoft Hololens 是微软开发增强现实的一款全息眼镜。其特点是既能够看真实世界又能够叠加虚拟信息的设备，并且也可以提供一个mic和小喇叭实现声音的交互。目前鉴于设备限制，采用最为便捷的Hololens Emulator 模拟器进行开发和测试。为了终端呈现用户数据和实现更为有效逼真的交互，目前开始着手基于Hololens的虚拟现实开发。以下是开发环境的建立过程。为确保能够正确开发和发布应用，请核实开发工具和开发环境的正确性。</p>
+<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p>Visual Studio 2015 Built 3  <a href="http://dev.windows.com/downloads" target="_blank" rel="external">下载</a><br>Microsoft Hololens Emulator 模拟器  <a href="http://go.microsoft.com/fwlink/?LinkID=823018" target="_blank" rel="external">下载</a><br>Unity 3D （5.4版本含VR的内容，关键） <a href="http://beta.unity3d.com/download/b21dfedb4779/UnityDownloadAssistant.exe?_ga=1.194656299.76958768.1470621163" target="_blank" rel="external">下载</a></p>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><p>Windows10 企业版物理机 （注：Windows10家庭版不支持）<br>64位，2核心扩展为4线程的CPU （4核CPU更佳）<br>8GB RAM内存<br>虚拟化开启：具体是 开启Hardware-assisted virtualization、Second Level Address Translation (SLAT) 和Hardware-based Data Execution Prevention (DEP)。<br>注：默认情况下如果Hyper-v正常运行，以上基本无需设置。<br>GPU：DirectX 11.0 或更高版本。 (此项可以没有，但经测试会影响虚拟器渲染的速度。)</p>
+<h1 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h1><p>关于服务器Microsoft windows server 2012R2上搭建会存在通用身份验证不被允许的问题。目前该问题无法解决。具体如下：<br>DEP6957 : 未能使用“通用身份验证”连接到设备“169.254.199.199”。请验证在项目调试设置中指定了正确的远程身份验证模式。0x8007274C: The network event being waited on triggered an error.<br>此消息将会在Visual Studio 发布至Hololens Emulator 虚拟起时报错。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>关于系统环境要求和工具下载链接，请参考 <a href="https://developer.microsoft.com/en-us/windows/holographic/install_the_tools" target="_blank" rel="external">https://developer.microsoft.com/en-us/windows/holographic/install_the_tools</a> 以便获得最为准确的消息。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/new-technology/">new technology</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/08/22/Hololens-Apps-Development/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -511,7 +577,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/07/14/Travel-to-Zurich/#comment">评论</a>
+          <a href="2016/07/14/Travel-to-Zurich/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -596,7 +662,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/07/03/Learning-Laravel/#comment">评论</a>
+          <a href="2016/07/03/Learning-Laravel/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -693,7 +759,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/05/21/When-I-forget-Javascript/#comment">评论</a>
+          <a href="2016/05/21/When-I-forget-Javascript/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -968,88 +1034,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/04/20/How-to-use-Prolog/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/04/13/Building-Personal-Blog-2/"><span>Building Personal Blog 2</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/04/13/Building-Personal-Blog-2/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-04-13T21:30:19.000Z">
-          2016-04-13
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Useful-Tools"><a href="#Useful-Tools" class="headerlink" title="Useful Tools"></a>Useful Tools</h1><p>After setting up a blog and maybe you have already written several articles, you should get to know more about your blog. In this chapter, I will give some useful tools when using blogs, and more importantly, the simple introduction of blog engine.</p>
-<h2 id="Responsive-Test"><a href="#Responsive-Test" class="headerlink" title="Responsive Test"></a>Responsive Test</h2><p>To make sure that all the device is supported, there is a simple way to test. The <a href="http://ami.responsivedesign.is/" target="_blank" rel="external">Am I responsive</a> website can simply take your website url and output a result to see if it is responsive. Here is the result of my blog:<br><img src="https://s6.postimg.org/pzcqka9w1/屏幕快照_2016_11_20_下午12_39_30.png" alt=""></p>
-<h1 id="Understanding-the-blog-engine"><a href="#Understanding-the-blog-engine" class="headerlink" title="Understanding the blog engine"></a>Understanding the blog engine</h1><p>Hexo is the blog engine that help you create a whole structure of the blog, as well as new post or even new page. It also responsible the generate a static website after finishing writing. To know a little bit bout Hexo will help you understand the basic idea of blog engine, and maybe prevent you from making error. </p>
-<h2 id="overall"><a href="#overall" class="headerlink" title="overall"></a>overall</h2><p>Here I want to give some basic principles of Hexo, which I hope a <strong>non-programmer</strong> can understand:</p>
-<ul>
-<li><p>Use Hexo to create a folder including many sub-folder in your computer.<br>  Explanation: There sub-folder holds the layout of the blog, the script, the modules (Many other scripts warped in package), the theme that you can change or design it, and the <strong>Source</strong> sub-folder, where you put your articles in it.</p>
-</li>
-<li><p>Write your articles in /source/_post folder in markdown format.<br> Explanation: You can create a markdown file in that folder in many ways. BUT, the official way is to run a specific code and create it automatically.</p>
-</li>
-<li><p>Use Hexo to generate your website<br> Explanation: Now you have your post(s) and many sub-folder that you may unfamiliar with, just run a code with Hexo and it will generate a public folder that contains all the files of a static website – your blog. A static website is very simple, it just contains some HTML files, CSS files that make your blog more beautiful, Javascript files that implement some cool interactions.</p>
-</li>
-<li><p>Use Github page to display your blog<br>  Explanation: A very <strong>special and unique</strong> repository is needed. The name of the repository is  <strong>yourname.github.io</strong>. What you need to put on Github is the content of <strong>public folder</strong>. That means the content of “yourname.github.io” repository = the content of public folder. </p>
-</li>
-</ul>
-<p><strong>Conclusion</strong>: Hexo generate blog -&gt; write articles in blog/source/_post folder -&gt; Generate static website with Hexo -&gt; Upload the content of public folder to a special Github repository </p>
-<p>//to be continue about:<br>how to use third-party themes, what is yml file, ejs file. how to make an own theme.</p>
-<h1 id="Customization"><a href="#Customization" class="headerlink" title="Customization"></a>Customization</h1><p>Customization can make your blog more unique. Some customization is not difficult. You can take one of the following steps to customize.</p>
-<h2 id="Add-static-page"><a href="#Add-static-page" class="headerlink" title="Add static page"></a>Add static page</h2><p>To add new <strong>static</strong> page with a url like example.com/mypage instead of an article, you can run the following code:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new page mypage</div></pre></td></tr></table></figure></p>
-<p>“xxx” is the new of the page. And you can customize the page by find the markdown file in the source/xxx/index.md. For example, to add a About page, you can run “hexo new page about”. Then hero will create a folder of about in the source folder. </p>
-<p>Moreover, it is useful to attach some page to the tab of the header such as about or RSS. To attach these page to the tabs, what you need to do is configure the links in another configuration file. Generally this file is in the <strong>theme folder</strong> instead of the root folder.</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/diary/">diary</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2016/04/13/Building-Personal-Blog-2/#comment">评论</a>
+          <a href="2016/04/20/How-to-use-Prolog/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -1063,7 +1048,7 @@
 <nav class="pagination">
   
   
-  <a href="/page/2/" class="pagination-next">下一页</a>
+  <a href="/page/2/" class="pagination-next">Next</a>
   
 </nav>
     </main>

@@ -85,14 +85,16 @@
       
         <h1 id="Access-Control-Allow-Origin"><a href="#Access-Control-Allow-Origin" class="headerlink" title="Access-Control-Allow-Origin"></a>Access-Control-Allow-Origin</h1><p>在HTTP请求中，出于安全原因是不允许跨域请求的。跨域请求包括:</p>
 <ul>
-<li><p>不同主机：<a href="http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求" target="_blank" rel="external">http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求</a></p>
+<li><p>不同主机：<a href="http://www.example.com" target="_blank" rel="external">http://www.example.com</a> 里的脚本向<a href="http://www.example2.com" target="_blank" rel="external">http://www.example2.com</a> 里的服务器资源发起请求</p>
 </li>
-<li><p>不同端口：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 里的脚本向 <a href="http://localhost:80里的服务器资源发起请求" target="_blank" rel="external">http://localhost:80里的服务器资源发起请求</a></p>
+<li><p>不同端口：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 里的脚本向 <a href="http://localhost:80" target="_blank" rel="external">http://localhost:80</a> 里的服务器资源发起请求</p>
 </li>
 </ul>
 <h1 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h1><p>前后端分离的情况下，部署在不同主机或者主机不同端口的情况下需要考虑。在面向所有开发者制作API的时候需要考虑。</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>若采用PHP可以在发送资源顶部加上：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//允许主机localhost（也就是本地机）的8080端口发起请求</span></div><div class="line">header(<span class="string">'Access-Control-Allow-Origin:http://localhost:8080'</span>);</div></pre></td></tr></table></figure></p>
-<p>如果是通用API面向所有主机，可以讲<code>http://localhost:8080</code> 改为<code>*</code></p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>若采用PHP可以在发送资源顶部加上：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//允许主机localhost（也就是本地机）的8080端口发起请求</span></div><div class="line">header(<span class="string">'Access-Control-Allow-Origin:http://localhost:8080'</span>);</div></pre></td></tr></table></figure>
+<p>如果是通用API面向所有主机，可以讲<code>http://localhost:8080</code> 改为<code>*</code><br>此外，还可以对访问方法进行设置等：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">header(<span class="string">'Access-Control-Allow-Origin:*'</span>);</div><div class="line">header(<span class="string">'Access-Control-Allow-Headers:X-Requested-With'</span>);</div><div class="line">header(<span class="string">'Access-Control-Allow-Methods: GET, PUT, POST, DELETE'</span>);</div></pre></td></tr></table></figure>
 
       
     </div>

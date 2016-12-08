@@ -85,8 +85,10 @@
       
         <h1 id="Access-Control-Allow-Origin"><a href="#Access-Control-Allow-Origin" class="headerlink" title="Access-Control-Allow-Origin"></a>Access-Control-Allow-Origin</h1><p>在HTTP请求中，出于安全原因是不允许跨域请求的。跨域请求包括:</p>
 <ul>
-<li>不同主机：<a href="http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求" target="_blank" rel="external">http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求</a></li>
-<li>不同端口：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 里的脚本向 <a href="http://localhost:80里的服务器资源发起请求" target="_blank" rel="external">http://localhost:80里的服务器资源发起请求</a></li>
+<li><p>不同主机：<a href="http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求" target="_blank" rel="external">http://www.example.com／里的脚本向http://www.example2.com里的服务器资源发起请求</a></p>
+</li>
+<li><p>不同端口：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 里的脚本向 <a href="http://localhost:80里的服务器资源发起请求" target="_blank" rel="external">http://localhost:80里的服务器资源发起请求</a></p>
+</li>
 </ul>
 <h1 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h1><p>前后端分离的情况下，部署在不同主机或者主机不同端口的情况下需要考虑。在面向所有开发者制作API的时候需要考虑。</p>
 <h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>若采用PHP可以在发送资源顶部加上：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//允许主机localhost（也就是本地机）的8080端口发起请求</span></div><div class="line">header(<span class="string">'Access-Control-Allow-Origin:http://localhost:8080'</span>);</div></pre></td></tr></table></figure></p>

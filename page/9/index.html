@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 9 | 黎诗霆 | LI SHITING</title>
+
+  
+  <meta name="author" content="leo">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="黎诗霆"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="黎诗霆" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">黎诗霆</a>
+    </h1>
+    <p class="site-description">LI SHITING</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/tag">分类</a></li>
+      
+        <li><a href="/me">关于</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/10/01/Get-started-to-ReactJS/"><span>Get started with ReactJS 1</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/10/01/Get-started-to-ReactJS/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-10-01T16:14:30.000Z">
+          2016-10-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Set-up"><a href="#Set-up" class="headerlink" title="Set up"></a>Set up</h1><p>Make sure you have: the latest version of NodeJS with npm.<br>This tutorial needs about 30 minutes to learn.</p>
+<h2 id="Create-project"><a href="#Create-project" class="headerlink" title="Create project"></a>Create project</h2><p>Choose a best place on your pc or make a new folder to begin with your project. All the file will be stored in that folder (eg: learnreact)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir learnreact</div><div class="line">$ <span class="built_in">cd</span> learnreact</div></pre></td></tr></table></figure>
+<p>Use npm to initialize the folder so that you can : 1) configure the project with package.jason file 2) use npm to install modules 3)run the project with npm. Run the command npm init and answer some question. You can answer whatever you can expect the entry point should be <strong>index.js</strong> in this tutorial.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init</div></pre></td></tr></table></figure></p>
+<p>After that, you can see that your folder contains a new file “package.json”. Open that file and you can see the information of what you have answered just now. You can modify here if you made some mistakes.</p>
+<h2 id="Install-modules"><a href="#Install-modules" class="headerlink" title="Install modules"></a>Install modules</h2><p>The next step is to install modules: react and react-dom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install react react-dom --save</div></pre></td></tr></table></figure></p>
+<p>The “--save” is to write this installation in package.json so that anyone can run “npm install” to install all the modules written in package.json without specify what modules should be include in the future.<br>Then you should also install some development tools which are webpack and babel. Webpack has two usage: </p>
+<ul>
+<li><p>It is a package tools that wrap all the js files into a big js file (“bundle.js” in this tutorial). Then what you need to include is that big js file. </p>
+</li>
+<li><p>The webpack server will give a environment to run the project as it is on the server.</p>
+</li>
+</ul>
+<p>As for Babel, it is a translator. Since some grammars of ECMAScript (such as ES6, ES7) have not been implemented in the java runtime nodejs or in the browser, Babel will translate these grammars into ECMAScript2015 style (which almost all the browsers support).<br>To install these two things, we should install more than two modules:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install webpack webpack-dev-server babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-2 --save-dev</div></pre></td></tr></table></figure></p>
+<p>The “-dev” indicate that these dependencies will be installed just in development and will not export in production. For more details of Webpack and Babel, see the official documentations.</p>
+<p>For now, the package.json should have the following things: (the version might be different)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&quot;dependencies&quot;: &#123;</div><div class="line">&quot;react&quot;: &quot;^15.3.2&quot;,</div><div class="line">&quot;react-dom&quot;: &quot;^15.3.2&quot;</div><div class="line">&#125;,</div><div class="line">&quot;devDependencies&quot;: &#123;</div><div class="line">&quot;babel-core&quot;: &quot;^6.18.2&quot;,</div><div class="line">&quot;babel-loader&quot;: &quot;^6.2.7&quot;,</div><div class="line">&quot;babel-preset-es2015&quot;: &quot;^6.18.0&quot;,</div><div class="line">&quot;babel-preset-react&quot;: &quot;^6.16.0&quot;,</div><div class="line">&quot;babel-preset-stage-2&quot;: &quot;^6.18.0&quot;,</div><div class="line">&quot;webpack&quot;: &quot;^1.13.3&quot;,</div><div class="line">&quot;webpack-dev-server&quot;: &quot;^1.16.2&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Create-the-files"><a href="#Create-the-files" class="headerlink" title="Create the files"></a>Create the files</h2><p>Create a “webpack.config.js” file and a “src” folder in the root folder. Inside the src folder create an “index.html” file and a “app” folder. Inside the app folder, create an “index.js” file. The structure should be look like:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">learnreact</div><div class="line">│ </div><div class="line">├── node_modules</div><div class="line">├─┬ src</div><div class="line">│  ├── index.html</div><div class="line">│  └──┬ app</div><div class="line">│       └── index.js</div><div class="line">├── webpack.config.js</div><div class="line">└── package.json</div></pre></td></tr></table></figure>
+<h2 id="Configuration-of-webpack"><a href="#Configuration-of-webpack" class="headerlink" title="Configuration of webpack"></a>Configuration of webpack</h2><p>Open the webpack.config.js. Copy and pasted the following code:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> DIST_DIR = path.resolve(__dirname, <span class="string">"dist"</span>);</div><div class="line"><span class="keyword">var</span> SRC_DIR = path.resolve(__dirname, <span class="string">"src"</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> config = &#123;</div><div class="line">    <span class="attr">entry</span>: SRC_DIR + <span class="string">"/app/index.js"</span>,</div><div class="line">    <span class="attr">output</span>: &#123;</div><div class="line">        <span class="attr">path</span>: DIST_DIR + <span class="string">"/app"</span>,</div><div class="line">        <span class="attr">filename</span>: <span class="string">"bundle.js"</span>,</div><div class="line">        <span class="attr">publicPath</span>: <span class="string">"/app/"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">module</span>:&#123;</div><div class="line">    <span class="attr">loaders</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">test</span>: <span class="regexp">/\.js?/</span>,</div><div class="line">            <span class="attr">include</span>: SRC_DIR,</div><div class="line">            <span class="attr">loader</span>: <span class="string">"babel-loader"</span>,</div><div class="line">            <span class="attr">query</span>: &#123;</div><div class="line">                <span class="attr">presets</span>: [<span class="string">"react"</span>, <span class="string">"es2015"</span>, <span class="string">"stage-2"</span>]</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = config;</div></pre></td></tr></table></figure>
+<p>After that, open index.html and create a basic html structure:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, user-scalable=no, initial-scale=1.0"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-ua-compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>ReactJS Basics<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--this file is set in the webpack.config.js in output configuration--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/app/bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>In the index.js, write a simple code to print out something in the console in order to check if it is normal<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//index.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"it works"</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="Configuration-of-npm-scripts"><a href="#Configuration-of-npm-scripts" class="headerlink" title="Configuration of npm scripts"></a>Configuration of npm scripts</h2><p>Open the package.json file and modify the content of “scripts”. The result should be look like this:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">"scripts": &#123;</div><div class="line">    "start": "npm run build",</div><div class="line">    "build": "webpack -d &amp;&amp; cp src/index.html dist/index.html &amp;&amp; webpack-dev-server --content-base src/ --inline --hot",</div><div class="line">    "build:prod": "webpack -p &amp;&amp; cp src/index.html dist/index.html"</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h2 id="Run-the-project"><a href="#Run-the-project" class="headerlink" title="Run the project"></a>Run the project</h2><p>Run npm start and the npm will search the word “start” in the script in the package.json. and execute the “npm run build”. Then it will search the world “build” and execute the code “webpack -d &amp;&amp; cp src/index.html  … –hot”. That is why we need to configure the scripts in the package.json.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm start</div></pre></td></tr></table></figure></p>
+<p>If there is no error in the terminal, open a browser and turn to localhost:8080. You should see an output of “it works” in the console.</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/ReactJS/">ReactJS</a><a href="/tags/Javascript/">Javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/10/01/Get-started-to-ReactJS/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/8/" class="pagination-prev">Prev</a>
+  
+  
+  <a href="/page/10/" class="pagination-next">Next</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 leo
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

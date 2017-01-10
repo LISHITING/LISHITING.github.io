@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 13 | 黎诗霆 | LI SHITING</title>
+
+  
+  <meta name="author" content="leo">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="黎诗霆"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="黎诗霆" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">黎诗霆</a>
+    </h1>
+    <p class="site-description">LI SHITING</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/tag">分类</a></li>
+      
+        <li><a href="/me">关于</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/07/03/Learning-Laravel/"><span>Learning Laravel</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/07/03/Learning-Laravel/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-07-03T17:05:01.000Z">
+          2016-07-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="What-is-it"><a href="#What-is-it" class="headerlink" title="What is it"></a>What is it</h1><p>This article is about Laravel, which is a framework of building PHP in MVC. Instead of writing in pure PHP in the file, Laravel allow us to built a project quickly. I would like to write down the notes of learning laravel, which some day may be helpful to others. </p>
+<h1 id="Pre-knowledge"><a href="#Pre-knowledge" class="headerlink" title="Pre-knowledge"></a>Pre-knowledge</h1><p>To ensure you understand all the steps, you should know at least basic knowledge of HTML/CSS. As for PHP, you should know what it is and able to write some Post/Get method with it. If you know how to use PHP to connect database is better. You should heard of MVC framework, which simply speaking is a combination of Module, Views and Controller. If you do not familiar with, please get to know <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="external">MVC</a> for just 10mins before starting to learn this. </p>
+<h1 id="Setting-up"><a href="#Setting-up" class="headerlink" title="Setting up"></a>Setting up</h1><p>To begin with laravel, you should follow the steps. You could read the official <a href="https://laravel.com/docs/5.3" target="_blank" rel="external">documentation</a> to understand fully.</p>
+<ul>
+<li><p>Install PHP<br> MacOS: I suggest you use <a href="http://brew.sh" target="_blank" rel="external">Homebrew</a> to install, which you can choose the particular version of php or install the latest version. It is <strong>very easy</strong> to install and uninstall safely! </p>
+</li>
+<li><p>Configuration PHP<br>you need to configure your php by enable the extension:<br>– OpenSSL PHP Extension<br>– PDO PHP Extension<br>– Mbstring PHP Extension<br>– Tokenizer PHP Extension<br>– XML PHP Extension</p>
+</li>
+<li><p>Install Composer<br><a href="https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx" target="_blank" rel="external">Composer</a> is a php dependencies management tool. That is : If you need to add some cool but complex function, maybe someone has implemented one that can use directly, you can use composer to install this cool things and use directly in your project. </p>
+<p> Well, we need composer because it will help us install the <strong>Laravel</strong>, and we will use Laravel to create our project.</p>
+</li>
+</ul>
+<h1 id="Create-Project"><a href="#Create-Project" class="headerlink" title="Create Project"></a>Create Project</h1><p>There 2 ways to create a Laravel project. One is by using composer you just installed, another is use a laravel generator. To use the generator, you should use composer to install that generator.</p>
+<h2 id="Using-Laravel-generator"><a href="#Using-Laravel-generator" class="headerlink" title="Using Laravel generator"></a>Using Laravel generator</h2><ul>
+<li>Install Laravel generator<br>Open terminal and run the following code. The world “<strong>global</strong>“ means you can use Laravel wherever you want. </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">composer global require <span class="string">"laravel/installer"</span></div></pre></td></tr></table></figure>
+<ul>
+<li>Create the project</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">laravel new your-project-name</div></pre></td></tr></table></figure>
+<h2 id="Using-composer-directly"><a href="#Using-composer-directly" class="headerlink" title="Using composer directly"></a>Using composer directly</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">composer create-project --prefer-dist laravel/laravel your-project-name</div></pre></td></tr></table></figure>
+<h1 id="Run-the-project"><a href="#Run-the-project" class="headerlink" title="Run the project"></a>Run the project</h1><p>It is easy to run the project. Make sure you are in the root of the project and run the code:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php artisan serve</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/php/">php</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/07/03/Learning-Laravel/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/12/" class="pagination-prev">Prev</a>
+  
+  
+  <a href="/page/14/" class="pagination-next">Next</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 leo
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

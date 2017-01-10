@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 3 | 黎诗霆 | LI SHITING</title>
+
+  
+  <meta name="author" content="leo">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="黎诗霆"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="黎诗霆" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">黎诗霆</a>
+    </h1>
+    <p class="site-description">LI SHITING</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/tag">分类</a></li>
+      
+        <li><a href="/me">关于</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/12/09/Access-Control-Allow-Origin-问题/"><span>Access-Control-Allow-Origin 问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/12/09/Access-Control-Allow-Origin-问题/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-12-08T23:05:31.000Z">
+          2016-12-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Access-Control-Allow-Origin"><a href="#Access-Control-Allow-Origin" class="headerlink" title="Access-Control-Allow-Origin"></a>Access-Control-Allow-Origin</h1><p>在HTTP请求中，出于安全原因是不允许跨域请求的。跨域请求包括:</p>
+<ul>
+<li><p>不同主机：<a href="http://www.example.com" target="_blank" rel="external">http://www.example.com</a> 里的脚本向<a href="http://www.example2.com" target="_blank" rel="external">http://www.example2.com</a> 里的服务器资源发起请求</p>
+</li>
+<li><p>不同端口：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 里的脚本向 <a href="http://localhost:80" target="_blank" rel="external">http://localhost:80</a> 里的服务器资源发起请求</p>
+</li>
+</ul>
+<h1 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h1><p>前后端分离的情况下，部署在不同主机或者主机不同端口的情况下需要考虑。在面向所有开发者制作API的时候需要考虑。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>若采用PHP可以在发送资源顶部加上：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//允许主机localhost（也就是本地机）的8080端口发起请求</span></div><div class="line">header(<span class="string">'Access-Control-Allow-Origin:http://localhost:8080'</span>);</div></pre></td></tr></table></figure>
+<p>如果是通用API面向所有主机，可以讲<code>http://localhost:8080</code> 改为<code>*</code><br>此外，还可以对访问方法进行设置等：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">header(<span class="string">'Access-Control-Allow-Origin:*'</span>);</div><div class="line">header(<span class="string">'Access-Control-Allow-Headers:X-Requested-With'</span>);</div><div class="line">header(<span class="string">'Access-Control-Allow-Methods: GET, PUT, POST, DELETE'</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/php/">php</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/page/2/" class="pagination-prev">Prev</a>
+  
+  
+  <a href="/page/4/" class="pagination-next">Next</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 leo
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

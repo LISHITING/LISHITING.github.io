@@ -705,70 +705,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2016/10/14/Tensorflow-Install-and-test/"><span>Tensorflow-Install and test</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/10/14/Tensorflow-Install-and-test/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-10-13T22:11:20.000Z">
-          2016-10-14
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Overall"><a href="#Overall" class="headerlink" title="Overall"></a>Overall</h1><p>In this article, I will try to use tensorflow to run a program to recognize handwritten digits. You can also find a official tutorial <a href="https://www.tensorflow.org/versions/r0.11/tutorials/mnist/beginners/index.html" target="_blank" rel="external">HERE</a></p>
-<p>The dataset I used is MINIST, which is well prepared in the internet. I don’t need to think how to download it because tensorflow has written a program read_data_set to download if it can not find one. And I don’t need to worry about how to unzip and read the data because that is also been implemented in that file.Therefore, all you need is install tensorflow, import tensorflow as well as read_data_set and run the following code. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""Functions for downloading and reading MNIST data."""</span></div><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import</div><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</div><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</div><div class="line"></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">from</span> tensorflow.contrib.learn.python.learn.datasets.mnist <span class="keyword">import</span> read_data_sets</div><div class="line"></div><div class="line">mnist = read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="keyword">True</span>)</div><div class="line"></div><div class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">784</span>])</div><div class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>, <span class="number">10</span>]))</div><div class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</div><div class="line">y = tf.nn.softmax(tf.matmul(x, W) + b)</div><div class="line"></div><div class="line">y_ = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, <span class="number">10</span>])</div><div class="line">cross_entropy = -tf.reduce_sum(y_*tf.log(y))</div><div class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.01</span>).minimize(cross_entropy)</div><div class="line">init = tf.initialize_all_variables()</div><div class="line">sess = tf.Session()</div><div class="line">sess.run(init)</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</div><div class="line">batch_xs, batch_ys = mnist.train.next_batch(<span class="number">100</span>)</div><div class="line">sess.run(train_step, feed_dict=&#123;x: batch_xs, y_: batch_ys&#125;)</div><div class="line"></div><div class="line"><span class="comment"># evaluate the model</span></div><div class="line">correct_prediction = tf.equal(tf.argmax(y,<span class="number">1</span>), tf.argmax(y_,<span class="number">1</span>))</div><div class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, <span class="string">"float"</span>))</div><div class="line"><span class="keyword">print</span> (sess.run(accuracy, feed_dict=&#123;x: mnist.test.images, y_: mnist.test.labels&#125;))</div></pre></td></tr></table></figure>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/Machine-Learning/">Machine Learning</a><a href="/tags/python/">python</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2016/10/14/Tensorflow-Install-and-test/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2016/10/01/Get-started-to-ReactJS/"><span>Get started with ReactJS 1</span></a></h3>
     
   
@@ -844,6 +780,84 @@
         <i class="icon-comments"></i>
         <span>
           <a href="2016/10/01/Get-started-to-ReactJS/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/09/30/Get-started-with-ReactJS-0/"><span>Get started with ReactJS 0</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/09/30/Get-started-with-ReactJS-0/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-30T08:09:50.000Z">
+          2016-09-30
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Very-short-Introduction"><a href="#Very-short-Introduction" class="headerlink" title="Very short Introduction"></a>Very short Introduction</h1><p>Before know how to write a Reactjs application, you should clear about the following things:</p>
+<ul>
+<li>It is a javascript library</li>
+</ul>
+<p>Like other javascript library, you can import it to try by using :<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span> = <span class="string">"adress de CDN"</span> /&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure></p>
+<p>, and you can either create a javascript file “index.js” to put all your javascript code or just write in the html file. Also, you need to know there are many other “professional” way to use react, but it is just a javascript library.</p>
+<ul>
+<li><p>It is a front-end library</p>
+<p>It is a front-end library </p>
+</li>
+</ul>
+<ul>
+<li><p>It is best for single-page application</p>
+<p>What is single-page application?</p>
+</li>
+</ul>
+<p>A single page application dose not have a single view. The view is what we see on the browser, the page is what the server give the client (the HTML file). </p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/ReactJS/">ReactJS</a><a href="/tags/Javascript/">Javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/09/30/Get-started-with-ReactJS-0/#comment">Comments</a>
         </span>
       </span>
     </div>

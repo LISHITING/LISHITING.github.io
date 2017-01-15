@@ -63,6 +63,82 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/01/15/Tensorflow-学习笔记-2/"><span>Tensorflow 学习笔记 2</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/15/Tensorflow-学习笔记-2/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-15T19:10:34.000Z">
+          2017-01-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Tensorflow的会话"><a href="#Tensorflow的会话" class="headerlink" title="Tensorflow的会话"></a>Tensorflow的会话</h1><p>Tensorflow的会话（session）是Tensorflow项目的一部分。会话的作用就是告诉Tensorflow开始做事直到结束。会话之前通常是各种结构的定义，比如定义好需要操作的变量，定义好需要执行的操作。<br>下面来一个例子，用Tensorflow做一个矩阵相乘，思路如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div></pre></td></tr></table></figure></p>
+<p>具体代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line">matrix1 = tf.constant([[<span class="number">3</span>, <span class="number">3</span>]])</div><div class="line">matrix2 = tf.constant([[<span class="number">2</span>], [<span class="number">2</span>]])</div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line">product = tf.matmul(matrix1, matrix2)</div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div><div class="line">sess = tf.Session()</div><div class="line">result = sess.run(product)</div><div class="line"><span class="keyword">print</span> (result)</div><div class="line">sess.close()</div></pre></td></tr></table></figure></p>
+<p>此外，还有一种更为<em>优雅</em>的会话开启执行和结束的写法，那就是用<code>with</code>的结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">... </span><span class="comment"># 同上</span></div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    result = sess.run(product)</div><div class="line">    <span class="keyword">print</span> (result)</div></pre></td></tr></table></figure></p>
+<h1 id="Tensorflow的变量"><a href="#Tensorflow的变量" class="headerlink" title="Tensorflow的变量"></a>Tensorflow的变量</h1><p>Tensorflow 里的变量与python原生的变量不太一样。它是使用Tensorflow的Variable构造方法构造的一个Variable类的一个实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># IPython交互环境下</span></div><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line">In [<span class="number">2</span>]: v1 = tf.Variable(<span class="number">1</span>)</div><div class="line">In [<span class="number">3</span>]: type(v1)</div><div class="line">Out[<span class="number">3</span>]: tensorflow.python.ops.variables.Variable</div></pre></td></tr></table></figure></p>
+<p>创建Tensorflow的变量采用<code>Variable()</code>方法，传入具体的数值就可以创建变量。同理，创建常量可以用<code>constant()</code>。注意constant无需大写，归其原因是<code>constant()</code>是一个函数，而<code>Variable()</code>是一个类的构造方法。下面一个例子是循环输出1～5的数，首项是一个变量，等差数列的差是一个常数，这里是1。为了使得每次都能加一，定义一个<code>update</code>操作。在变量定义完以后，开始会话以前，需要初始化变量，也就是调用tensorflow的<code>initialize_all_variables()</code> 函数。调用后在开始会话的第一件事就是要<code>run</code>一下这个函数。如果没有初始化这一步会抛出一个<code>Attempting to use uninitialized value Variable</code>的错误。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">state = tf.Variable(<span class="number">0</span>)</div><div class="line">one = tf.constant(<span class="number">1</span>)</div><div class="line"></div><div class="line">update = tf.assign(state, tf.add(state, one))</div><div class="line"></div><div class="line">init = tf.initialize_all_variables()</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    sess.run(init)</div><div class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">        sess.run(update)</div><div class="line">        <span class="keyword">print</span> (sess.run(state))</div></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="关于run-函数"><a href="#关于run-函数" class="headerlink" title="关于run()函数"></a>关于run()函数</h4><p>此方法运行TensorFlow计算的一个“步骤”，通过运行必要的图片段来执行每个“操作”，并在“fetches”中计算每个“Tensor”，用feed_dict中的值替换相应的输入值。<br><code>fetches</code>参数可以是单个图形元素，也可以是任意嵌套的列表，元组，namedtuple或在其叶子处包含图形元素的dict。图形元素可以是以下类型之一：</p>
+<ul>
+<li>一个<a href="../../api_docs/python/framework.md#Operation"><code>Operation</code></a>：相应的获取值将为“无”。</li>
+<li>一个<a href="../../api_docs/python/framework.md#Tensor"><code>Tensor</code></a>.：相应的获取的值将是一个包含该张量值的numpy ndarray。</li>
+<li>一个 <a href="../../api_docs/python/sparse_ops.md#SparseTensor"><code>SparseTensor</code></a>：相应的获取值将是包含该稀疏张量的值的<a href="../../api_docs/python/sparse_ops.md#SparseTensorValue"><code>SparseTensorValue</code></a>。</li>
+<li><code>get_tensor_handle</code> 的op。相应的获取的值将是包含该张量的句柄的numpy ndarray。<br>一个`string’，它是图中张量或操作的名称。</li>
+</ul>
+<p><code>run()</code>返回的值与<code>fetches</code>参数的形状相同，其中叶被TensorFlow返回的相应值替换。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/01/10/Tensorflow-学习笔记-1/"><span>Tensorflow 学习笔记 1</span></a></h3>
     
   
@@ -780,84 +856,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="2016/10/01/Get-started-to-ReactJS/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/09/30/Get-started-with-ReactJS-0/"><span>Get started with ReactJS 0</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/09/30/Get-started-with-ReactJS-0/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-09-30T08:09:50.000Z">
-          2016-09-30
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Very-short-Introduction"><a href="#Very-short-Introduction" class="headerlink" title="Very short Introduction"></a>Very short Introduction</h1><p>Before know how to write a Reactjs application, you should clear about the following things:</p>
-<ul>
-<li>It is a javascript library</li>
-</ul>
-<p>Like other javascript library, you can import it to try by using :<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span> = <span class="string">"adress de CDN"</span> /&gt;</span><span class="undefined"></span></div></pre></td></tr></table></figure></p>
-<p>, and you can either create a javascript file “index.js” to put all your javascript code or just write in the html file. Also, you need to know there are many other “professional” way to use react, but it is just a javascript library.</p>
-<ul>
-<li><p>It is a front-end library</p>
-<p>It is a front-end library </p>
-</li>
-</ul>
-<ul>
-<li><p>It is best for single-page application</p>
-<p>What is single-page application?</p>
-</li>
-</ul>
-<p>A single page application dose not have a single view. The view is what we see on the browser, the page is what the server give the client (the HTML file). </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/ReactJS/">ReactJS</a><a href="/tags/Javascript/">Javascript</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2016/09/30/Get-started-with-ReactJS-0/#comment">Comments</a>
         </span>
       </span>
     </div>

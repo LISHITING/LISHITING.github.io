@@ -63,6 +63,72 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/01/29/数据库中的mapping关系/"><span>数据库中的mapping关系</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/29/数据库中的mapping关系/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-29T09:55:14.000Z">
+          2017-01-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Parent-child-Model"><a href="#Parent-child-Model" class="headerlink" title="Parent-child Model"></a>Parent-child Model</h1><p>Parent-child Model是数据库模型的一种，描述记录与记录之间存在着<strong>层级</strong>的关系。如下表创建一个雇员关系表，<code>emp</code>代表雇员，<code>boss</code>则代表该雇员的上级。这样的一个表就是父子关系:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp_orgchart (</div><div class="line">	emp <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	boss <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</div><div class="line">	salary <span class="built_in">DECIMAL</span>(<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<p>在层级关系里涉及的增删改查也有特殊的技巧，首先是寻找根节点和叶子结点。因为根节点的上级肯定是一个空值，所以我们可以这样做：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_orgchart </div><div class="line"><span class="keyword">WHERE</span> boss <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure>
+<p>至于搜索叶子结点，则是找到所有上级为根节点的结点<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> e1.* <span class="keyword">FROM</span> emp_orgchart <span class="keyword">AS</span> e1</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_orgchart <span class="keyword">AS</span> e2 </div><div class="line"><span class="keyword">ON</span> e1.emp = e2.boss</div><div class="line"><span class="keyword">WHERE</span> e2.emp <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure></p>
+<p>关于更新操作，如果更新了其中一个雇员的名字，必须更新跟这个雇员有关系的其他记录。例如有一个雇员C改名为C1，其他原来是以C为上级的其他人也要更新自己上级的记录为C1。这里涉及两次更新，所以需要采用<code>TRANSACTION</code>来保证一致性：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> emp = <span class="string">'C1'</span> <span class="keyword">WHERE</span> emp = <span class="string">'C'</span></div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> boss = <span class="string">'C1'</span> <span class="keyword">WHERE</span> boss = <span class="string">'C'</span></div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure></p>
+<p>当然还有另一种方式,相当于遍历整个表，把全部C改为C1：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> </div><div class="line">emp = <span class="keyword">CASE</span> emp <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> emp <span class="keyword">END</span></div><div class="line">boss = <span class="keyword">CASE</span> boss <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> boss <span class="keyword">END</span></div><div class="line"><span class="keyword">WHERE</span> <span class="string">'C'</span> <span class="keyword">IN</span> (emp, boss);</div></pre></td></tr></table></figure></p>
+<p>插入记录,第一种是出现互相为上级的关系，第二种是自身为上级的关系<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'G'</span>, <span class="string">'H'</span>),(<span class="string">'H'</span>, <span class="string">'G'</span>);</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'M'</span>,<span class="string">'M'</span>);</div></pre></td></tr></table></figure></p>
+<p>删除操作，因为结点之间存在着依赖关系，如果删除的结点是其他结点的父节点，需要考虑三种情况：1）删除该节点和其所有子结点；2）删除该节点，子结点的层级全部移上一层；3）删除该节点，选择其一个子结点替代该节点的位置。如果仅仅采用<code>DELETE FROM emp_orgchart WHERE emp = &#39;C&#39;</code>，将会造成关系组织图的不完整：</p>
+<p>最后，重新考虑回创建表，将会有以下的限制条件：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp(</div><div class="line">	<span class="keyword">id</span> <span class="built_in">INTEGER</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	<span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">	salary <span class="built_in">DECIMAL</span> (<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span> (salary &gt;=<span class="number">0.00</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orgchart (</div><div class="line">	emp_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="comment">--空的</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>) </div><div class="line">		<span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">SET</span> <span class="keyword">DEFAULT</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>,</div><div class="line">	boss_id <span class="built_in">INTEGER</span>  <span class="comment">-- NULL表示根节点</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 不能自己是自己的boss</span></div><div class="line"><span class="keyword">CHECK</span> ((boss_id &lt;&gt; emp_id) <span class="keyword">OR</span> (boss_id = <span class="number">0</span> <span class="keyword">AND</span> emp_id = <span class="number">0</span>))</div><div class="line"><span class="comment">-- 避免很长的圈</span></div><div class="line"><span class="keyword">UNIQUE</span> (emp_id, boss_id),</div><div class="line"><span class="comment">-- 连接图：边数edges = 节点数nodes -1</span></div><div class="line"><span class="keyword">CHECK</span> ((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart) - <span class="number">1</span> = </div><div class="line">      (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(boss_id) <span class="keyword">FROM</span> orgchart))</div><div class="line"><span class="comment">-- 确保只有一个根节点</span></div><div class="line"><span class="keyword">CHECK</span>((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart <span class="keyword">WHERE</span> boss_id <span class="keyword">IS</span> <span class="literal">NULL</span>) = <span class="number">1</span>)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/29/数据库中的mapping关系/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/01/21/理解MNIST-数据集/"><span>理解MNIST 数据集</span></a></h3>
     
   
@@ -83,7 +149,12 @@
   <div class="article-content">
     <div class="entry">
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在CNN机器学习中，数据集是十分重要的。在入门初期可以使用官方网站教程里的代码和对应的经典数据集MNIST。但当涉及到如何使用自己的数据集时，就必须进一步理解数据集的结构，以便于导入到自己创建的神经网络里。在教程的代码开头有一行是导入数据集的：<code>mnist = input_data.read_data_sets(&#39;MNIST_data&#39;, one_hot=True)</code>, 在完成导入数据集之后，就可以轻松地使用这个数据集进行机器学习的操作了。<code>batch_xs, batch_ys = mnist.train.next_batch(100)</code>。第二行代码是调用MNIST的一个方法提取数据集存入两个变量里，一个是batch_xs， 另外一个是batch_ys。 </p>
+<p>batch_xs和batch_ys均是一个ndarray类型，并且这个batch的长度就是数据集的条目的数量。比如上述代码<code>next_batch(100)</code>就是提取出100张图片和对应的100个标签。</p>
+<h2 id="batch-xs"><a href="#batch-xs" class="headerlink" title="batch_xs"></a>batch_xs</h2><p>在batch_xs这个ndarray里，每一条记录又是一个ndarray，也就说这个batch_xs是一个嵌套两层的数组。这个子数组代表以矩阵形式表示的图片，不过这个矩阵被“拉长”成一位数组，所以数组的长度就是图片的像素的个数。对于28X28的图片来说，像素个数位784，所以<code>len(batch_xs[i])</code>的值为784。</p>
+<p>因为手写识别的图片是黑白的，至于RGB的数据集，将会有三个数组代表三个通道，每个数组也会是图片的像素个数总和。具体可以参考CIFRA10的数据集。</p>
+<h2 id="batch-ys"><a href="#batch-ys" class="headerlink" title="batch_ys"></a>batch_ys</h2><p>至于batch_ys，它也是一个跟batch_xs同长度的ndarray,因为每一个图片都对应一个标签（label）。在这个ndarray里每一个元素也是一个ndarray，这个ndarray的长度时标签类别数的总数。比如有10个类别，那这个子nadarray的长度就是10。并且它有另外一个名称叫做<strong>one hot vector</strong>。</p>
+
       
     </div>
 
@@ -110,7 +181,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/21/理解MNIST-数据集/#comment">Comments</a>
+          <a href="2017/01/21/理解MNIST-数据集/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -173,7 +244,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">Comments</a>
+          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -249,7 +320,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">Comments</a>
+          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -327,7 +398,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">Comments</a>
+          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -437,7 +508,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/01/Bonjour-2017/#comment">Comments</a>
+          <a href="2017/01/01/Bonjour-2017/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -510,7 +581,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">Comments</a>
+          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -597,7 +668,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">Comments</a>
+          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -668,7 +739,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">Comments</a>
+          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -739,84 +810,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/11/27/React-native/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2016/11/02/Notes-of-LeetCode/"><span>Notes of LeetCode</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/11/02/Notes-of-LeetCode/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-11-02T22:45:14.000Z">
-          2016-11-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="LeetCode"><a href="#LeetCode" class="headerlink" title="LeetCode"></a>LeetCode</h1><p>Here are the notes of LeetCode that I finished. LeetCode is a website that full of resource of algorithme and data structure problems. I am trying to complete one or two problem per week to keep me in <strong> a status of programming </strong>.</p>
-<h2 id="About-using-Javascript"><a href="#About-using-Javascript" class="headerlink" title="About using Javascript"></a>About using Javascript</h2><p>In these notes, I will mainly marked down the idea when I try to solve the problem. The programming language I used is Javascript because I think Javascript is easy to use and test: What you need is a node.js and a text editor. </p>
-<h3 id="How-I-run-the-javascript-to-test-the-code"><a href="#How-I-run-the-javascript-to-test-the-code" class="headerlink" title="How I run the javascript to test the code"></a>How I run the javascript to test the code</h3><p>I suggest to use Sublime text with nodejs that you can compile the javascript on it.</p>
-<ul>
-<li><p>install the V8 in sublime text</p>
-</li>
-<li><p>create a new built system: Tools - system - new built system </p>
-</li>
-<li><p>use cmd+B to run the code</p>
-</li>
-</ul>
-<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="TwoSum"><a href="#TwoSum" class="headerlink" title="TwoSum"></a>TwoSum</h2><p><strong>Problem</strong>: <a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="external">https://leetcode.com/problems/two-sum/</a></p>
-<p>#Solution</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* @param &#123;number[]&#125; nums</div><div class="line">* @param &#123;number&#125; target</div><div class="line">* @return &#123;number[]&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i+<span class="number">1</span>; j &lt; nums.length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[i]+nums[j]==target) &#123;</div><div class="line">                result[result.length]=i;</div><div class="line">                result[result.length]=j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//test case</span></div><div class="line"><span class="keyword">var</span> result = twoSum(nums=[<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>],target=<span class="number">9</span>);</div><div class="line"><span class="built_in">console</span>.log(result);</div></pre></td></tr></table></figure>
-<p>The whole basic idea is use two loop to get all the combination.That means: We first add the element 1 and the other element begins by 2,3,4….n. Then we adjust to the second round, add the element 2 and other element begins by 3,4,5….n. The complexity is $ (n*(1+(n-1)))/2 $ =&gt; O(n^2), it is not so efficient. </p>
-<p>//to be continue</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/algorithm/">algorithm</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2016/11/02/Notes-of-LeetCode/#comment">Comments</a>
+          <a href="2016/11/27/React-native/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -830,7 +824,7 @@
 <nav class="pagination">
   
   
-  <a href="/page/2/" class="pagination-next">Next</a>
+  <a href="/page/2/" class="pagination-next">下一页</a>
   
 </nav>
     </main>

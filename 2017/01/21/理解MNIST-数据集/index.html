@@ -10,6 +10,8 @@
   
 
   
+  <meta name="description" content="前言在CNN机器学习中，数据集是十分重要的。在入门初期可以使用官方网站教程里的代码和对应的经典数据集MNIST。但当涉及到如何使用自己的数据集时，就必须进一步理解数据集的结构，以便于导入到自己创建的神经网络里。在教程的代码开头有一行是导入数据集的：mnist = input_data.read_da">
+  
 
   
   
@@ -85,7 +87,12 @@
   <div class="article-content">
     <div class="entry">
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在CNN机器学习中，数据集是十分重要的。在入门初期可以使用官方网站教程里的代码和对应的经典数据集MNIST。但当涉及到如何使用自己的数据集时，就必须进一步理解数据集的结构，以便于导入到自己创建的神经网络里。在教程的代码开头有一行是导入数据集的：<code>mnist = input_data.read_data_sets(&#39;MNIST_data&#39;, one_hot=True)</code>, 在完成导入数据集之后，就可以轻松地使用这个数据集进行机器学习的操作了。<code>batch_xs, batch_ys = mnist.train.next_batch(100)</code>。第二行代码是调用MNIST的一个方法提取数据集存入两个变量里，一个是batch_xs， 另外一个是batch_ys。 </p>
+<p>batch_xs和batch_ys均是一个ndarray类型，并且这个batch的长度就是数据集的条目的数量。比如上述代码<code>next_batch(100)</code>就是提取出100张图片和对应的100个标签。</p>
+<h2 id="batch-xs"><a href="#batch-xs" class="headerlink" title="batch_xs"></a>batch_xs</h2><p>在batch_xs这个ndarray里，每一条记录又是一个ndarray，也就说这个batch_xs是一个嵌套两层的数组。这个子数组代表以矩阵形式表示的图片，不过这个矩阵被“拉长”成一位数组，所以数组的长度就是图片的像素的个数。对于28X28的图片来说，像素个数位784，所以<code>len(batch_xs[i])</code>的值为784。</p>
+<p>因为手写识别的图片是黑白的，至于RGB的数据集，将会有三个数组代表三个通道，每个数组也会是图片的像素个数总和。具体可以参考CIFRA10的数据集。</p>
+<h2 id="batch-ys"><a href="#batch-ys" class="headerlink" title="batch_ys"></a>batch_ys</h2><p>至于batch_ys，它也是一个跟batch_xs同长度的ndarray,因为每一个图片都对应一个标签（label）。在这个ndarray里每一个元素也是一个ndarray，这个ndarray的长度时标签类别数的总数。比如有10个类别，那这个子nadarray的长度就是10。并且它有另外一个名称叫做<strong>one hot vector</strong>。</p>
+
       
     </div>
 

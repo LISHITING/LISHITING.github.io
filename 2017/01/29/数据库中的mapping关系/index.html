@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据库中的mapping关系 | 黎诗霆 | LI SHITING</title>
+
+  
+  <meta name="author" content="leo">
+  
+
+  
+  <meta name="description" content="Parent-child ModelParent-child Model是数据库模型的一种，描述记录与记录之间存在着层级的关系。如下表创建一个雇员关系表，emp代表雇员，boss则代表该雇员的上级。这样的一个表就是父子关系:
+12345CREATE TABLE emp_orgchart (	emp ">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="数据库中的mapping关系"/>
+
+  <meta property="og:site_name" content="黎诗霆"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="黎诗霆" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">黎诗霆</a>
+    </h1>
+    <p class="site-description">LI SHITING</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/tag">分类</a></li>
+      
+        <li><a href="/me">关于</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>数据库中的mapping关系</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/29/数据库中的mapping关系/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-29T09:55:14.000Z">
+          2017-01-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Parent-child-Model"><a href="#Parent-child-Model" class="headerlink" title="Parent-child Model"></a>Parent-child Model</h1><p>Parent-child Model是数据库模型的一种，描述记录与记录之间存在着<strong>层级</strong>的关系。如下表创建一个雇员关系表，<code>emp</code>代表雇员，<code>boss</code>则代表该雇员的上级。这样的一个表就是父子关系:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp_orgchart (</div><div class="line">	emp <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	boss <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</div><div class="line">	salary <span class="built_in">DECIMAL</span>(<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<p>在层级关系里涉及的增删改查也有特殊的技巧，首先是寻找根节点和叶子结点。因为根节点的上级肯定是一个空值，所以我们可以这样做：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_orgchart </div><div class="line"><span class="keyword">WHERE</span> boss <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure>
+<p>至于搜索叶子结点，则是找到所有上级为根节点的结点<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> e1.* <span class="keyword">FROM</span> emp_orgchart <span class="keyword">AS</span> e1</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_orgchart <span class="keyword">AS</span> e2 </div><div class="line"><span class="keyword">ON</span> e1.emp = e2.boss</div><div class="line"><span class="keyword">WHERE</span> e2.emp <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure></p>
+<p>关于更新操作，如果更新了其中一个雇员的名字，必须更新跟这个雇员有关系的其他记录。例如有一个雇员C改名为C1，其他原来是以C为上级的其他人也要更新自己上级的记录为C1。这里涉及两次更新，所以需要采用<code>TRANSACTION</code>来保证一致性：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> emp = <span class="string">'C1'</span> <span class="keyword">WHERE</span> emp = <span class="string">'C'</span></div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> boss = <span class="string">'C1'</span> <span class="keyword">WHERE</span> boss = <span class="string">'C'</span></div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure></p>
+<p>当然还有另一种方式,相当于遍历整个表，把全部C改为C1：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> </div><div class="line">emp = <span class="keyword">CASE</span> emp <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> emp <span class="keyword">END</span></div><div class="line">boss = <span class="keyword">CASE</span> boss <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> boss <span class="keyword">END</span></div><div class="line"><span class="keyword">WHERE</span> <span class="string">'C'</span> <span class="keyword">IN</span> (emp, boss);</div></pre></td></tr></table></figure></p>
+<p>插入记录,第一种是出现互相为上级的关系，第二种是自身为上级的关系<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'G'</span>, <span class="string">'H'</span>),(<span class="string">'H'</span>, <span class="string">'G'</span>);</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'M'</span>,<span class="string">'M'</span>);</div></pre></td></tr></table></figure></p>
+<p>删除操作，因为结点之间存在着依赖关系，如果删除的结点是其他结点的父节点，需要考虑三种情况：1）删除该节点和其所有子结点；2）删除该节点，子结点的层级全部移上一层；3）删除该节点，选择其一个子结点替代该节点的位置。如果仅仅采用<code>DELETE FROM emp_orgchart WHERE emp = &#39;C&#39;</code>，将会造成关系组织图的不完整：</p>
+<p>最后，重新考虑回创建表，将会有以下的限制条件：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp(</div><div class="line">	<span class="keyword">id</span> <span class="built_in">INTEGER</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	<span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">	salary <span class="built_in">DECIMAL</span> (<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span> (salary &gt;=<span class="number">0.00</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orgchart (</div><div class="line">	emp_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="comment">--空的</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>) </div><div class="line">		<span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">SET</span> <span class="keyword">DEFAULT</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>,</div><div class="line">	boss_id <span class="built_in">INTEGER</span>  <span class="comment">-- NULL表示根节点</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 不能自己是自己的boss</span></div><div class="line"><span class="keyword">CHECK</span> ((boss_id &lt;&gt; emp_id) <span class="keyword">OR</span> (boss_id = <span class="number">0</span> <span class="keyword">AND</span> emp_id = <span class="number">0</span>))</div><div class="line"><span class="comment">-- 避免很长的圈</span></div><div class="line"><span class="keyword">UNIQUE</span> (emp_id, boss_id),</div><div class="line"><span class="comment">-- 连接图：边数edges = 节点数nodes -1</span></div><div class="line"><span class="keyword">CHECK</span> ((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart) - <span class="number">1</span> = </div><div class="line">      (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(boss_id) <span class="keyword">FROM</span> orgchart))</div><div class="line"><span class="comment">-- 确保只有一个根节点</span></div><div class="line"><span class="keyword">CHECK</span>((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart <span class="keyword">WHERE</span> boss_id <span class="keyword">IS</span> <span class="literal">NULL</span>) = <span class="number">1</span>)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'leoli';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 leo
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

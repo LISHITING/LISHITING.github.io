@@ -63,214 +63,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2017/01/31/Les-question-sur-DBMS-avence-及译文/"><span>Les question sur DBMS avencé (及译文)</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/31/Les-question-sur-DBMS-avence-及译文/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-31T21:56:23.000Z">
-          2017-01-31
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Cassandra数据库"><a href="#Cassandra数据库" class="headerlink" title="Cassandra数据库"></a>Cassandra数据库</h1><ol>
-<li><p>Qu’est-ce qu’un point unique de défaillance ?<br>什么是单点故障？<br>Un point unique de défaillance (Single Point of Failure) est un point qui, s’il tombe en panne, provoque l’arrêt total du système.<br>单点故障就是如果一个点出现问题将导致整个系统瘫痪</p>
-</li>
-<li><p>Comment Cassandra évite les SPOF ?<br>Cassandra如何避免SPOF(单点故障问题 英文缩写）<br>Les données sont automatiquement répliquées sur de multiples nœuds (ou data centers), chaque nœud d’un cluster est identique.<br>在Cassandra里数据将被自动复制到多个节点，因此集群中每个节点都是一样的。</p>
-</li>
-<li><p>Quels sont les principaux attributs d’une base de données Cassandra ?<br>什么事Cassandra数据库的关键属性？<br>Keyspace (équivalent du namespace)<br>Les attributs : facteur de réplication, stratégie de placement des répliques (simple strategy, old network topology strategy, network topology strategy), familles de colonnes<br>是Keyspace（类似于命名空间namespace)<br>属性有： 复制因子replication factors, 副本容纳策略strategy of replica placement （简单策略／老式网络拓扑策略／网络拓扑策略), 列集合row families</p>
-</li>
-</ol>
-<ol>
-<li><p>À quoi correspond l’élément Supercolumn dans une base de données Cassandra ?<br>什么事Supercolumn？<br>Supercolumn est une colonne spéciale correspondant à une paire clé-valeur et qui stocke une carte de sous-colonnes.<br>Supercolum 在Cassandra里是一个特殊的列，对外作用相当于键值对，里面存储的是所有的子列</p>
-</li>
-<li><p>Quel protocole est utilisé dans Cassandra pour connecter les nœuds ?<br>Cassandra是通过什么协议来链接各个节点？<br>Gossip Protocol</p>
-</li>
-<li><p>Quelle est la taille maximale d’une colonne ?<br>每一个列的最大容量是多少？<br>2 Go</p>
-</li>
-<li><p>À quelle famille de SGBD NoSQL Cassandra appartient ?<br>Cassandra是属于NoSQL里的哪一类<br>Bases orientées colonnes<br>面向列的数据库</p>
-</li>
-<li><p>Quel type de consistance Cassandra assure t-elle ?<br>Cassandra保证哪一种一致性？<br>Une consistance réglable : on peut décider d’avoir une consistance en écriture ou écriture dépendant du nombre de réplica que l’opération doit satisfaire avant d’être validée.<br>可调节的一致性。必须在valid之前验证写的一致性。</p>
-</li>
-<li><p>Pour stocker les données, combien de types de formats peut-on utiliser ?<br>有哪些数据类型可以用来存储？<br>Trois : structurée, semi-structurée, et non structurées.<br>结构化／半结构化／非结构化的数据都可以</p>
-</li>
-<li><p>Quel est le mode de distribution de Cassandra ?<br>Cassandra的分布模式是怎么样的？<br>Décentralisé où chaque nœud est indépendant et il n’y a pas besoin de serveur-maître.<br>非中心的模式：每一个节点都是独立的并且无需服务器的支持。</p>
-</li>
-</ol>
-<h1 id="Base-de-donnes-de-graphe-图数据库"><a href="#Base-de-donnes-de-graphe-图数据库" class="headerlink" title="Base de donnes de graphe 图数据库"></a>Base de donnes de graphe 图数据库</h1><ol>
-<li><p>Quel est la propriété essentielle d’une base de données de graphe?<br>什么是图数据库的重要特征<br>L’accès aux voisins d’un nœuds doit s’effectuer en temps constant : O(1).<br>访问邻居节点的时间复杂度必须是固定的O(1).</p>
-</li>
-<li><p>Qu’est ce que le sous graphe matching ?<br>什么是子图的匹配？<br>Le sous graphe matching est implémenté par une requête conjonctive et permet au SGBD de rechercher des occurrences du sous graphe construit dans le graphe complet de la base.<br>子图的匹配是由conjonctive查询实现的。并允许数据库在原来完整图的基础上通过查找节点的出现情况来建立出子图的一个操作。</p>
-</li>
-</ol>
-<h1 id="Donnees-semi-structurees-半结构化数据"><a href="#Donnees-semi-structurees-半结构化数据" class="headerlink" title="Données semi-structurées 半结构化数据"></a>Données semi-structurées 半结构化数据</h1><ol>
-<li><p>modèle de données<br>数据模型<br>arbre étiqueté, ordonné et non borné<br>无界有序的标记树</p>
-</li>
-<li><p>Champs d’application privilégié<br>主要应用领域是什么？<br>Les données du web<br>网络中的数据</p>
-</li>
-<li><p>Quelle différence y-a-t-il avec les objets complexes ?<br>半结构化数据跟复杂对象的区别是什么？<br>pas de schéma (ou type ou classe), tous les noeuds de l’arbre sont étiquetés<br>没有schema结构（也没有类型或者class），所有树中的节点都是被标记的。</p>
-</li>
-<li><p>Quelle contrainte caractérise les grammaires d’arbre locales ?<br>本地树的语法有哪些局限？<br>Il n’y a qu’une étiquette par type et les expressions régulières sont déterministes.<br>每一个类型只有一个标记，正则表达式是确定的</p>
-</li>
-</ol>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><ol>
-<li><p>Par défaut, sur quel support mémoire Redis enregistre la majorité de ses données ?<br>默认情况下，Redis中的大部分数据是存在于哪里？<br>Sur la mémoire vive.<br>存在RAM主内存中</p>
-</li>
-<li><p>A quelle famille de SGBD NoSQL Redis appartient ?<br>Redis是属于NoSQL中的哪一类？<br>Clé-valeur.<br>键值对类型</p>
-</li>
-<li><p>Qu’est ce que Redis ?<br>到底什么是Redis？<br>Redis est un SGBD NoSQL open-source léger et flexible dont le nom est la contraction de REmote DIctionary Server.<br>Redis是一个轻量级的，灵活的开源的NoSQL数据库管理系统，其名称是REmote DIctionary Server （远程词典服务器）的缩写。</p>
-</li>
-<li><p>Citer quelques structures de données prises en charge par Rédis ?<br>列出Redis支持的数据结构？<br>les Chaînes « binary-safe » , Listes ou collections d’éléments de chaînes, Tables de hachage, Données en tableau (Bit arrays ou bitmaps)<br>binary-safe链表，List或链表的集合，哈希表，表格（二进制数组／二进制map）</p>
-</li>
-<li><p>Quelles sont les métriques importantes impactant les performances ?<br>有哪些影响性能的指标？<br>RAM, Connexion, Bande-passante et latence, CPU.<br>内存，网络链接，带宽延时，CPU</p>
-</li>
-<li><p>Comment manipuler les données ?<br>如何操作数据<br>Via des lignes de commande : LPUSH, HMSET, GET etc.<br>通过CLI（命令行）</p>
-</li>
-<li><p>Quel sont les facteurs de performance de Redis ?<br>Redis的性能因素有哪一些？<br>Une des principales caractéristiques de Redis est de conserver l’intégralité des données en RAM. Cela permet d’obtenir d’excellentes performances en évitant les accès disques, particulièrement coûteux.<br>Lorsque la taille des données est trop importante pour tenir en mémoire, Redis peut également utiliser de la mémoire virtuelle.<br>Redis的的一个主要特点是保持所有的数据在RAM中。这使得处理性能极佳，避免磁盘访问。当数据大小太大难以适应存储器时，Redis的也可以使用虚拟内存。</p>
-</li>
-<li><p>Que signifie PubSub pour REDIS ?<br>什么是Redis的PubSub？<br>Redis dispose d’un mécanisme de PubSub permettant d’émettre des événements aux différents clients connectés sur la base.<br>Redis采取一种PubSub的机制以发送各种事件消息到不同的客户机上。</p>
-</li>
-<li><p>Quelle est la taille maximale d’une clef-valeur?<br>每一个键值对的最大容量是多少？<br>512Mo</p>
-</li>
-<li><p>Est-il possible de supprimer tous les clés contenues dans Redis? Si oui avec quelle(s) commande(s)?<br>是否可以删除掉所有键内容？<br>Oui, en utilisant les commande suivantes :</p>
-</li>
-</ol>
-<ul>
-<li>FLUSHDB (supprime toutes les clés de la base de données courante)</li>
-<li>FLUSHALL (supprime toutes les clés de toutes les bases de données)<br>可以的，FLUSHDB用于删除当前数据库的所有键，FLUSHALL用于删除所有数据库的所有键。</li>
-</ul>
-<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><ol>
-<li><p>Comment est organisé le modèle de données (simplifié) ?<br>如何组织数据模型？<br>Des documents (comparables aux tuples) sont enregistrés dans une ou plusieurs collections (comparables aux tables). Pas de schéma est prédéfini, les attributs de 2 enregistrements de la même collection peuvent être différents.<br>文件（类似tuples）存储在许多collection集合（类似table表）里。没有预设的schema，相同collection的两个记录的属性可以是不同的。</p>
-</li>
-<li><p>Que permet le partitionnement automatique (sharding) sous MongoDB ?<br>什么方式运行自动分区？<br>Il permet une répartition de la charge en écriture, l’ajout facilité de machines, et la gestion automatique de la tolérance aux pannes.<br>它允许负载分配写，机器追加，容错和自动化管理。</p>
-</li>
-<li><p>Citer une limite en terme de concurrence du système MongoDB<br>MongoDB系统关于事务冲突的局限性？<br>MongoDB ne gère pas les transactions. Une commande d’accès à plusieurs documents d’une base, n’est atomique que sur un document à la fois. Plusieurs commandes peuvent donc interférer et poser des problèmes.<br>没有事务管理，一条指令可以同时操作多个文件。因此多指令之间会造成干扰问题。</p>
-</li>
-<li><p>En quoi la répartition sur un grand nombre d’ordinateurs est-elle intéressante dans MongoDB ?<br>为什么MongoDB可以分布于大量计算机这一特性很有价值？<br>Cela permet de pouvoir répartir la charge de travail sans occasionner de changement sur les applications. Cela permet également de pouvoir répondre aux besoins fonctionnels divers avec une seule technologie de base. MongoDB peut d’ailleurs être configuré différemment sur chaque ordinateur pour optimiser l’utilisation de matériels spécifiques. En conclusion cela donne des niveaux de disponibilité et d’évolutivité supplémentaires.<br>这使您可以<strong>分配工作负荷</strong>，而不会造成任何<strong>改变的应用程序</strong>。这还允许和一个单一的核心技术的各种功能的需求。 MongoDB中也可以在每台计算机上不同的配置来优化使用特殊设备。总之它提供的<strong>可用性</strong>和<strong>可扩展性</strong>的附加水平。</p>
-</li>
-<li><p>Quel format est utilisé pour stocker les collections de MongoDB ?<br>存储格式是什么？<br>Ce sont des fichiers .bson (Binary Json). Ils s’apparentent à des fichiers .json. Les types de données dans bson sont les mêmes que dans json, à l’exception du type “number” qui n’est pas inclus dans les fichiers bson.<br>这些都是.bson文件（二进制JSON）。它们类似于以.json文件。在BSON的数据类型与json相同，除了“number“类型。</p>
-</li>
-<li><p>Citer trois langages avec lesquels on peut utiliser MongoDB.<br>列出三种语言可以作用于MongoDB<br>On peut utiliser MongoDB avec Java, C++, C#, Javascript, PHP, Python…</p>
-</li>
-<li><p>Comment écrit-on une requête en MongoDB ?<br>如何写一个MongoDB的查询<br>Donner un exemple    db.<nom_collection>.<fonction>(<document>);<br>Exemple d’insertion de tuple :<br>db.collection.insert( { Name : “Bidochon” , Age : 18 } ) ;</document></fonction></nom_collection></p>
-</li>
-<li><p>Quelle est la taille maximale d’une base de données ?<br>数据最大值？<br>32 To</p>
-</li>
-<li><p>Dans quel cas l’utilisation de MongoDB est-elle intéressante?<br>那些情况下建议使用？<br>Si l’on possède de gros volume de données (scalable) et que l’on souhaite effectuer des recherches complexes.<br>果你有<strong>大量的数据（可扩展）</strong>，并希望执行<strong>复杂搜索</strong>的时候。</p>
-</li>
-<li><p>Quelle est la règle à respecter à propos des champs des documents d’une même collection ?<br>遵循哪些规则？<br>Seul le champ “_id” est un champ obligatoire, généré et ajouté par mongoDB, c’est un index unique qui permet d’identifier le document<br>只有“_id”字段是必填字段，由MongoDB生成和添加。它是用于指示文档的唯一索引。</p>
-</li>
-</ol>
-<h1 id="Neo4J-图数据库"><a href="#Neo4J-图数据库" class="headerlink" title="Neo4J 图数据库"></a>Neo4J 图数据库</h1><ol>
-<li><p>Donnez le nom du langage de requête utilisé par Neo4J<br>Neo4J的查询语言是什么？<br>Le langage Cypher</p>
-</li>
-<li><p>Sur quel langage de requête est basé Cypher. Donnez 3 clauses et détaillez leurs usages.<br>Cypher是基于什么语言的？列出三个语句并说明其用处。<br>Le langage Cypher est basé sur le SQL. MATCH permet de construire la requête sur le graphe, WHERE permet d’ajouter des contraintes à la requête, RETURN permet de définir les valeurs à retourner.<br>基于SQL，MATCH用于生成一个图查询，WHERE用于增加限制，RETURN用于定义返回值</p>
-</li>
-<li><p>Quelles valeurs peut contenir le noeud d’une base de données en graphes ?<br>节点可以存哪些值？<br>paires clef-valeur<br>键值对</p>
-</li>
-<li><p>Quelle est l’utilité de labéliser les noeuds d’une BD graph ?<br>标记节点有什么用？<br>Cela permet de préciser le rôle (général ou spécifique) d’un noeud ainsi que d’ajouter des métadonnées telles qu’un index ou des contraintes<br>用于指定一个节点的角色和增加元数据（索引或者限制）</p>
-</li>
-<li><p>Le langage Cypher est-il un langage déclaratif ou un langage procédural ?<br>说明性语言海事过程性语言<br>Un langage déclaratif<br>因为基于SQL所以必须是说明性语言呀</p>
-</li>
-<li><p>Comment peut-on accéder à l’interface de Neo4J ?<br>如何进入Neo4J的图形界面<br>Directement en accédant à <a href="http://127.0.0.1:7474/" target="_blank" rel="external">http://127.0.0.1:7474/</a> une fois Neo4J installé.<br>通过浏览器访问本地服务器（默认为7474端口）</p>
-</li>
-<li><p>En quel langage Neo4j a été developpé ?<br>是哪种语言开发的<br>Java, en effet Neo4j permet de représenter les données en tant qu’objets reliés par un ensemble<br>Java</p>
-</li>
-<li><p>citez les cas d’usages les plus fréquents de Neo4j ?<br>最常见的使用场景：<br>Modélisation des cartes routières.<br>Gestion des droits d’accès.<br>Recommandation des produits.<br>Modélisation microbiologique et interactions moléculaires.<br>地图，访问权限管理，商品推荐，分子间作用，微生物建模。</p>
-</li>
-<li><p>Qui de MySQL ou Neo4J est le plus rapide pour traiter les graphes ?<br>哪种数据库在处理图更快<br>Le plus rapide est Neo4J<br>=。=当然Neo4J</p>
-</li>
-<li><p>Neo4J est-elle la meilleure solution en terme de performances comparé aux autres solutions NoSQL ?<br>相比于其他NoSQL是最好的？<br>Pas sur tous les critères. Neo4J est assez lourd d’utilisation de part sa complexité.<br>不一定适用于所有情况，Neo4J也有高复杂性，也是一个重量级应用。</p>
-</li>
-<li><p>Est-il facile de fragmenter un graphe Neo4j<br>容易将一个图进行分片么？<br>Il est difficile de fragmenter sur plusieurs serveurs un graphe Neo4J du faite que les données sont directements liées<br>难。因为数据之间是相互直接链接的。</p>
-</li>
-<li><p>Les agrégats sont-ils orientés ?<br>Non les agrégats ne sont pas orienté, contrairement aux données clés-valeurs qui sont accessibles à partir de l’index</p>
-</li>
-<li><p>Quelle architecture permet l’utilisation de Neo4J sur un serveur distant ?<br>哪一种架构可以使用在远程服务器<br>Il est nécessaire d’utiliser l’architecture REST.<br>REST架构</p>
-</li>
-<li><p>Comment sont stockés les informations sur le graphe dans une base Neo4J ?<br>如何存储图的信息？<br>Les données des noeuds, des relations et des propriétés sont stockés dans des fichiers différents.<br>节点数据，关系，属性分别存储在不同的文件里。</p>
-</li>
-</ol>
-<h1 id="Des-arbres-dans-des-tables"><a href="#Des-arbres-dans-des-tables" class="headerlink" title="Des arbres dans des tables"></a>Des arbres dans des tables</h1><ol>
-<li><p>Quelles sont les propriétés clefs des structures d’arbre ?<br>树结构的主要属性是？<br>non borné en largeur et en profondeur, ordonné, étiqueté<br>有序，标记，宽度和深度是无界的。</p>
-</li>
-<li><p>Quelle est la clause SQL pour traiter la récursivité ?<br>如何用SQL来处理迭代？<br>WITH RECURSIVE…</p>
-</li>
-</ol>
-<h1 id="Relations-emboitees-嵌套关系"><a href="#Relations-emboitees-嵌套关系" class="headerlink" title="Relations emboîtées 嵌套关系"></a>Relations emboîtées 嵌套关系</h1><ol>
-<li><p>Quelle est la taille d’une relation PNF ?<br>Curieusement, elle reste polynomiale !<br>大小是多项式级别的</p>
-</li>
-<li><p>Quelle est la restriction au modèle N1NF qui régit le type d’une relation emboîtée ?<br>N1NF创建嵌套关系时有哪些限制？<br>Il faut que les constructeurs de tuple et d’ensemble alternent strictement (en profondeur).<br>需要tuple的创造者constructor和一些列的约束。</p>
-</li>
-<li><p>Qu’est ce qu’une relation emboîtée ?<br>什么是嵌套关系<br>C’est une relation N1NF ou les constructeurs d’ensemble et de tuples doivent alterner.<br>是一个N1NF关系或者建造者和元组是交替的。</p>
-</li>
-<li><p>Qu’est ce que le Nested Query Theorem (théorème des requêtes imbriquées) ?<br>什么是嵌套查询定力<br>Avec les requêtes Q1 en entrée et Q2 en sortie, il existe une réécriture de cette requête entre les bornes de nesting n(Q1) et n(Q2) sans dépasser max(n(Q1), n(Q2)).<br>设Q1为输入查询，Q2为输出查询。 存在一种查询重写，其界限bornes of nesting不超过max(n(Q1), n(Q2))。</p>
-</li>
-<li><p>Qu’est-ce qu’une relation PNF ?<br>什么是PNF<br><strong>Partitioned normal form</strong>: quand on a deux tables emboîtées, la partie plate (atomique) doit être une clé. Les relations PNF sont stables par desemboitement.<br><strong>Partitioned normal form</strong>。平坦部分必须是<strong>键唯一的</strong>。</p>
-</li>
-<li><p>Quelle est la particularité des relations nest et unnest (emboîtages et désemboitage) ?<br>嵌套和解嵌套操作有什么关系？<br>Il n’existe pas de dualité entre ces relations.<br>V = nest et U = unnest, U(V(R))=R mais V(U(R)) != R<br>不存在对偶，也就是不可逆。U(V(R))=R 但是 V(U(R)) != R</p>
-</li>
-<li><p>À quoi servent les opérateurs Nest et Unnest sur une relation ?<br>嵌套和解嵌套是干嘛的？<br>L’opérateur Nest permet de créer de l’imbrication dans une relation, en regroupant les valeurs similaires en une seule et même valeur d’attribut.<br>L’opérateur Unnest permet de faire l’inverse, de supprimer l’imbrication en ajoutant de la redondance dans les valeurs des attributs.</p>
-</li>
-<li><p>En SQL, quel est l’opérateur qui permet de créer des constructeurs de tuples ?<br>ROW.<br>ex. CREATE ROW TYPE Address( Zip VARCHAR(10));<br>CREATE TABLE CustomerAddress OF TYPE Address():</p>
-</li>
-<li><p>En SQL, quel est l’opérateur qui permet de définir un attribut comme étant un ensemble de valeurs?<br>MULTISET.<br>ex.<br>CREATE TABLE Department (<br>Name VARCHAR(40),<br>Buildings INTEGER MULTISET,<br>Employees ROW( Firstname VARCHAR(30),<br>Lastname VARCHAR(30),<br>Office INTEGER ) MULTISET );</p>
-</li>
-</ol>
-<h1 id="N1NF"><a href="#N1NF" class="headerlink" title="N1NF"></a>N1NF</h1><ol>
-<li><p>Que signifie N1NF ?<br>什么是N1NF<br>Non-First Normal Form. C’est l’acronyme pour désigner une extension du modèle relationnel qui brise la première forme normale et construit des objets complexes.<br>非第一范式。它代表表示，打破了第一范式，构建复杂的对象关系模型的扩展。</p>
-</li>
-<li><p>Quelle est la taille d’une relation N1NF ?<br>什么是一个N1NF关系的大小？<br>2^2^…^n, n étant la taille du domaine de valeurs de la relation. La “colonne de 2” est aussi haute qu’il y a de niveaux d’emboîtement dans la relation.<br>2^ 2 ^… ^ N，n是关系值的区域的大小。因为有在关系嵌套的水平“列2”是作为高。</p>
-</li>
-<li><p>Objet complexe<br>复杂对象是什么？<br>instance représentée par une structure arborescente qui respecte un type (ou schéma) suivant N1NF ou eNF2<br>复杂对象代表着一个实例，其结构式树状的。这棵树的类型或者schema是符合N1NF或者eNF2范式的</p>
-</li>
-<li><p>Qu’est-ce qu’une dépendance multivaluée (MVD) ?<br><code>什么是MVD？</code><br>Pour une relation R, on dit que X est multivaluée à Y ssi<br>(X -&gt;-&gt; Y) &lt;=&gt; (x,y,z) et (x,y’,z’) ∈ R =&gt; (x,y’,z) et (x,y,z’) ∈ R</p>
-</li>
-</ol>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/31/Les-question-sur-DBMS-avence-及译文/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2017/01/29/数据库中的mapping关系/"><span>数据库中的mapping关系</span></a></h3>
     
   
@@ -323,7 +115,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/29/数据库中的mapping关系/#comment">Comments</a>
+          <a href="2017/01/29/数据库中的mapping关系/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -389,7 +181,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/21/理解MNIST-数据集/#comment">Comments</a>
+          <a href="2017/01/21/理解MNIST-数据集/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -452,7 +244,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">Comments</a>
+          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -528,7 +320,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">Comments</a>
+          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -606,7 +398,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">Comments</a>
+          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -716,7 +508,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/01/Bonjour-2017/#comment">Comments</a>
+          <a href="2017/01/01/Bonjour-2017/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -789,7 +581,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">Comments</a>
+          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -876,7 +668,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">Comments</a>
+          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -947,7 +739,78 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">Comments</a>
+          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/11/27/React-native/"><span>React native</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/27/React-native/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-27T08:14:55.000Z">
+          2016-11-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>This project is to make a stopwatch </p>
+<h1 id="Set-up"><a href="#Set-up" class="headerlink" title="Set up"></a>Set up</h1><p>Make sure you have nodejs and watchman installed<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install node</div><div class="line">brew install watchman</div></pre></td></tr></table></figure></p>
+<p>Make sure you have react-native cli installed.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g react-native-cli</div></pre></td></tr></table></figure></p>
+<p>Use react-native cli to Create a new project named stopwatch<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">react-native init stopwatch</div></pre></td></tr></table></figure></p>
+<p>Make sure you are in the project root folder, run  <code>npm start</code> to start a server allow us to see the result.</p>
+<p>Open Xcode project <code>stopwatch/ios/stopwatch.xcodeproj</code>, wait a little bit for loading the source and then hit run button.</p>
+<p>Another way to start the project is go to the root folder and just run </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">react-native run-ios</div></pre></td></tr></table></figure>
+<p>Then it will start a server and a simulator automatically. </p>
+<p>If you can see “Welcome to React Native!” and some text below, it means all the environment are set up. </p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/ReactJS/">ReactJS</a><a href="/tags/Javascript/">Javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/11/27/React-native/#comment">评论</a>
         </span>
       </span>
     </div>
@@ -961,7 +824,7 @@
 <nav class="pagination">
   
   
-  <a href="/page/2/" class="pagination-next">Next</a>
+  <a href="/page/2/" class="pagination-next">下一页</a>
   
 </nav>
     </main>

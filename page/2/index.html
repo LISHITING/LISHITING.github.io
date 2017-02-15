@@ -63,83 +63,6 @@
 
   
     
-    <h3 class="article-title"><a href="/2016/11/02/Notes-of-LeetCode/"><span>Notes of LeetCode</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/11/02/Notes-of-LeetCode/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-11-02T22:45:14.000Z">
-          2016-11-02
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="LeetCode"><a href="#LeetCode" class="headerlink" title="LeetCode"></a>LeetCode</h1><p>Here are the notes of LeetCode that I finished. LeetCode is a website that full of resource of algorithme and data structure problems. I am trying to complete one or two problem per week to keep me in <strong> a status of programming </strong>.</p>
-<h2 id="About-using-Javascript"><a href="#About-using-Javascript" class="headerlink" title="About using Javascript"></a>About using Javascript</h2><p>In these notes, I will mainly marked down the idea when I try to solve the problem. The programming language I used is Javascript because I think Javascript is easy to use and test: What you need is a node.js and a text editor. </p>
-<h3 id="How-I-run-the-javascript-to-test-the-code"><a href="#How-I-run-the-javascript-to-test-the-code" class="headerlink" title="How I run the javascript to test the code"></a>How I run the javascript to test the code</h3><p>I suggest to use Sublime text with nodejs that you can compile the javascript on it.</p>
-<ul>
-<li><p>install the V8 in sublime text</p>
-</li>
-<li><p>create a new built system: Tools - system - new built system </p>
-</li>
-<li><p>use cmd+B to run the code</p>
-</li>
-</ul>
-<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="TwoSum"><a href="#TwoSum" class="headerlink" title="TwoSum"></a>TwoSum</h2><p><strong>Problem</strong>: <a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="external">https://leetcode.com/problems/two-sum/</a></p>
-<p>#Solution</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* @param &#123;number[]&#125; nums</div><div class="line">* @param &#123;number&#125; target</div><div class="line">* @return &#123;number[]&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> result = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i+<span class="number">1</span>; j &lt; nums.length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[i]+nums[j]==target) &#123;</div><div class="line">                result[result.length]=i;</div><div class="line">                result[result.length]=j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//test case</span></div><div class="line"><span class="keyword">var</span> result = twoSum(nums=[<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>],target=<span class="number">9</span>);</div><div class="line"><span class="built_in">console</span>.log(result);</div></pre></td></tr></table></figure>
-<p>The whole basic idea is use two loop to get all the combination.That means: We first add the element 1 and the other element begins by 2,3,4….n. Then we adjust to the second round, add the element 2 and other element begins by 3,4,5….n. The complexity is $ (n*(1+(n-1)))/2 $ =&gt; O(n^2), it is not so efficient. </p>
-<p>//to be continue</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/algorithm/">algorithm</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2016/11/02/Notes-of-LeetCode/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
     <h3 class="article-title"><a href="/2016/10/30/Create-a-PostGIS-database/"><span>Create a PostGIS database</span></a></h3>
     
   
@@ -368,6 +291,77 @@
         <i class="icon-comments"></i>
         <span>
           <a href="2016/09/30/Get-started-with-ReactJS-0/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/09/01/Amazon-Web-Service-AWS-1-注册/"><span>Amazon Web Service (AWS) -注册</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/09/01/Amazon-Web-Service-AWS-1-注册/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-01T15:26:01.000Z">
+          2016-09-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>亚马逊互联网服务（AWS）是一个云服务供应商，也是目前使用较广泛和稳定的服务商之一。AWS提供多种解决方案，包括网站，移动端服务，物联网IoT服务等等。可以从<a href="https://aws.amazon.com/cn/solutions/?nc2=h_ql_gsc" target="_blank" rel="external">解决方案</a>了解自己所需要的类型。此外，也可以单独使用某一<a href="">产品服务</a>。</p>
+<p>要开始使用亚马逊云服务，第一步操作就是注册一个亚马逊云服务的账号。如果是新注册的低需求用户，可以了解<a href="https://aws.amazon.com/cn/free/" target="_blank" rel="external">一年免费套餐</a>。</p>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><p>点击右上角的创建免费用户按钮，跳转到登录界面。如果有亚马逊账号可以使用亚马逊账号，如果没有的话需要注册一个亚马逊账号。假设已经有亚马逊账号或已经完成新账号的注册以后，输入<code>注册邮箱</code>或<code>手机</code>， 选择<code>已注册用户</code>并输入密码。</p>
+<h2 id="联系人信息"><a href="#联系人信息" class="headerlink" title="联系人信息"></a>联系人信息</h2><p>首先填写个人基本信息，这里按照个人实际情况来完成填写，填写完成后点击<code>创建用户并继续</code>。<br><img src="https://s6.postimg.org/88h8ngntd/aws_1.png" alt=""></p>
+<h2 id="付款信息"><a href="#付款信息" class="headerlink" title="付款信息"></a>付款信息</h2><p>按个人情况填写有效的信用卡或者借记卡。即便是注册第一年免费的套餐，但有免费套餐是有限定资源的，超出部分需要另外付费。填写完成后点击<code>继续</code>。<br><img src="" alt=""></p>
+<h2 id="身份验证"><a href="#身份验证" class="headerlink" title="身份验证"></a>身份验证</h2><p>身份验证步骤非常方便，输入验证码和电话后点击<code>立即呼叫我</code>，会有自动电话拨入。，</p>
+<p><img src="https://s6.postimg.org/5jhujosy9/aws_3.png" alt=""><br>与此同时跳转到第二个页面并显示一个PIN码。听完提示音（英语）后输入PIN码（不需要按任何*或#键）后自动挂断。</p>
+<p><img src="https://s6.postimg.org/gtakemxzl/aws_4.png" alt=""><br>    PIN码如无意外准确输入后会显示身份验证成功。身份验证完毕以后点击<code>继续选择支付方案</code>。<br><img src="https://s6.postimg.org/wg1ts0brl/aws_5.png" alt=""></p>
+<h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>这里我选择<code>基本</code>方案。方案的区别在于提供技术支持服务的级别。依次是: 社区论坛支持 &lt; 24技术人员支持 &lt; 商用支持 &lt; 企业支持。<br><img src="https://s6.postimg.org/j0a7otdw1/aws_6.png" alt="">  </p>
+<h1 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h1><p>最后注册完毕后跳转到个人账户页面，可以点击<code>登录控制台</code>进入AWS的控制台页面，控制台界面如下图。至此注册AWS账户的过程全部完成。<br><img src="https://s6.postimg.org/esffg2cgh/aws_7.png" alt=""></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/aws/">aws</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2016/09/01/Amazon-Web-Service-AWS-1-注册/#comment">Comments</a>
         </span>
       </span>
     </div>

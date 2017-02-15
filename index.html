@@ -63,364 +63,15 @@
 
   
     
-    <h3 class="article-title"><a href="/2017/01/29/数据库中的mapping关系/"><span>数据库中的mapping关系</span></a></h3>
+    <h3 class="article-title"><a href="/2017/01/28/Bonjour-2017/"><span>Bonjour 2017</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2017/01/29/数据库中的mapping关系/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-29T09:55:14.000Z">
-          2017-01-29
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Parent-child-Model"><a href="#Parent-child-Model" class="headerlink" title="Parent-child Model"></a>Parent-child Model</h1><p>Parent-child Model是数据库模型的一种，描述记录与记录之间存在着<strong>层级</strong>的关系。如下表创建一个雇员关系表，<code>emp</code>代表雇员，<code>boss</code>则代表该雇员的上级。这样的一个表就是父子关系:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp_orgchart (</div><div class="line">	emp <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	boss <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</div><div class="line">	salary <span class="built_in">DECIMAL</span>(<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line">);</div></pre></td></tr></table></figure>
-<p>在层级关系里涉及的增删改查也有特殊的技巧，首先是寻找根节点和叶子结点。因为根节点的上级肯定是一个空值，所以我们可以这样做：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_orgchart </div><div class="line"><span class="keyword">WHERE</span> boss <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure>
-<p>至于搜索叶子结点，则是找到所有上级为根节点的结点<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> e1.* <span class="keyword">FROM</span> emp_orgchart <span class="keyword">AS</span> e1</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_orgchart <span class="keyword">AS</span> e2 </div><div class="line"><span class="keyword">ON</span> e1.emp = e2.boss</div><div class="line"><span class="keyword">WHERE</span> e2.emp <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure></p>
-<p>关于更新操作，如果更新了其中一个雇员的名字，必须更新跟这个雇员有关系的其他记录。例如有一个雇员C改名为C1，其他原来是以C为上级的其他人也要更新自己上级的记录为C1。这里涉及两次更新，所以需要采用<code>TRANSACTION</code>来保证一致性：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> emp = <span class="string">'C1'</span> <span class="keyword">WHERE</span> emp = <span class="string">'C'</span></div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> boss = <span class="string">'C1'</span> <span class="keyword">WHERE</span> boss = <span class="string">'C'</span></div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure></p>
-<p>当然还有另一种方式,相当于遍历整个表，把全部C改为C1：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> </div><div class="line">emp = <span class="keyword">CASE</span> emp <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> emp <span class="keyword">END</span></div><div class="line">boss = <span class="keyword">CASE</span> boss <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> boss <span class="keyword">END</span></div><div class="line"><span class="keyword">WHERE</span> <span class="string">'C'</span> <span class="keyword">IN</span> (emp, boss);</div></pre></td></tr></table></figure></p>
-<p>插入记录,第一种是出现互相为上级的关系，第二种是自身为上级的关系<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'G'</span>, <span class="string">'H'</span>),(<span class="string">'H'</span>, <span class="string">'G'</span>);</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'M'</span>,<span class="string">'M'</span>);</div></pre></td></tr></table></figure></p>
-<p>删除操作，因为结点之间存在着依赖关系，如果删除的结点是其他结点的父节点，需要考虑三种情况：1）删除该节点和其所有子结点；2）删除该节点，子结点的层级全部移上一层；3）删除该节点，选择其一个子结点替代该节点的位置。如果仅仅采用<code>DELETE FROM emp_orgchart WHERE emp = &#39;C&#39;</code>，将会造成关系组织图的不完整：</p>
-<p>最后，重新考虑回创建表，将会有以下的限制条件：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp(</div><div class="line">	<span class="keyword">id</span> <span class="built_in">INTEGER</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	<span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">	salary <span class="built_in">DECIMAL</span> (<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span> (salary &gt;=<span class="number">0.00</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orgchart (</div><div class="line">	emp_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="comment">--空的</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>) </div><div class="line">		<span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">SET</span> <span class="keyword">DEFAULT</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>,</div><div class="line">	boss_id <span class="built_in">INTEGER</span>  <span class="comment">-- NULL表示根节点</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 不能自己是自己的boss</span></div><div class="line"><span class="keyword">CHECK</span> ((boss_id &lt;&gt; emp_id) <span class="keyword">OR</span> (boss_id = <span class="number">0</span> <span class="keyword">AND</span> emp_id = <span class="number">0</span>))</div><div class="line"><span class="comment">-- 避免很长的圈</span></div><div class="line"><span class="keyword">UNIQUE</span> (emp_id, boss_id),</div><div class="line"><span class="comment">-- 连接图：边数edges = 节点数nodes -1</span></div><div class="line"><span class="keyword">CHECK</span> ((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart) - <span class="number">1</span> = </div><div class="line">      (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(boss_id) <span class="keyword">FROM</span> orgchart))</div><div class="line"><span class="comment">-- 确保只有一个根节点</span></div><div class="line"><span class="keyword">CHECK</span>((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart <span class="keyword">WHERE</span> boss_id <span class="keyword">IS</span> <span class="literal">NULL</span>) = <span class="number">1</span>)</div></pre></td></tr></table></figure>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/29/数据库中的mapping关系/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/01/21/理解MNIST-数据集/"><span>理解MNIST 数据集</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/21/理解MNIST-数据集/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-21T11:54:40.000Z">
-          2017-01-21
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在CNN机器学习中，数据集是十分重要的。在入门初期可以使用官方网站教程里的代码和对应的经典数据集MNIST。但当涉及到如何使用自己的数据集时，就必须进一步理解数据集的结构，以便于导入到自己创建的神经网络里。在教程的代码开头有一行是导入数据集的：<code>mnist = input_data.read_data_sets(&#39;MNIST_data&#39;, one_hot=True)</code>, 在完成导入数据集之后，就可以轻松地使用这个数据集进行机器学习的操作了。<code>batch_xs, batch_ys = mnist.train.next_batch(100)</code>。第二行代码是调用MNIST的一个方法提取数据集存入两个变量里，一个是batch_xs， 另外一个是batch_ys。 </p>
-<p>batch_xs和batch_ys均是一个ndarray类型，并且这个batch的长度就是数据集的条目的数量。比如上述代码<code>next_batch(100)</code>就是提取出100张图片和对应的100个标签。</p>
-<h2 id="batch-xs"><a href="#batch-xs" class="headerlink" title="batch_xs"></a>batch_xs</h2><p>在batch_xs这个ndarray里，每一条记录又是一个ndarray，也就说这个batch_xs是一个嵌套两层的数组。这个子数组代表以矩阵形式表示的图片，不过这个矩阵被“拉长”成一位数组，所以数组的长度就是图片的像素的个数。对于28X28的图片来说，像素个数位784，所以<code>len(batch_xs[i])</code>的值为784。</p>
-<p>因为手写识别的图片是黑白的，至于RGB的数据集，将会有三个数组代表三个通道，每个数组也会是图片的像素个数总和。具体可以参考CIFRA10的数据集。</p>
-<h2 id="batch-ys"><a href="#batch-ys" class="headerlink" title="batch_ys"></a>batch_ys</h2><p>至于batch_ys，它也是一个跟batch_xs同长度的ndarray,因为每一个图片都对应一个标签（label）。在这个ndarray里每一个元素也是一个ndarray，这个ndarray的长度时标签类别数的总数。比如有10个类别，那这个子nadarray的长度就是10。并且它有另外一个名称叫做<strong>one hot vector</strong>。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/21/理解MNIST-数据集/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/01/15/Tensorflow-学习笔记-3/"><span>Tensorflow 学习笔记 3</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/15/Tensorflow-学习笔记-3/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-15T22:05:50.000Z">
-          2017-01-15
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Tensorflow的Placeholder"><a href="#Tensorflow的Placeholder" class="headerlink" title="Tensorflow的Placeholder"></a>Tensorflow的Placeholder</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">input1 = tf.placeholder(tf.float32)</div><div class="line">input2 = tf.placeholder(tf.float32)</div><div class="line"></div><div class="line">ouput = tf.mul(input1, input2)</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    <span class="keyword">print</span> (sess.run(ouput, feed_dict=&#123;input1: [<span class="number">3.</span>], input2: [<span class="number">5.</span>]&#125;))</div></pre></td></tr></table></figure>
-<p><strong>to be continued </strong></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/01/15/Tensorflow-学习笔记-2/"><span>Tensorflow 学习笔记 2</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/15/Tensorflow-学习笔记-2/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-15T19:10:34.000Z">
-          2017-01-15
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Tensorflow的会话"><a href="#Tensorflow的会话" class="headerlink" title="Tensorflow的会话"></a>Tensorflow的会话</h1><p>Tensorflow的会话（session）是Tensorflow项目的一部分。会话的作用就是告诉Tensorflow开始做事直到结束。会话之前通常是各种结构的定义，比如定义好需要操作的变量，定义好需要执行的操作。<br>下面来一个例子，用Tensorflow做一个矩阵相乘，思路如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div></pre></td></tr></table></figure></p>
-<p>具体代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line">matrix1 = tf.constant([[<span class="number">3</span>, <span class="number">3</span>]])</div><div class="line">matrix2 = tf.constant([[<span class="number">2</span>], [<span class="number">2</span>]])</div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line">product = tf.matmul(matrix1, matrix2)</div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div><div class="line">sess = tf.Session()</div><div class="line">result = sess.run(product)</div><div class="line"><span class="keyword">print</span> (result)</div><div class="line">sess.close()</div></pre></td></tr></table></figure></p>
-<p>此外，还有一种更为<em>优雅</em>的会话开启执行和结束的写法，那就是用<code>with</code>的结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">... </span><span class="comment"># 同上</span></div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    result = sess.run(product)</div><div class="line">    <span class="keyword">print</span> (result)</div></pre></td></tr></table></figure></p>
-<h1 id="Tensorflow的变量"><a href="#Tensorflow的变量" class="headerlink" title="Tensorflow的变量"></a>Tensorflow的变量</h1><p>Tensorflow 里的变量与python原生的变量不太一样。它是使用Tensorflow的Variable构造方法构造的一个Variable类的一个实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># IPython交互环境下</span></div><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line">In [<span class="number">2</span>]: v1 = tf.Variable(<span class="number">1</span>)</div><div class="line">In [<span class="number">3</span>]: type(v1)</div><div class="line">Out[<span class="number">3</span>]: tensorflow.python.ops.variables.Variable</div></pre></td></tr></table></figure></p>
-<p>创建Tensorflow的变量采用<code>Variable()</code>方法，传入具体的数值就可以创建变量。同理，创建常量可以用<code>constant()</code>。注意constant无需大写，归其原因是<code>constant()</code>是一个函数，而<code>Variable()</code>是一个类的构造方法。下面一个例子是循环输出1～5的数，首项是一个变量，等差数列的差是一个常数，这里是1。为了使得每次都能加一，定义一个<code>update</code>操作。在变量定义完以后，开始会话以前，需要初始化变量，也就是调用tensorflow的<code>initialize_all_variables()</code> 函数。调用后在开始会话的第一件事就是要<code>run</code>一下这个函数。如果没有初始化这一步会抛出一个<code>Attempting to use uninitialized value Variable</code>的错误。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">state = tf.Variable(<span class="number">0</span>)</div><div class="line">one = tf.constant(<span class="number">1</span>)</div><div class="line"></div><div class="line">update = tf.assign(state, tf.add(state, one))</div><div class="line"></div><div class="line">init = tf.initialize_all_variables()</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    sess.run(init)</div><div class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">        sess.run(update)</div><div class="line">        <span class="keyword">print</span> (sess.run(state))</div></pre></td></tr></table></figure>
-<p><br></p>
-<h4 id="关于run-函数"><a href="#关于run-函数" class="headerlink" title="关于run()函数"></a>关于run()函数</h4><p>此方法运行TensorFlow计算的一个“步骤”，通过运行必要的图片段来执行每个“操作”，并在“fetches”中计算每个“Tensor”，用feed_dict中的值替换相应的输入值。<br><code>fetches</code>参数可以是单个图形元素，也可以是任意嵌套的列表，元组，namedtuple或在其叶子处包含图形元素的dict。图形元素可以是以下类型之一：</p>
-<ul>
-<li>一个<a href="../../api_docs/python/framework.md#Operation"><code>Operation</code></a>：相应的获取值将为“无”。</li>
-<li>一个<a href="../../api_docs/python/framework.md#Tensor"><code>Tensor</code></a>.：相应的获取的值将是一个包含该张量值的numpy ndarray。</li>
-<li>一个 <a href="../../api_docs/python/sparse_ops.md#SparseTensor"><code>SparseTensor</code></a>：相应的获取值将是包含该稀疏张量的值的<a href="../../api_docs/python/sparse_ops.md#SparseTensorValue"><code>SparseTensorValue</code></a>。</li>
-<li><code>get_tensor_handle</code> 的op。相应的获取的值将是包含该张量的句柄的numpy ndarray。<br>一个`string’，它是图中张量或操作的名称。</li>
-</ul>
-<p><code>run()</code>返回的值与<code>fetches</code>参数的形状相同，其中叶被TensorFlow返回的相应值替换。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/01/10/Tensorflow-学习笔记-1/"><span>Tensorflow 学习笔记 1</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/10/Tensorflow-学习笔记-1/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-10T10:53:15.000Z">
-          2017-01-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="Tensorflow-安装"><a href="#Tensorflow-安装" class="headerlink" title="Tensorflow 安装"></a>Tensorflow 安装</h1><p>关于<code>tensorflow</code>的安装可以有多种多样：通过不同的版本控制器下载安装，安装CPU版本或者GPU版本，本地安装或者<code>docker</code>安装等等。GPU版本的安装会比CPU版本的稍复杂并且会有一定显卡硬件的限制，好处就是学习的计算过程会更加快，尤其在处理图像相关的学习。出于入门目的，最简单的配置就是通过<code>pip</code>直接安装CPU版本的<code>tensorflow</code>。<br>首先安装一下<code>pip</code>。<code>easy_install</code>也是一个安装管理器，python自带的。可以先通过它安装<code>pip</code>，再用<code>pip</code>安装以后千千万万的库。同时安装并升级<code>six</code>模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo easy_install --upgrade six</div></pre></td></tr></table></figure></p>
-<p>在<code>pip</code>安装完成功后安装<code>tensorflow</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install tensorflow</div></pre></td></tr></table></figure></p>
-<p>如果安装失败可能是版本问题，在官方网站的<a href="https://www.tensorflow.org/get_started/os_setup" target="_blank" rel="external">下载安装页面</a>找到特定的版本（特定的操作系统+特定的python+cpu/gpu）来安装。比如以2.7版本python，在mac系统上安装cpu版本，可以依次执行下面命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Mac OS X, CPU only, Python 2.7:</span></div><div class="line">$ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow<span class="number">-0.12</span><span class="number">.1</span>-py2-none-any.whl</div><div class="line"><span class="comment"># Python 2</span></div><div class="line">$ sudo pip install --upgrade $TF_BINARY_URL</div></pre></td></tr></table></figure></p>
-<h1 id="Tensorflow-简单例子"><a href="#Tensorflow-简单例子" class="headerlink" title="Tensorflow 简单例子"></a>Tensorflow 简单例子</h1><p>预备：配有python的机器，安装<code>tensorflow</code>和<code>numpy</code>库<br>目的是用神经网络通过一系列点预测出线性的曲线，也就是确定y=ax+b中的a和b的值。</p>
-<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>先建立一个模型<code>y=0.1x+0.3</code>，这就是我们要求的理想的回归模型。同时我们通过随机给出一些点，让机器学习以找到x,y的关系。</p>
-<h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>导入必要的包。首先这个例子需要用到的库使<code>tensorflow</code>和<code>numpy</code>，因此第一步应该先导入这些库。为了简单起见，用tf和np这样的缩写来表示。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure></p>
-<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><p>创建数据集。其次是创建数据集，这里具体指的是生成x点和y点。如果在其他项目比如学习手写数字识别，那么数据集就应该是图片和标签。这里使用<code>np.random.rand(个数)</code>函数生成随机数值,同时可以用<code>astype(数据类型)</code> 来指定生成随机数的类型。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x_data = np.random.rand(<span class="number">100</span>).astype(np.float32);</div><div class="line">y_data = x_data*<span class="number">0.1</span>+<span class="number">0.3</span></div></pre></td></tr></table></figure></p>
-<h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>第三部是定义结构。这部分开始涉及tensorflow了。通常使用tensorflow有两部分，一部分是<strong>定义结构</strong>，另一部分是<strong>运行</strong>。在这个例子里，首先定义一个Weights和biases变量，这个就是机器要通过学习来改良的数学模型，也就是<code>y= Weights*x+biases</code>。起初，机器是不知道Weights应该是0.1，biases应该是0.3的，但总得有一个值。因此定义结构就是<strong>初始化</strong>一些机器<strong>需要通过学习来改变的参数</strong>。</p>
-<p>我们使用tensorflow自带的<code>Variable(初始值)</code>函数来创建变量。注意，这里使用两种不同的方式来初始化Variable。第一个是采用<code>random_uniform()</code>函数进行初始化，<code>[1]</code>表示一维，<code>-1.0</code>和<code>1.0</code>表示范围。第二个是采用<code>zeros()</code>函数生成的零作为初始值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Weights = tf.Variable(tf.random_uniform([<span class="number">1</span>], <span class="number">-1.0</span>, <span class="number">1.0</span>))</div><div class="line">biases = tf.Variable(tf.zeros([<span class="number">1</span>]))</div></pre></td></tr></table></figure>
-<p>同时我们需要定义预测值和偏差值，也就是<code>y</code>和<code>loss</code>。y的表达式在上面已经解释过，至于偏差值<code>loss</code>的定义这里采用预测值和真实值的差的平方取平均值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">y = Weights*x_data+biases</div><div class="line">loss = tf.reduce_mean(tf.square(y-y_data))</div></pre></td></tr></table></figure></p>
-<p>此外，我们需要定义一个优化器，这里使用的优化器是梯度下降<code>GradientDescentOptimizer(学习效率)</code>，学习效率一般是小于1的值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">optimizer = tf.train.GradientDescentOptimizer(<span class="number">0.5</span>)</div><div class="line">train = optimizer.minimize(loss)</div></pre></td></tr></table></figure></p>
-<p>最后我们需要初始化所有我们定义的变量，存入init里。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init = tf.initialize_all_variables()</div></pre></td></tr></table></figure></p>
-<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><p>开始执行学习</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sess = tf.Session()</div><div class="line">sess.run(init)</div><div class="line"></div><div class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</div><div class="line">    sess.run(train)</div><div class="line">    <span class="keyword">if</span> step % <span class="number">20</span> ==<span class="number">0</span> :</div><div class="line">        <span class="keyword">print</span> (step, sess.run(Weights), sess.run(biases))</div></pre></td></tr></table></figure>
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>以下是打印在控制台console上面的信息，第一个数值当前已训练的次数，第二个数值是学习到的Weights值（以及它的数据类型），第三个是biases的值（以及它的数据类型）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">(0, array([ 0.25665027], dtype=float32), array([ 0.29376262], dtype=float32))</div><div class="line">(20, array([ 0.12604944], dtype=float32), array([ 0.28607407], dtype=float32))</div><div class="line">(40, array([ 0.10545368], dtype=float32), array([ 0.29708451], dtype=float32))</div><div class="line">(60, array([ 0.10114178], dtype=float32), array([ 0.29938963], dtype=float32))</div><div class="line">(80, array([ 0.10023905], dtype=float32), array([ 0.29987222], dtype=float32))</div><div class="line">(100, array([ 0.10005005], dtype=float32), array([ 0.29997325], dtype=float32))</div><div class="line">(120, array([ 0.10001048], dtype=float32), array([ 0.29999441], dtype=float32))</div><div class="line">(140, array([ 0.10000221], dtype=float32), array([ 0.29999885], dtype=float32))</div><div class="line">(160, array([ 0.10000046], dtype=float32), array([ 0.29999977], dtype=float32))</div><div class="line">(180, array([ 0.1000001], dtype=float32), array([ 0.29999995], dtype=float32))</div><div class="line">(200, array([ 0.1000001], dtype=float32), array([ 0.29999995], dtype=float32))</div><div class="line"></div><div class="line">Process finished with exit code 0</div></pre></td></tr></table></figure></p>
-<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p><a href="https://github.com/LISHITING/Tensorflow_notes/blob/master/example1.py" target="_blank" rel="external">https://github.com/LISHITING/Tensorflow_notes/blob/master/example1.py</a> </p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">评论</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/01/01/Bonjour-2017/"><span>Bonjour 2017</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/01/01/Bonjour-2017/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-01-01T00:04:19.000Z">
-          2017-01-01
+      <a href="/2017/01/28/Bonjour-2017/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-28T00:04:19.000Z">
+          2017-01-28
         </time>
       </a>
     </span>
@@ -508,7 +159,356 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2017/01/01/Bonjour-2017/#comment">评论</a>
+          <a href="2017/01/28/Bonjour-2017/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/01/27/数据库中的mapping关系/"><span>数据库中的mapping关系</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/27/数据库中的mapping关系/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-27T09:55:14.000Z">
+          2017-01-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Parent-child-Model"><a href="#Parent-child-Model" class="headerlink" title="Parent-child Model"></a>Parent-child Model</h1><p>Parent-child Model是数据库模型的一种，描述记录与记录之间存在着<strong>层级</strong>的关系。如下表创建一个雇员关系表，<code>emp</code>代表雇员，<code>boss</code>则代表该雇员的上级。这样的一个表就是父子关系:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp_orgchart (</div><div class="line">	emp <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	boss <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</div><div class="line">	salary <span class="built_in">DECIMAL</span>(<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<p>在层级关系里涉及的增删改查也有特殊的技巧，首先是寻找根节点和叶子结点。因为根节点的上级肯定是一个空值，所以我们可以这样做：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp_orgchart </div><div class="line"><span class="keyword">WHERE</span> boss <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure>
+<p>至于搜索叶子结点，则是找到所有上级为根节点的结点<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> e1.* <span class="keyword">FROM</span> emp_orgchart <span class="keyword">AS</span> e1</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> emp_orgchart <span class="keyword">AS</span> e2 </div><div class="line"><span class="keyword">ON</span> e1.emp = e2.boss</div><div class="line"><span class="keyword">WHERE</span> e2.emp <span class="keyword">IS</span> <span class="literal">NULL</span></div></pre></td></tr></table></figure></p>
+<p>关于更新操作，如果更新了其中一个雇员的名字，必须更新跟这个雇员有关系的其他记录。例如有一个雇员C改名为C1，其他原来是以C为上级的其他人也要更新自己上级的记录为C1。这里涉及两次更新，所以需要采用<code>TRANSACTION</code>来保证一致性：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> emp = <span class="string">'C1'</span> <span class="keyword">WHERE</span> emp = <span class="string">'C'</span></div><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> boss = <span class="string">'C1'</span> <span class="keyword">WHERE</span> boss = <span class="string">'C'</span></div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure></p>
+<p>当然还有另一种方式,相当于遍历整个表，把全部C改为C1：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">UPDATE</span> emp_orgchart <span class="keyword">SET</span> </div><div class="line">emp = <span class="keyword">CASE</span> emp <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> emp <span class="keyword">END</span></div><div class="line">boss = <span class="keyword">CASE</span> boss <span class="keyword">WHEN</span> <span class="string">'C'</span> <span class="keyword">THEN</span> <span class="string">'C1'</span> <span class="keyword">ELSE</span> boss <span class="keyword">END</span></div><div class="line"><span class="keyword">WHERE</span> <span class="string">'C'</span> <span class="keyword">IN</span> (emp, boss);</div></pre></td></tr></table></figure></p>
+<p>插入记录,第一种是出现互相为上级的关系，第二种是自身为上级的关系<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'G'</span>, <span class="string">'H'</span>),(<span class="string">'H'</span>, <span class="string">'G'</span>);</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> emp_orgchart (temp,boss) <span class="keyword">VALUES</span></div><div class="line">(<span class="string">'M'</span>,<span class="string">'M'</span>);</div></pre></td></tr></table></figure></p>
+<p>删除操作，因为结点之间存在着依赖关系，如果删除的结点是其他结点的父节点，需要考虑三种情况：1）删除该节点和其所有子结点；2）删除该节点，子结点的层级全部移上一层；3）删除该节点，选择其一个子结点替代该节点的位置。如果仅仅采用<code>DELETE FROM emp_orgchart WHERE emp = &#39;C&#39;</code>，将会造成关系组织图的不完整：</p>
+<p>最后，重新考虑回创建表，将会有以下的限制条件：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp(</div><div class="line">	<span class="keyword">id</span> <span class="built_in">INTEGER</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> PRIMARY <span class="keyword">KEY</span>,</div><div class="line">	<span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">	salary <span class="built_in">DECIMAL</span> (<span class="number">6</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span> (salary &gt;=<span class="number">0.00</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orgchart (</div><div class="line">	emp_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="comment">--空的</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>) </div><div class="line">		<span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">SET</span> <span class="keyword">DEFAULT</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>,</div><div class="line">	boss_id <span class="built_in">INTEGER</span>  <span class="comment">-- NULL表示根节点</span></div><div class="line">		<span class="keyword">REFERENCES</span> emp(<span class="keyword">id</span>),</div><div class="line">...</div><div class="line">)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 不能自己是自己的boss</span></div><div class="line"><span class="keyword">CHECK</span> ((boss_id &lt;&gt; emp_id) <span class="keyword">OR</span> (boss_id = <span class="number">0</span> <span class="keyword">AND</span> emp_id = <span class="number">0</span>))</div><div class="line"><span class="comment">-- 避免很长的圈</span></div><div class="line"><span class="keyword">UNIQUE</span> (emp_id, boss_id),</div><div class="line"><span class="comment">-- 连接图：边数edges = 节点数nodes -1</span></div><div class="line"><span class="keyword">CHECK</span> ((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart) - <span class="number">1</span> = </div><div class="line">      (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(boss_id) <span class="keyword">FROM</span> orgchart))</div><div class="line"><span class="comment">-- 确保只有一个根节点</span></div><div class="line"><span class="keyword">CHECK</span>((<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> orgchart <span class="keyword">WHERE</span> boss_id <span class="keyword">IS</span> <span class="literal">NULL</span>) = <span class="number">1</span>)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/27/数据库中的mapping关系/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/01/21/理解MNIST-数据集/"><span>理解MNIST 数据集</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/21/理解MNIST-数据集/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-21T11:54:40.000Z">
+          2017-01-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在CNN机器学习中，数据集是十分重要的。在入门初期可以使用官方网站教程里的代码和对应的经典数据集MNIST。但当涉及到如何使用自己的数据集时，就必须进一步理解数据集的结构，以便于导入到自己创建的神经网络里。在教程的代码开头有一行是导入数据集的：<code>mnist = input_data.read_data_sets(&#39;MNIST_data&#39;, one_hot=True)</code>, 在完成导入数据集之后，就可以轻松地使用这个数据集进行机器学习的操作了。<code>batch_xs, batch_ys = mnist.train.next_batch(100)</code>。第二行代码是调用MNIST的一个方法提取数据集存入两个变量里，一个是batch_xs， 另外一个是batch_ys。 </p>
+<p>batch_xs和batch_ys均是一个ndarray类型，并且这个batch的长度就是数据集的条目的数量。比如上述代码<code>next_batch(100)</code>就是提取出100张图片和对应的100个标签。</p>
+<h2 id="batch-xs"><a href="#batch-xs" class="headerlink" title="batch_xs"></a>batch_xs</h2><p>在batch_xs这个ndarray里，每一条记录又是一个ndarray，也就说这个batch_xs是一个嵌套两层的数组。这个子数组代表以矩阵形式表示的图片，不过这个矩阵被“拉长”成一位数组，所以数组的长度就是图片的像素的个数。对于28X28的图片来说，像素个数位784，所以<code>len(batch_xs[i])</code>的值为784。</p>
+<p>因为手写识别的图片是黑白的，至于RGB的数据集，将会有三个数组代表三个通道，每个数组也会是图片的像素个数总和。具体可以参考CIFRA10的数据集。</p>
+<h2 id="batch-ys"><a href="#batch-ys" class="headerlink" title="batch_ys"></a>batch_ys</h2><p>至于batch_ys，它也是一个跟batch_xs同长度的ndarray,因为每一个图片都对应一个标签（label）。在这个ndarray里每一个元素也是一个ndarray，这个ndarray的长度时标签类别数的总数。比如有10个类别，那这个子nadarray的长度就是10。并且它有另外一个名称叫做<strong>one hot vector</strong>。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/21/理解MNIST-数据集/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/01/15/Tensorflow-学习笔记-3/"><span>Tensorflow 学习笔记 3</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/15/Tensorflow-学习笔记-3/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-15T22:05:50.000Z">
+          2017-01-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Tensorflow的Placeholder"><a href="#Tensorflow的Placeholder" class="headerlink" title="Tensorflow的Placeholder"></a>Tensorflow的Placeholder</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">input1 = tf.placeholder(tf.float32)</div><div class="line">input2 = tf.placeholder(tf.float32)</div><div class="line"></div><div class="line">ouput = tf.mul(input1, input2)</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    <span class="keyword">print</span> (sess.run(ouput, feed_dict=&#123;input1: [<span class="number">3.</span>], input2: [<span class="number">5.</span>]&#125;))</div></pre></td></tr></table></figure>
+<p><strong>to be continued </strong></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/15/Tensorflow-学习笔记-3/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/01/15/Tensorflow-学习笔记-2/"><span>Tensorflow 学习笔记 2</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/15/Tensorflow-学习笔记-2/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-15T19:10:34.000Z">
+          2017-01-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Tensorflow的会话"><a href="#Tensorflow的会话" class="headerlink" title="Tensorflow的会话"></a>Tensorflow的会话</h1><p>Tensorflow的会话（session）是Tensorflow项目的一部分。会话的作用就是告诉Tensorflow开始做事直到结束。会话之前通常是各种结构的定义，比如定义好需要操作的变量，定义好需要执行的操作。<br>下面来一个例子，用Tensorflow做一个矩阵相乘，思路如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div></pre></td></tr></table></figure></p>
+<p>具体代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment"># 定义好两个要相乘的矩阵</span></div><div class="line">matrix1 = tf.constant([[<span class="number">3</span>, <span class="number">3</span>]])</div><div class="line">matrix2 = tf.constant([[<span class="number">2</span>], [<span class="number">2</span>]])</div><div class="line"><span class="comment"># 定义好“乘”这个操作(op)</span></div><div class="line">product = tf.matmul(matrix1, matrix2)</div><div class="line"><span class="comment"># 会话开始=&gt;相乘，得到结果，打印结果=&gt;会话关闭</span></div><div class="line">sess = tf.Session()</div><div class="line">result = sess.run(product)</div><div class="line"><span class="keyword">print</span> (result)</div><div class="line">sess.close()</div></pre></td></tr></table></figure></p>
+<p>此外，还有一种更为<em>优雅</em>的会话开启执行和结束的写法，那就是用<code>with</code>的结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">... </span><span class="comment"># 同上</span></div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    result = sess.run(product)</div><div class="line">    <span class="keyword">print</span> (result)</div></pre></td></tr></table></figure></p>
+<h1 id="Tensorflow的变量"><a href="#Tensorflow的变量" class="headerlink" title="Tensorflow的变量"></a>Tensorflow的变量</h1><p>Tensorflow 里的变量与python原生的变量不太一样。它是使用Tensorflow的Variable构造方法构造的一个Variable类的一个实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># IPython交互环境下</span></div><div class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line">In [<span class="number">2</span>]: v1 = tf.Variable(<span class="number">1</span>)</div><div class="line">In [<span class="number">3</span>]: type(v1)</div><div class="line">Out[<span class="number">3</span>]: tensorflow.python.ops.variables.Variable</div></pre></td></tr></table></figure></p>
+<p>创建Tensorflow的变量采用<code>Variable()</code>方法，传入具体的数值就可以创建变量。同理，创建常量可以用<code>constant()</code>。注意constant无需大写，归其原因是<code>constant()</code>是一个函数，而<code>Variable()</code>是一个类的构造方法。下面一个例子是循环输出1～5的数，首项是一个变量，等差数列的差是一个常数，这里是1。为了使得每次都能加一，定义一个<code>update</code>操作。在变量定义完以后，开始会话以前，需要初始化变量，也就是调用tensorflow的<code>initialize_all_variables()</code> 函数。调用后在开始会话的第一件事就是要<code>run</code>一下这个函数。如果没有初始化这一步会抛出一个<code>Attempting to use uninitialized value Variable</code>的错误。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line">state = tf.Variable(<span class="number">0</span>)</div><div class="line">one = tf.constant(<span class="number">1</span>)</div><div class="line"></div><div class="line">update = tf.assign(state, tf.add(state, one))</div><div class="line"></div><div class="line">init = tf.initialize_all_variables()</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</div><div class="line">    sess.run(init)</div><div class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">        sess.run(update)</div><div class="line">        <span class="keyword">print</span> (sess.run(state))</div></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="关于run-函数"><a href="#关于run-函数" class="headerlink" title="关于run()函数"></a>关于run()函数</h4><p>此方法运行TensorFlow计算的一个“步骤”，通过运行必要的图片段来执行每个“操作”，并在“fetches”中计算每个“Tensor”，用feed_dict中的值替换相应的输入值。<br><code>fetches</code>参数可以是单个图形元素，也可以是任意嵌套的列表，元组，namedtuple或在其叶子处包含图形元素的dict。图形元素可以是以下类型之一：</p>
+<ul>
+<li>一个<a href="../../api_docs/python/framework.md#Operation"><code>Operation</code></a>：相应的获取值将为“无”。</li>
+<li>一个<a href="../../api_docs/python/framework.md#Tensor"><code>Tensor</code></a>.：相应的获取的值将是一个包含该张量值的numpy ndarray。</li>
+<li>一个 <a href="../../api_docs/python/sparse_ops.md#SparseTensor"><code>SparseTensor</code></a>：相应的获取值将是包含该稀疏张量的值的<a href="../../api_docs/python/sparse_ops.md#SparseTensorValue"><code>SparseTensorValue</code></a>。</li>
+<li><code>get_tensor_handle</code> 的op。相应的获取的值将是包含该张量的句柄的numpy ndarray。<br>一个`string’，它是图中张量或操作的名称。</li>
+</ul>
+<p><code>run()</code>返回的值与<code>fetches</code>参数的形状相同，其中叶被TensorFlow返回的相应值替换。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/15/Tensorflow-学习笔记-2/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/01/10/Tensorflow-学习笔记-1/"><span>Tensorflow 学习笔记 1</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/01/10/Tensorflow-学习笔记-1/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-01-10T10:53:15.000Z">
+          2017-01-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Tensorflow-安装"><a href="#Tensorflow-安装" class="headerlink" title="Tensorflow 安装"></a>Tensorflow 安装</h1><p>关于<code>tensorflow</code>的安装可以有多种多样：通过不同的版本控制器下载安装，安装CPU版本或者GPU版本，本地安装或者<code>docker</code>安装等等。GPU版本的安装会比CPU版本的稍复杂并且会有一定显卡硬件的限制，好处就是学习的计算过程会更加快，尤其在处理图像相关的学习。出于入门目的，最简单的配置就是通过<code>pip</code>直接安装CPU版本的<code>tensorflow</code>。<br>首先安装一下<code>pip</code>。<code>easy_install</code>也是一个安装管理器，python自带的。可以先通过它安装<code>pip</code>，再用<code>pip</code>安装以后千千万万的库。同时安装并升级<code>six</code>模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo easy_install pip</div><div class="line">$ sudo easy_install --upgrade six</div></pre></td></tr></table></figure></p>
+<p>在<code>pip</code>安装完成功后安装<code>tensorflow</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install tensorflow</div></pre></td></tr></table></figure></p>
+<p>如果安装失败可能是版本问题，在官方网站的<a href="https://www.tensorflow.org/get_started/os_setup" target="_blank" rel="external">下载安装页面</a>找到特定的版本（特定的操作系统+特定的python+cpu/gpu）来安装。比如以2.7版本python，在mac系统上安装cpu版本，可以依次执行下面命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Mac OS X, CPU only, Python 2.7:</span></div><div class="line">$ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow<span class="number">-0.12</span><span class="number">.1</span>-py2-none-any.whl</div><div class="line"><span class="comment"># Python 2</span></div><div class="line">$ sudo pip install --upgrade $TF_BINARY_URL</div></pre></td></tr></table></figure></p>
+<h1 id="Tensorflow-简单例子"><a href="#Tensorflow-简单例子" class="headerlink" title="Tensorflow 简单例子"></a>Tensorflow 简单例子</h1><p>预备：配有python的机器，安装<code>tensorflow</code>和<code>numpy</code>库<br>目的是用神经网络通过一系列点预测出线性的曲线，也就是确定y=ax+b中的a和b的值。</p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>先建立一个模型<code>y=0.1x+0.3</code>，这就是我们要求的理想的回归模型。同时我们通过随机给出一些点，让机器学习以找到x,y的关系。</p>
+<h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>导入必要的包。首先这个例子需要用到的库使<code>tensorflow</code>和<code>numpy</code>，因此第一步应该先导入这些库。为了简单起见，用tf和np这样的缩写来表示。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div></pre></td></tr></table></figure></p>
+<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><p>创建数据集。其次是创建数据集，这里具体指的是生成x点和y点。如果在其他项目比如学习手写数字识别，那么数据集就应该是图片和标签。这里使用<code>np.random.rand(个数)</code>函数生成随机数值,同时可以用<code>astype(数据类型)</code> 来指定生成随机数的类型。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x_data = np.random.rand(<span class="number">100</span>).astype(np.float32);</div><div class="line">y_data = x_data*<span class="number">0.1</span>+<span class="number">0.3</span></div></pre></td></tr></table></figure></p>
+<h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>第三部是定义结构。这部分开始涉及tensorflow了。通常使用tensorflow有两部分，一部分是<strong>定义结构</strong>，另一部分是<strong>运行</strong>。在这个例子里，首先定义一个Weights和biases变量，这个就是机器要通过学习来改良的数学模型，也就是<code>y= Weights*x+biases</code>。起初，机器是不知道Weights应该是0.1，biases应该是0.3的，但总得有一个值。因此定义结构就是<strong>初始化</strong>一些机器<strong>需要通过学习来改变的参数</strong>。</p>
+<p>我们使用tensorflow自带的<code>Variable(初始值)</code>函数来创建变量。注意，这里使用两种不同的方式来初始化Variable。第一个是采用<code>random_uniform()</code>函数进行初始化，<code>[1]</code>表示一维，<code>-1.0</code>和<code>1.0</code>表示范围。第二个是采用<code>zeros()</code>函数生成的零作为初始值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Weights = tf.Variable(tf.random_uniform([<span class="number">1</span>], <span class="number">-1.0</span>, <span class="number">1.0</span>))</div><div class="line">biases = tf.Variable(tf.zeros([<span class="number">1</span>]))</div></pre></td></tr></table></figure>
+<p>同时我们需要定义预测值和偏差值，也就是<code>y</code>和<code>loss</code>。y的表达式在上面已经解释过，至于偏差值<code>loss</code>的定义这里采用预测值和真实值的差的平方取平均值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">y = Weights*x_data+biases</div><div class="line">loss = tf.reduce_mean(tf.square(y-y_data))</div></pre></td></tr></table></figure></p>
+<p>此外，我们需要定义一个优化器，这里使用的优化器是梯度下降<code>GradientDescentOptimizer(学习效率)</code>，学习效率一般是小于1的值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">optimizer = tf.train.GradientDescentOptimizer(<span class="number">0.5</span>)</div><div class="line">train = optimizer.minimize(loss)</div></pre></td></tr></table></figure></p>
+<p>最后我们需要初始化所有我们定义的变量，存入init里。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init = tf.initialize_all_variables()</div></pre></td></tr></table></figure></p>
+<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><p>开始执行学习</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sess = tf.Session()</div><div class="line">sess.run(init)</div><div class="line"></div><div class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</div><div class="line">    sess.run(train)</div><div class="line">    <span class="keyword">if</span> step % <span class="number">20</span> ==<span class="number">0</span> :</div><div class="line">        <span class="keyword">print</span> (step, sess.run(Weights), sess.run(biases))</div></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>以下是打印在控制台console上面的信息，第一个数值当前已训练的次数，第二个数值是学习到的Weights值（以及它的数据类型），第三个是biases的值（以及它的数据类型）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">(0, array([ 0.25665027], dtype=float32), array([ 0.29376262], dtype=float32))</div><div class="line">(20, array([ 0.12604944], dtype=float32), array([ 0.28607407], dtype=float32))</div><div class="line">(40, array([ 0.10545368], dtype=float32), array([ 0.29708451], dtype=float32))</div><div class="line">(60, array([ 0.10114178], dtype=float32), array([ 0.29938963], dtype=float32))</div><div class="line">(80, array([ 0.10023905], dtype=float32), array([ 0.29987222], dtype=float32))</div><div class="line">(100, array([ 0.10005005], dtype=float32), array([ 0.29997325], dtype=float32))</div><div class="line">(120, array([ 0.10001048], dtype=float32), array([ 0.29999441], dtype=float32))</div><div class="line">(140, array([ 0.10000221], dtype=float32), array([ 0.29999885], dtype=float32))</div><div class="line">(160, array([ 0.10000046], dtype=float32), array([ 0.29999977], dtype=float32))</div><div class="line">(180, array([ 0.1000001], dtype=float32), array([ 0.29999995], dtype=float32))</div><div class="line">(200, array([ 0.1000001], dtype=float32), array([ 0.29999995], dtype=float32))</div><div class="line"></div><div class="line">Process finished with exit code 0</div></pre></td></tr></table></figure></p>
+<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p><a href="https://github.com/LISHITING/Tensorflow_notes/blob/master/example1.py" target="_blank" rel="external">https://github.com/LISHITING/Tensorflow_notes/blob/master/example1.py</a> </p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/code/">code</a><a href="/tags/python/">python</a><a href="/tags/tensorflow/">tensorflow</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="2017/01/10/Tensorflow-学习笔记-1/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -581,7 +581,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">评论</a>
+          <a href="2016/12/09/Access-Control-Allow-Origin-问题/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -668,7 +668,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">评论</a>
+          <a href="2016/12/08/Build-PHP-in-sublime-Text-3/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -739,7 +739,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">评论</a>
+          <a href="2016/12/01/Amazon-Web-Service-AWS-1-注册/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -810,7 +810,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="2016/11/27/React-native/#comment">评论</a>
+          <a href="2016/11/27/React-native/#comment">Comments</a>
         </span>
       </span>
     </div>
@@ -824,7 +824,7 @@
 <nav class="pagination">
   
   
-  <a href="/page/2/" class="pagination-next">下一页</a>
+  <a href="/page/2/" class="pagination-next">Next</a>
   
 </nav>
     </main>

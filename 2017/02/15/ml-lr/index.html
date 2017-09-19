@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="机器学习,监督学习,算法," />
 
 
 
@@ -93,14 +93,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="从线性模型到广义线性模型如果有一组点，其分布比较符合用一条直线$y = w_0+w_1x$去描述，则这条直线就是一个线性模型。扩展到高纬度，比如三维空间中的点比较符合用一个平面$y = w_0 + w_1x_1 + w_2x_2$去描述，则这个平面也是一个线性模型。注意这里$x_1$和$x_2$是两个不同维度的取值。继续扩展到无法想象的更高维，我们可以用$y = w_0 + w_1x_1 + w_">
+<meta name="keywords" content="机器学习,监督学习,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记-逻辑回归">
+<meta property="og:url" content="http://yoursite.com/2017/02/15/ml-lr/index.html">
 <meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="从线性模型到广义线性模型如果有一组点，其分布比较符合用一条直线$y = w_0+w_1x$去描述，则这条直线就是一个线性模型。扩展到高纬度，比如三维空间中的点比较符合用一个平面$y = w_0 + w_1x_1 + w_2x_2$去描述，则这个平面也是一个线性模型。注意这里$x_1$和$x_2$是两个不同维度的取值。继续扩展到无法想象的更高维，我们可以用$y = w_0 + w_1x_1 + w_">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-29T18:28:55.000Z">
+<meta property="og:updated_time" content="2017-08-14T16:28:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="机器学习笔记-逻辑回归">
+<meta name="twitter:description" content="从线性模型到广义线性模型如果有一组点，其分布比较符合用一条直线$y = w_0+w_1x$去描述，则这条直线就是一个线性模型。扩展到高纬度，比如三维空间中的点比较符合用一个平面$y = w_0 + w_1x_1 + w_2x_2$去描述，则这个平面也是一个线性模型。注意这里$x_1$和$x_2$是两个不同维度的取值。继续扩展到无法想象的更高维，我们可以用$y = w_0 + w_1x_1 + w_">
 
 
 
@@ -128,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/15/ml-lr/"/>
 
 
 
 
 
-  <title>tags | 黎诗霆</title>
+  <title>机器学习笔记-逻辑回归 | 黎诗霆</title>
   
 
 
@@ -264,25 +268,179 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/15/ml-lr/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo LI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎诗霆">
+    </span>
 
     
-    
-      <div class="tag-cloud">
-        <div class="tag-cloud-title">
-            目前共计 9 个标签
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习笔记-逻辑回归</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-15T08:12:43+08:00">
+                2017-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/基础算法/" style="font-size: 12px; color: #ccc">基础算法</a> <a href="/tags/数据库/" style="font-size: 12px; color: #ccc">数据库</a> <a href="/tags/机器学习/" style="font-size: 30px; color: #111">机器学习</a> <a href="/tags/深度学习/" style="font-size: 12px; color: #ccc">深度学习</a> <a href="/tags/监督学习/" style="font-size: 30px; color: #111">监督学习</a> <a href="/tags/算法/" style="font-size: 21px; color: #6f6f6f">算法</a>
-        </div>
-      </div>
+      </header>
     
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="从线性模型到广义线性模型"><a href="#从线性模型到广义线性模型" class="headerlink" title="从线性模型到广义线性模型"></a>从线性模型到广义线性模型</h1><p>如果有一组点，其分布比较符合用一条直线$y = w_0+w_1x$去描述，则这条直线就是一个线性模型。扩展到高纬度，比如三维空间中的点比较符合用一个平面$y = w_0 + w_1x_1 + w_2x_2$去描述，则这个平面也是一个线性模型。注意这里$x_1$和$x_2$是两个不同维度的取值。继续扩展到无法想象的更高维，我们可以用$y = w_0 + w_1x_1 + w_2x_2 + … +w_dx_d$来描述，$d$为维度，或者说特征的个数，这个函数可以称为超平面，也是一个线性模型。</p>
+<p>重新回到二维情况，如果一些点不方便用一条直线去描述，这些点的值取对数以后倒很方便用直线去描述，那我们可以考虑$\ln y = w_0+w_1x$这样的方程来描述，经变换后可以是$y = e^{w_0+w_1x}$。显然这个不是直观理解的直线，但因为可以通过嵌套一个函数达到用输入的线性组合拟合输出目的，因此这也是线性模型，并且是广义的线性模型。扩展到高维则有$y = e^{w_0 + w_1x_1 + w_2x_2 + … +w_dx_d}$。</p>
+<p>通常情况下可以用矩阵的方式描述这种线性相加的公式，目的就是看起来更简洁。令$W = (w_0, w_1, … ,w_d) $, $X = (x_0, x_1, …, x_d)$，则有$W^TX =w_0x_0 + w_1x_1 + w_2x_2 + … +w_dx_d$。这里的$x_0$是人为添加上去的，通常令其为$0$，以方便组合成一个矩阵乘法的形式。</p>
+<h1 id="广义线性模型和逻辑回归"><a href="#广义线性模型和逻辑回归" class="headerlink" title="广义线性模型和逻辑回归"></a>广义线性模型和逻辑回归</h1><p>逻辑回归通常用于处理分类问题，下面以二分类为例。<br>$\ln odds = w_0x_0 + w_1x_1 + w_2x_2 + … +w_dx_d = W^TX$<br>由上面可以看出对数几率是一个关于输入的广义线性模型。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/监督学习/" rel="tag"># 监督学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/28/Bonjour-2017/" rel="next" title="Bonjour 2017">
+                <i class="fa fa-chevron-left"></i> Bonjour 2017
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/15/ml-ensemble/" rel="prev" title="关于机器学习的集成算法">
+                关于机器学习的集成算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -291,6 +449,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -311,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.png"
@@ -374,6 +545,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从线性模型到广义线性模型"><span class="nav-number">1.</span> <span class="nav-text">从线性模型到广义线性模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广义线性模型和逻辑回归"><span class="nav-number">2.</span> <span class="nav-text">广义线性模型和逻辑回归</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -487,10 +674,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

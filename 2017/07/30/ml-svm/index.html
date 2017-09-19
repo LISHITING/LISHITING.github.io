@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习,监督学习,算法," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/./uploads/favicon.png?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
+<meta name="keywords" content="机器学习,监督学习,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记-SVM">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/ml-svm/index.html">
+<meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-14T08:17:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习笔记-SVM">
+<meta name="twitter:description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/30/ml-svm/"/>
+
+
+
+
+
+  <title>机器学习笔记-SVM | 黎诗霆</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎诗霆</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/ml-svm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo LI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎诗霆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习笔记-SVM</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T08:12:43+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。</p>
+<h1 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h1><h2 id="样本点的表示"><a href="#样本点的表示" class="headerlink" title="样本点的表示"></a>样本点的表示</h2><p>设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。<br>其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。<br>每个样本的标签取值为 $y_i = \pm 1$，$+1$ 表示属于该标签，$-1$表示不属于</p>
+<h2 id="超平面的表示"><a href="#超平面的表示" class="headerlink" title="超平面的表示"></a>超平面的表示</h2><p>设存在d维的超平面:$ w_1x_1+w_2x_2 + …w_dx_d + b = 0 $<br>令$W = (w_1,w_2…w_d)$<br>超平面方程可以写成:<br>$$<br>W^TX + b = 0<br>\tag{1.1}<br>$$<br>$W$为超平面的法向量，b为超平面的位移。<br>特殊地，当d=2时超平面是一条直线： $w_1x_1 + w_2x_2 + b = 0$ 斜率$-\cfrac{w_1}{w_2}$,截距$-\cfrac{b}{w_2}$</p>
+<h2 id="正确分类的表示"><a href="#正确分类的表示" class="headerlink" title="正确分类的表示"></a>正确分类的表示</h2><p>如果一个样本$(X_i, y_i)$正确分类，则必有：<br>$$<br>\begin{cases}<br>W^TX_i+b \ge + 1 , y_i= + 1 \\<br>W^TX_i+b \le - 1 , y_i= - 1<br>\end{cases}<br>\tag{1.4}<br>$$<br>也就是如果超平面能正确分类样本点，则当样本点$Y_i = +1$时，代入$X_i$到超平面方程后得到的值是大于 $+1$ 的，反之当样本点$Y_i = -1$时，代入$X_i$到超平面方程后得到的值是小于 $-1$ 的。注意到$Y_i$的取值仅仅是符号的作用，所以可以把式(1.4)简化为：<br>$$<br>y_i (W^TX_i+b) \ge 1<br>\tag{1.5}<br>$$</p>
+<h2 id="样本点到超平面的距离"><a href="#样本点到超平面的距离" class="headerlink" title="样本点到超平面的距离"></a>样本点到超平面的距离</h2><p>一个点 $X =(x_1, x_2,…, x_d)$到超平面的距离可表示为<br>$$<br>d = \cfrac{\vert w_1x_1+w_2x_2 + …w_dx_d + b \vert}{\sqrt{w_1^2+w_2^2 + .. w_d^2}}<br>\tag{1.2}<br>$$</p>
+<p>用矩阵的形式表示W和X，同时用 $\Vert w \Vert$ 表示 $ \sqrt{w_1^2+w_2^2 + .. w_d^2} $, 则式$（1.2）$ 可以写成：<br>$$<br>d = \cfrac{\vert W^TX \vert}{\Vert w \Vert}<br>\tag{1.3}<br>$$</p>
+<h2 id="目标函数的确立"><a href="#目标函数的确立" class="headerlink" title="目标函数的确立"></a>目标函数的确立</h2><p>当样本集严格线性可分时，存在不止一种$W$和$b$的组合满足上式。因此必须找出<strong>最优</strong>的超平面来分割。设$y_i = +1$ 的样本为<strong>正样本</strong>,$y_i = -1$ 的样本为<strong>负样本</strong>， 则最优的定义就是离超平面最近的正样本和负样本的距离都最大。设<strong>间隔</strong>为离超平面最近的正样本和负样本的距离之和，则目标就是找出一组$W$和$b$使得间隔的值最大。<br>设经过最近正样本的超平面为$W^TX+b=1$ 也即$W^TX+b-1=0$, 经过最近负样本的超平面为$W^TX+b +1 = 0 $。由于$W$相等故两直线平行，间隔为两平行线的距离：<br>$$<br>d = \cfrac{\vert (b-1) - (b+1) \vert}{\Vert w \Vert}<br>  =  \cfrac{2}{\Vert w \Vert}<br>\tag{1.6}<br>$$<br>由于最大化$\cfrac{2}{\Vert w \Vert}$比较难计算，因此转化成最小化$\cfrac{1}{2}\Vert w \Vert^2$</p>
+<p>因为我们要在正确分类的前提下求间隔的最大值，也就是结合式(1.5)和(1.6）转化成一个在一定约束条件下的规划问题(1.7)。<br>$$<br>\begin{cases}<br>\min\limits_{W, b} \cfrac{1}{2}\Vert w \Vert^2  \\<br>\text{subject to: }  y_i (W^TX_i+b)\ge 1 , i = 1,2,3..m<br>\end{cases}<br>\tag{1.7}<br>$$</p>
+<h2 id="整合约束和目标函数"><a href="#整合约束和目标函数" class="headerlink" title="整合约束和目标函数"></a>整合约束和目标函数</h2><p>在特定约束下求最值时麻烦的，因为不能直接求目标函数最值，然后再去比较是否符合约束。最简单的方式就是引入<em>拉格朗日算子</em>将目标函数和约束整合在一起。设$\alpha$是拉格朗日算子。<br>因为$y_i (W^TX_i+b) \ge 1$ 可写成 $1-y_i (W^TX_i+b) \le 0$,则有</p>
+<p>$$<br>\min \limits_{W, b}  L(W, b, \alpha) = \cfrac{1}{2}\Vert w \Vert^2 + \sum_{i=1}^{m}\alpha_i(1-y_i (W^TX_i+b))<br>\tag{1.8}<br>$$</p>
+<p>原问题转化为一个对$L(W, b, \alpha)$的最大最小值问题。也就是:<br>$$<br>\min \limits_{W, b}<br>(\max\limits_{\alpha}L(W, b, \alpha))<br>\tag{1.9}<br>$$</p>
+<p>由于先求$\alpha$的最值较为困难，所以再转化为</p>
+<p>$$<br>\max \limits_{\alpha}<br>(\min\limits_{W, b}L(W, b, \alpha))<br>\tag{1.10}<br>$$</p>
+<p>对式（1.10）的$W, b$求偏导数得到：<br>$$<br>W = \sum_{i = 1}^{m} \alpha_ix_iy_i<br>\tag{1.11}<br>$$</p>
+<p>$$<br>0 = \sum_{i = 1}^{m} \alpha_iy_i<br>\tag{1.12}<br>$$</p>
+<p>将式(1.11)和(1.12)代回(1.10)可得到仅关于$\alpha$的函数(1.13)：</p>
+<p>$$<br>\max \limits_{\alpha} \sum_{i = 1}^{m} \alpha_i - \cfrac{1}{2}\sum_{i = 1}^{m}\sum_{j = 1}^{m} \alpha_i\alpha_jy_iy_jx_i^Tx_j<br>\tag{1.13}<br>$$</p>
+<p>$$<br>\text{subject to:} \sum_{i = 1}^{m} \alpha_iy_i = 0 且 a_i \ge 0<br>$$</p>
+<p>根据KTT采用SMO算法解出$alpha$然后确定$W$和$b$。由于超平面是由$W$和$b$确定，因此超平面确定，至此模型训练完成。</p>
+<h1 id="从线性可分到不完全线性可分"><a href="#从线性可分到不完全线性可分" class="headerlink" title="从线性可分到不完全线性可分"></a>从线性可分到不完全线性可分</h1><p>为了使某些样本可以不满足约束$y_i (W^TX_i+b)\ge 1$, 引入松弛变量C。于是式(1.8)可以改写成</p>
+<p>$$<br>\min \limits_{W, b}  L(W, b, \alpha) = \cfrac{1}{2}\Vert w \Vert^2 + C*\sum_{i=1}^{m}loss((1-y_i (W^TX_i+b)))<br>\tag{1.8}<br>$$<br>其中$loss()$函数可以有以下选择：</p>
+<ul>
+<li>0/1损失函数：$<br>loss(z) =<br>\begin{cases}<br>1, if z &lt; 0 \\<br>0, otherwise<br>\end{cases}<br>$</li>
+<li>hinge损失函数：$loss(z) = \max (0, 1-z)$</li>
+<li>指数损失函数: $loss(z) = \exp(-z)$</li>
+<li>对率损失函数: $loss(z) = \log(1+\exp(-z))$</li>
+</ul>
+<p>待补充：</p>
+<ul>
+<li>从不完全线性可分到非线性可分</li>
+<li>引入核函数来处理非线性可分</li>
+<li>用SVM做回归分析：SVR</li>
+<li>核方法</li>
+</ul>
+<p>参考：<br>周志华《机器学习》<br>李航《统计学习方法》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/监督学习/" rel="tag"># 监督学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/15/ml-knn/" rel="next" title="机器学习笔记-KNN">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记-KNN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/05/sort/" rel="prev" title="常见排序算法总结">
+                常见排序算法总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Leo LI" />
+          <p class="site-author-name" itemprop="name">Leo LI</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公式推导"><span class="nav-number">2.</span> <span class="nav-text">公式推导</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#样本点的表示"><span class="nav-number">2.1.</span> <span class="nav-text">样本点的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超平面的表示"><span class="nav-number">2.2.</span> <span class="nav-text">超平面的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确分类的表示"><span class="nav-number">2.3.</span> <span class="nav-text">正确分类的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本点到超平面的距离"><span class="nav-number">2.4.</span> <span class="nav-text">样本点到超平面的距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标函数的确立"><span class="nav-number">2.5.</span> <span class="nav-text">目标函数的确立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合约束和目标函数"><span class="nav-number">2.6.</span> <span class="nav-text">整合约束和目标函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从线性可分到不完全线性可分"><span class="nav-number">3.</span> <span class="nav-text">从线性可分到不完全线性可分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo LI</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

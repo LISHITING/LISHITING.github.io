@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习,监督学习,深度学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/./uploads/favicon.png?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="代价函数，或者称为损失函数（loss function）用于衡量系统输出和期望输出的误差大小，通过向着逐步减小代价函数的方向，也就是函数关于参数的梯度的负方向调整参数，我们就减小误差，从而优化模型。一般情况下我们会使用均方差（MSE：Mean Square Error）作为代价函数，因为均方差有很好的几何解释，可以视为欧几里得空间的距离。然而在神经网络中，我们会使用交叉熵（Cross-entrop">
+<meta name="keywords" content="机器学习,监督学习,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习笔记-交叉熵代价函数">
+<meta property="og:url" content="http://yoursite.com/2016/11/05/cross_entropy_loss/index.html">
+<meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="代价函数，或者称为损失函数（loss function）用于衡量系统输出和期望输出的误差大小，通过向着逐步减小代价函数的方向，也就是函数关于参数的梯度的负方向调整参数，我们就减小误差，从而优化模型。一般情况下我们会使用均方差（MSE：Mean Square Error）作为代价函数，因为均方差有很好的几何解释，可以视为欧几里得空间的距离。然而在神经网络中，我们会使用交叉熵（Cross-entrop">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-14T16:58:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习笔记-交叉熵代价函数">
+<meta name="twitter:description" content="代价函数，或者称为损失函数（loss function）用于衡量系统输出和期望输出的误差大小，通过向着逐步减小代价函数的方向，也就是函数关于参数的梯度的负方向调整参数，我们就减小误差，从而优化模型。一般情况下我们会使用均方差（MSE：Mean Square Error）作为代价函数，因为均方差有很好的几何解释，可以视为欧几里得空间的距离。然而在神经网络中，我们会使用交叉熵（Cross-entrop">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/05/cross_entropy_loss/"/>
+
+
+
+
+
+  <title>深度学习笔记-交叉熵代价函数 | 黎诗霆</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎诗霆</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/05/cross_entropy_loss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo LI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎诗霆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习笔记-交叉熵代价函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-05T08:12:43+08:00">
+                2016-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>代价函数，或者称为损失函数（loss function）用于衡量系统输出和期望输出的误差大小，通过向着逐步减小代价函数的方向，也就是函数关于参数的梯度的负方向调整参数，我们就减小误差，从而优化模型。一般情况下我们会使用均方差（MSE：Mean Square Error）作为代价函数，因为均方差有很好的几何解释，可以视为欧几里得空间的距离。然而在神经网络中，我们会使用交叉熵（Cross-entropy）作为代价函数而不使用我们常用的均方差，原因在于神经网络中有一个特殊的部分：$\sigma$激活函数（$\sigma(z) = \sigma(wx+b), z = wx+b$）。实践证明如果使用均方差作为代价函数，在误差大的时候学习得不快，这个与我们的直觉相悖。我们应该认为，误差越大越应该更快地朝优化的方向前进。造成这种现象的原因解释如下：</p>
+<p>设代价函数 $C = \cfrac{(y-a)^2}{2}$ , 其中$a = \sigma(z) = \sigma(wx+b)$ 。学习得不快可以理解为下降的都不大，也就是函数的梯度值不大。现在求一下$C$ 关于$w$ 的偏导数，也就是关于$w$的梯度。根据链式法则有: </p>
+<p>\begin{align}<br>\cfrac{\partial C}{\partial w} &amp;= \cfrac{\partial C}{\partial a}  \cfrac{\partial a}{\partial w}  \\<br>&amp;= (a-y)  \cfrac{\partial \sigma(wx+b)}{\partial w} \\<br>&amp;= (a-y) a’<br>\end{align}</p>
+<p>由此可以看出，下降速度除了和预测与真实值之间的差值有关以外，还乘了一个倍率。这个倍率是$\sigma(wx+b)$ 函数的导数。而由$\sigma(z)$函数图像（如下）可知显然在两端倒数几乎为0，只有在中间部分才很大。这就是问题的根源。</p>
+<p>交叉熵解决这个问题的方式就是构造出一个新的代价函数$C’$， 使得$\cfrac{\partial C’}{\partial w}$ 的表达式$ a’ = \cfrac{\partial \sigma(wx+b)}{\partial w}$ 这一项，也就是不含$sigmoid$ 的导数。构造出来的代价函数为$C’ = y\ln a + (1-y)\ln {(1-a)}$ 。 对$C’$ 求偏导数：</p>
+<p>\begin{align}<br>\cfrac{\partial C’}{\partial w} &amp;= (\cfrac{y}{a} + (-\cfrac{1-y}{1-a})) (\cfrac{\partial \sigma(wx+b)}{\partial w})  \\<br>&amp;=  (\cfrac{y}{a} -\cfrac{1-y}{1-a})  a’<br>\end{align}</p>
+<p>又因为$sigmoid$ 函数的特殊性，我们可以用它本身来表示它的倒数，也就是$a’ = a (1-a) $， 代入上式可得: </p>
+<p>\begin{align}<br>(\cfrac{y}{a} - \cfrac{1-y}{1-a})  a(1-a) &amp;= \cfrac{y(1-a) - a(1-y)}{a(1-a)}  a(1-a)  \\<br>&amp;= y-ay -a + ay \\<br>&amp;= y - a<br>\end{align}</p>
+<p>也就是我们获得了$\cfrac{\partial C’}{\partial w} = y-a$ 的梯度。这个梯度和$\sigma(z)$ 的导数毫无关系，而且模型预测和真实输出的差值越大，梯度就越大，梯度下降的速率就越大，学习就越快。这就是为什么神经网络需要使用交叉熵的代价函数而不是均方差代价函数了。</p>
+<p>附：简单证明$a’ = a (1-a)$ </p>
+<p>\begin{align}<br>\cfrac{d}{dx} \sigma(x) &amp;= \cfrac{d}{dx} \left[ \cfrac{1}{1 + e^{-x}} \right] \\<br>&amp;= \cfrac{d}{dx} \left( 1 + \mathrm{e}^{-x} \right)^{-1} \\<br>&amp;= -(1 + e^{-x})^{-2}(-e^{-x}) \\<br>&amp;= \cfrac{e^{-x}}{\left(1 + e^{-x}\right)^2} \\<br>&amp;= \cfrac{1}{1 + e^{-x}\ } \cdot \cfrac{e^{-x}}{1 + e^{-x}}  \\<br>&amp;= \cfrac{1}{1 + e^{-x}\ } \cdot \cfrac{(1 + e^{-x}) - 1}{1 + e^{-x}}  \\<br>&amp;= \cfrac{1}{1 + e^{-x}\ } \cdot \left( 1 - \cfrac{1}{1 + e^{-x}} \right) \\<br>&amp;= \sigma(x) \cdot (1 - \sigma(x))<br>\end{align}</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/监督学习/" rel="tag"># 监督学习</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/16/hello-world/" rel="next" title="如何用Hexo搭建个人博客">
+                <i class="fa fa-chevron-left"></i> 如何用Hexo搭建个人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/28/Bonjour-2017/" rel="prev" title="Bonjour 2017">
+                Bonjour 2017 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Leo LI" />
+          <p class="site-author-name" itemprop="name">Leo LI</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo LI</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

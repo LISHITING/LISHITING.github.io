@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="机器学习,监督学习,算法," />
 
 
 
@@ -93,13 +93,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="黎诗霆">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+<meta name="description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
+<meta name="keywords" content="机器学习,监督学习,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记-KNN">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/ml-knn/index.html">
 <meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-14T08:17:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黎诗霆">
+<meta name="twitter:title" content="机器学习笔记-KNN">
+<meta name="twitter:description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
 
 
 
@@ -127,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2017/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/ml-knn/"/>
 
 
 
 
 
-  <title>归档 | 黎诗霆</title>
+  <title>机器学习笔记-KNN | 黎诗霆</title>
   
 
 
@@ -158,7 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -262,325 +267,198 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 10 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/05/index_notes/" itemprop="url">
-              
-                <span itemprop="name">索引笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-05T08:12:43+08:00"
-              content="2017-08-05" >
-          08-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/05/sort/" itemprop="url">
-              
-                <span itemprop="name">常见排序算法总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-05T08:12:43+08:00"
-              content="2017-08-05" >
-          08-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/30/ml-svm/" itemprop="url">
-              
-                <span itemprop="name">机器学习笔记-SVM</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-30T08:12:43+08:00"
-              content="2017-07-30" >
-          07-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/15/ml-knn/" itemprop="url">
-              
-                <span itemprop="name">机器学习笔记-KNN</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-15T08:12:43+08:00"
-              content="2017-04-15" >
-          04-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/15/ml-decision-tree/" itemprop="url">
-              
-                <span itemprop="name">机器学习笔记-决策树</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-15T08:12:43+08:00"
-              content="2017-02-15" >
-          02-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/15/ml-ensemble/" itemprop="url">
-              
-                <span itemprop="name">关于机器学习的集成算法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-15T08:12:43+08:00"
-              content="2017-02-15" >
-          02-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/15/ml-lr/" itemprop="url">
-              
-                <span itemprop="name">机器学习笔记-逻辑回归</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-15T08:12:43+08:00"
-              content="2017-02-15" >
-          02-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/28/Bonjour-2017/" itemprop="url">
-              
-                <span itemprop="name">Bonjour 2017</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-28T08:04:19+08:00"
-              content="2017-01-28" >
-          01-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/ml-knn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo LI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎诗霆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习笔记-KNN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T08:12:43+08:00">
+                2017-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><ol>
+<li>给一堆训练的点和对应的类别，不需要训练</li>
+<li>给一个预测的点，计算该点和所有点的距离</li>
+<li>对距离排序</li>
+<li>选择其中前k个距离</li>
+<li>找出前k个距离所对应的点的类别</li>
+<li>数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里</li>
+</ol>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。</li>
+<li>可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关。</li>
+</ul>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ul>
+<li>计算复杂度高，数据维度为m，训练数据个数为n，那么就要计算n个m维的距离。</li>
+<li>模型依赖于样本，所以受限于样本容量。样本容量太小，特征无法均匀分布会有误差，容量太大，判别代价又太大</li>
+<li>数据的每个维度（也就是特征）的权重是一样的，这点和NN比较起来就有差距，因为有些特征并不重要，但也用相同的权重去衡量判别分类，而NN会在学习的过程中调整权重。</li>
+</ul>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><ul>
+<li>针对计算量太大：浓缩训练样本，无需使用全部的训练数据来预测，通过一些算法取训练数据的一部分数据来进行预测即可。</li>
+<li>针对特征的权重：在距离公式中人工赋予一些权重</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/监督学习/" rel="tag"># 监督学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/15/ml-decision-tree/" rel="next" title="机器学习笔记-决策树">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记-决策树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/30/ml-svm/" rel="prev" title="机器学习笔记-SVM">
+                机器学习笔记-SVM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -588,6 +466,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -608,8 +490,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.png"
@@ -671,6 +562,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优点"><span class="nav-number">2.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缺点"><span class="nav-number">3.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优化"><span class="nav-number">4.</span> <span class="nav-text">优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -784,11 +691,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   

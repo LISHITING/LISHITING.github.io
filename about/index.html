@@ -93,14 +93,17 @@
 
 
 
+<meta name="description" content="关于我 About Me本科自动化专业，留法转学计算机的摄影爱好者。 A Bachelor of automation. Also an amateur of photography and painting and Piano and Guitar and …(you believe?). Currently studying Computer Science in France.  关于这里">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
 <meta property="og:url" content="http://yoursite.com/about/index.html">
 <meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="关于我 About Me本科自动化专业，留法转学计算机的摄影爱好者。 A Bachelor of automation. Also an amateur of photography and painting and Piano and Guitar and …(you believe?). Currently studying Computer Science in France.  关于这里">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-29T14:58:18.000Z">
+<meta property="og:updated_time" content="2017-07-29T18:22:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about">
+<meta name="twitter:description" content="关于我 About Me本科自动化专业，留法转学计算机的摄影爱好者。 A Bachelor of automation. Also an amateur of photography and painting and Piano and Guitar and …(you believe?). Currently studying Computer Science in France.  关于这里">
 
 
 
@@ -109,7 +112,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -274,7 +277,11 @@
 
     
     
-      
+      <h1 id="关于我-About-Me"><a href="#关于我-About-Me" class="headerlink" title="关于我 About Me"></a>关于我 About Me</h1><p>本科自动化专业，留法转学计算机的摄影爱好者。</p>
+<p>A Bachelor of automation. Also an amateur of photography and painting and Piano and Guitar and …(you believe?). Currently studying Computer Science in France. </p>
+<h1 id="关于这里-About-Here"><a href="#关于这里-About-Here" class="headerlink" title="关于这里 About Here"></a>关于这里 About Here</h1><p>这里将是我长期维护的个人读书笔记库，同时我也会记录生活中的点滴如旅行日志。于我而言分享是一种乐趣，无论是新技术的学习，还是远赴一个未知的地点，我们总希望在真正接触它们之前有着那么一点了解，这便是这些文章存在的意义。</p>
+<p><strong>Reading notes + daily life + Traveling dairy</strong><br>A place aim at sharing my feel of a place or a conception of a technology.<br>I will be grateful if some of the information could help people in need. </p>
+
     
   </div>
 
@@ -304,8 +311,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.png"
@@ -320,7 +336,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -331,7 +347,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -342,7 +358,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -367,6 +383,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于我-About-Me"><span class="nav-number">1.</span> <span class="nav-text">关于我 About Me</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于这里-About-Here"><span class="nav-number">2.</span> <span class="nav-text">关于这里 About Here</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -502,29 +534,17 @@
 
 	
 
-		<script type="text/javascript">
-		_hcwp = window._hcwp || [];
-
-		_hcwp.push({widget:"Bloggerstream", widget_id: 93841, selector:".hc-comment-count", label: "{\%COUNT%\}" });
-
-		
-
-		(function() {
-		if("HC_LOAD_INIT" in window)return;
-		HC_LOAD_INIT = true;
-		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
-		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
-		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/93841/"+lang+"/widget.js";
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(hcc, s.nextSibling);
-		})();
-		</script>
-
-	
 
 
 
 
+  
+
+
+
+
+
+  
 
 
 

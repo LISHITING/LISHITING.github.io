@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="算法,基础算法," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/./uploads/favicon.png?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="选择排序排序思想：每次挑选最值（最大值或者最小值）然后顺序放在前面（或者后面）以达到升序（或者降序）的排序。以升序为例，从第一个开始挑选最小的放在第一位，然后再从除了第一个之后的所有元素挑选最小的，放在第二位，以此类推。 复杂度解释：显然从第一个开始挑选到最后一次挑选需要一个循环，每次挑选过程都要遍历剩下的元素，因此内嵌一个循环。算法复杂度时$O(n^2)$1234567891011templat">
+<meta name="keywords" content="算法,基础算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见排序算法总结">
+<meta property="og:url" content="http://yoursite.com/2017/08/05/sort/index.html">
+<meta property="og:site_name" content="黎诗霆">
+<meta property="og:description" content="选择排序排序思想：每次挑选最值（最大值或者最小值）然后顺序放在前面（或者后面）以达到升序（或者降序）的排序。以升序为例，从第一个开始挑选最小的放在第一位，然后再从除了第一个之后的所有元素挑选最小的，放在第二位，以此类推。 复杂度解释：显然从第一个开始挑选到最后一次挑选需要一个循环，每次挑选过程都要遍历剩下的元素，因此内嵌一个循环。算法复杂度时$O(n^2)$1234567891011templat">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/sort-quick_sort.png">
+<meta property="og:updated_time" content="2017-08-15T09:41:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见排序算法总结">
+<meta name="twitter:description" content="选择排序排序思想：每次挑选最值（最大值或者最小值）然后顺序放在前面（或者后面）以达到升序（或者降序）的排序。以升序为例，从第一个开始挑选最小的放在第一位，然后再从除了第一个之后的所有元素挑选最小的，放在第二位，以此类推。 复杂度解释：显然从第一个开始挑选到最后一次挑选需要一个循环，每次挑选过程都要遍历剩下的元素，因此内嵌一个循环。算法复杂度时$O(n^2)$1234567891011templat">
+<meta name="twitter:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/sort-quick_sort.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/05/sort/"/>
+
+
+
+
+
+  <title>常见排序算法总结 | 黎诗霆</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">黎诗霆</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/05/sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo LI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黎诗霆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常见排序算法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-05T08:12:43+08:00">
+                2017-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><p>排序思想：每次挑选最值（最大值或者最小值）然后顺序放在前面（或者后面）以达到升序（或者降序）的排序。以升序为例，从第一个开始挑选最小的放在第一位，然后再从除了第一个之后的所有元素挑选最小的，放在第二位，以此类推。</p>
+<p>复杂度解释：显然从第一个开始挑选到最后一次挑选需要一个循环，每次挑选过程都要遍历剩下的元素，因此内嵌一个循环。算法复杂度时$O(n^2)$<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">select_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v)&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</div><div class="line">        <span class="keyword">int</span> min_index = i;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j&lt;v.size(); j++) &#123;</div><div class="line">            <span class="keyword">if</span> (v[min_index]&lt;v[j]) &#123;</div><div class="line">                <span class="built_in">std</span>::swap(v[min_index], v[j]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><p>排序思想：大的元素不断上升或者小的元素不断沉底。“不断”的过程可以用两个循环来实现。两两比较如果满足条件就交换。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">bubble_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v)&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j&lt;v.size()-i<span class="number">-1</span>; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (v[j+<span class="number">1</span>]&lt;v[j]) &#123; <span class="comment">//if next one is smaller then swap</span></div><div class="line">                <span class="built_in">std</span>::swap(v[j], v[j+<span class="number">1</span>]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><p>排序的思想：类似于扑克牌的整理，依次挑选并与之前的比较，插入到合适的位置。由于插入到之前的位置需要把该元素之前的部分元素依次后移，所以需要一个while循环来进行迭代赋值。然后最后再把要插入的元素的值覆盖到所在的位置。<br>注意，因为要表示下一个元素，用到<code>i+1</code>，所以循环要改成<code>v.size()-1</code>以保证不越界。同时为了避免空数组的<code>v.size()-1</code>&lt;0的情况发生，还需要一个简单的<code>if</code>判断。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">insert_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v) &#123;</div><div class="line">    <span class="keyword">if</span> (v.size() &gt; <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size()<span class="number">-1</span>; i++) &#123;</div><div class="line">            T next_value = v[i+<span class="number">1</span>];</div><div class="line">            <span class="keyword">int</span> next = i+<span class="number">1</span>;</div><div class="line">            <span class="keyword">while</span>(v[next<span class="number">-1</span>] &gt; next_value )&#123; <span class="comment">//if next one is smaller than previous</span></div><div class="line">                v[next] = v[next<span class="number">-1</span>]; <span class="comment">//overwrite the next one with privous</span></div><div class="line">                next--;</div><div class="line">            &#125;</div><div class="line">            v[next] = next_value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><p>排序思想：不断划分小块。如果在升序的情况，则划分点左边的元素值均小于划分点的值，划分点右边的值均大于划分点的值。可以先选择最后一个元素作为划分点，然后陆续遍历一次把前面所有元素和划分点比较，设置一个用来记录比划分点小的index，当遇到比划分点小的值时用来交换。遍历结束后把划分点移动到index的前面，这样就保证了左边小于划分点，右边大于划分点。一次partition的过程可以用下图说明:<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/sort-quick_sort.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">int</span> <span class="title">partition</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v, <span class="keyword">int</span> first, <span class="keyword">int</span> last)&#123;</div><div class="line">    T pivot = v[last];</div><div class="line">    <span class="keyword">int</span> i = first - <span class="number">1</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = first; j&lt;v.size()<span class="number">-1</span>; j++) &#123;</div><div class="line">        <span class="keyword">if</span> (v[j]&lt;pivot) &#123; <span class="comment">//如果当前值小于pivot的值</span></div><div class="line">            i++; </div><div class="line">            <span class="built_in">std</span>::swap(v[i], v[j]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">std</span>::swap(v[i+<span class="number">1</span>], v[last]); <span class="comment">//最后把pivot指的元素放在最后一个比它小的元素的前面</span></div><div class="line">    <span class="keyword">return</span> (i+<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">quick_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v, <span class="keyword">int</span> first, <span class="keyword">int</span> last) &#123;</div><div class="line">    <span class="keyword">if</span> (first&lt;last) &#123;</div><div class="line">        <span class="keyword">int</span> pi = partition(v, first, last);</div><div class="line">        quick_sort(v, first, pi<span class="number">-1</span>); <span class="comment">//对应图中绿色部分</span></div><div class="line">        quick_sort(v, pi+<span class="number">1</span>, last); <span class="comment">//对于图中红色部分</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><p>排序思想：最后一种常用的排序是归并排序，其代码会稍长，但思路是比较容易理解的。<br>首先主函数每次迭代都需要计算一个新的中点，就是为了不断切分成小块，迭代地调用自身，并传入左半部分和右半部分进去。与快排不一样，快排是在分块的时候排序，而归并是在合并的时候排序，因此<code>merge</code>函数是在两个自身递归调用的下面。</p>
+<p><code>merge</code>函数内容分为以下几个步骤：</p>
+<ul>
+<li>创建两个<code>vector</code>，分别存放左半部分<code>[first, middle-first+1]</code>和右半部分 <code>[middle, last-middle]</code> </li>
+<li>依次把原数组的<code>first</code>到<code>middle-first+1</code>的元素复制到左半部分</li>
+<li>依次把原数组的<code>middle</code>到<code>last-middle</code>的元素复制到右半部分</li>
+<li><code>i</code>指向左半部分第0个，<code>j</code>指向右半部分第0个，当<code>i</code>和<code>j</code>都不超过各自数组时，k指向原数组要被覆盖的第0个，也就是<code>k=first</code>。循环比较把小的重新覆盖到原数组去</li>
+<li>然后再用while循环把剩下的复制到原数组去</li>
+<li>结束</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">merge</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v, <span class="keyword">int</span> first, <span class="keyword">int</span> middle, <span class="keyword">int</span> last) &#123;</div><div class="line">    <span class="keyword">int</span> i, j, k;</div><div class="line">    <span class="keyword">int</span> n1 = middle-first+<span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> n2 = last - middle;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt; v1(n1);</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt; v2(n2);</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i&lt; n1; i++)</div><div class="line">        v1[i] = v[first + i];</div><div class="line">    </div><div class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j&lt;n2; j++)</div><div class="line">        v2[j] = v[middle+<span class="number">1</span>+j];</div><div class="line">    </div><div class="line">    i = <span class="number">0</span>;</div><div class="line">    j = <span class="number">0</span>;</div><div class="line">    k = first;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span> (i&lt;n1 &amp;&amp; j &lt; n2) &#123;</div><div class="line">        <span class="keyword">if</span> (v1[i]&lt;v2[j])&#123;</div><div class="line">            v[k] = v1[i];</div><div class="line">            i++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            v[k] = v2[j];</div><div class="line">            j++;</div><div class="line">        &#125;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span>(i&lt;n1)&#123;</div><div class="line">        v[k] = v1[i];</div><div class="line">        i++;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span>(j&lt;n2)&#123;</div><div class="line">        v[k] = v2[j];</div><div class="line">        j++;</div><div class="line">        k++;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">merge_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v, <span class="keyword">int</span> first, <span class="keyword">int</span> last)&#123;</div><div class="line">    <span class="keyword">if</span> (first &lt; last) &#123;</div><div class="line">        <span class="keyword">int</span> middle = first + (last - first)/<span class="number">2</span>;</div><div class="line">        merge_sort(v, first, middle);</div><div class="line">        merge_sort(v, middle+<span class="number">1</span>, last);</div><div class="line">        merge(v,first, middle, last);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="SHELL排序"><a href="#SHELL排序" class="headerlink" title="SHELL排序"></a>SHELL排序</h1><h1 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h1><p>排序思想： 通过一个计数的数组来存放各个元素应该在的位置，然后在重新拷贝到结果数组去。这里需要获得一个最大值。比如要排序<code>[1 4 1 2 7 5 2]</code>，则需要知道最大值是7,这样才可以创建一个有7个元素的计数数组。弊端是空间的损失，如果最大值很大，则要创建的计数数组也很大。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></div><div class="line"><span class="class"><span class="title">void</span> <span class="title">count_sort</span>(<span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;T&gt; &amp;v, <span class="keyword">int</span> max) &#123;</div><div class="line">    </div><div class="line">    <span class="comment">//create a count vector</span></div><div class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; count(max+<span class="number">1</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v.size(); i++) &#123;</div><div class="line">        count.at(v[i]) ++;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//self increment of count vector</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; count.size(); i++) &#123;</div><div class="line">        count[i] += count[i<span class="number">-1</span>];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//create result vector</span></div><div class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result(v.size());</div><div class="line">    </div><div class="line">    <span class="comment">//put the element in the correct position in result vector</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</div><div class="line">        <span class="keyword">int</span> current_index = count[v[i]]<span class="number">-1</span>;</div><div class="line">        result[current_index] = v[i];</div><div class="line">        count[v[i]] --;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//copy the result to the input vector</span></div><div class="line">    v=result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h1><h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/基础算法/" rel="tag"># 基础算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/ml-svm/" rel="next" title="机器学习笔记-SVM">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记-SVM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/05/index_notes/" rel="prev" title="索引笔记">
+                索引笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Leo LI" />
+          <p class="site-author-name" itemprop="name">Leo LI</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#选择排序"><span class="nav-number">1.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#冒泡排序"><span class="nav-number">2.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插入排序"><span class="nav-number">3.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速排序"><span class="nav-number">4.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#归并排序"><span class="nav-number">5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SHELL排序"><span class="nav-number">6.</span> <span class="nav-text">SHELL排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计数排序"><span class="nav-number">7.</span> <span class="nav-text">计数排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#桶排序"><span class="nav-number">8.</span> <span class="nav-text">桶排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆排序"><span class="nav-number">9.</span> <span class="nav-text">堆排序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo LI</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

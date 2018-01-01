@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="机器学习,监督学习,算法," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -93,18 +93,24 @@
 
 
 
-<meta name="description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
-<meta name="keywords" content="机器学习,监督学习,算法">
+<meta name="description" content="当开始准备写今年第一篇日志时，翻到去年日志看到开篇提及的在欢乐的聚餐和斗地主中渡过，不禁感慨今年亦是如此相似，只是地点从南特去到了巴黎。或许耐寒基因不好，并没有在寒冷的冬天挤在人潮涌涌的香舍丽舍大街看倒数和烟花。我忽然发现记录下一些很有趣的片段并不断回味也是一件趣事，哪怕只有自己看，或者与自己至亲分享，总觉得无比快乐。 去天台喝杯咖啡去年冬天回了一趟国并不能赶上春节，匆匆忙忙在三月份又返回法国，因">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SVM笔记">
-<meta property="og:url" content="http://yoursite.com/2017/04/30/ml-svm/index.html">
+<meta property="og:title" content="Bonjour 2018">
+<meta property="og:url" content="http://yoursite.com/2018/01/01/Bonjour-2018/index.html">
 <meta property="og:site_name" content="LI SHITING">
-<meta property="og:description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
+<meta property="og:description" content="当开始准备写今年第一篇日志时，翻到去年日志看到开篇提及的在欢乐的聚餐和斗地主中渡过，不禁感慨今年亦是如此相似，只是地点从南特去到了巴黎。或许耐寒基因不好，并没有在寒冷的冬天挤在人潮涌涌的香舍丽舍大街看倒数和烟花。我忽然发现记录下一些很有趣的片段并不断回味也是一件趣事，哪怕只有自己看，或者与自己至亲分享，总觉得无比快乐。 去天台喝杯咖啡去年冬天回了一趟国并不能赶上春节，匆匆忙忙在三月份又返回法国，因">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-01T13:35:38.104Z">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018cafe.JPG">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018flower.JPG">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018cerimonie.jpg">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018dipome.jpg">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018greece.jpg">
+<meta property="og:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018xmax.jpg">
+<meta property="og:updated_time" content="2018-01-01T15:46:28.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SVM笔记">
-<meta name="twitter:description" content="说明关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。 公式推导样本点的表示设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。每个样本的标签取值为 $y_i = \p">
+<meta name="twitter:title" content="Bonjour 2018">
+<meta name="twitter:description" content="当开始准备写今年第一篇日志时，翻到去年日志看到开篇提及的在欢乐的聚餐和斗地主中渡过，不禁感慨今年亦是如此相似，只是地点从南特去到了巴黎。或许耐寒基因不好，并没有在寒冷的冬天挤在人潮涌涌的香舍丽舍大街看倒数和烟花。我忽然发现记录下一些很有趣的片段并不断回味也是一件趣事，哪怕只有自己看，或者与自己至亲分享，总觉得无比快乐。 去天台喝杯咖啡去年冬天回了一趟国并不能赶上春节，匆匆忙忙在三月份又返回法国，因">
+<meta name="twitter:image" content="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018cafe.JPG">
 
 
 
@@ -132,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/30/ml-svm/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/01/Bonjour-2018/"/>
 
 
 
 
 
-  <title>SVM笔记 | LI SHITING</title>
+  <title>Bonjour 2018 | LI SHITING</title>
   
 
 
@@ -277,7 +283,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/30/ml-svm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Bonjour-2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LI SHITING">
@@ -294,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SVM笔记</h1>
+          <h1 class="post-title" itemprop="name headline">Bonjour 2018</h1>
         
 
         <div class="post-meta">
@@ -306,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-30T08:12:43+02:00">
-                2017-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T01:45:20+01:00">
+                2018-01-01
               </time>
             
 
@@ -329,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
                   </a>
                 </span>
 
@@ -363,41 +369,21 @@
       
 
       
-        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>关于SVM的笔记，因为涉及多次对偶问题以及线性规划问题的求解，故记录下公式公式推导过程，以便对SVM的基本原理有更进一步的了解。</p>
-<h1 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h1><h2 id="样本点的表示"><a href="#样本点的表示" class="headerlink" title="样本点的表示"></a>样本点的表示</h2><p>设有$m$个样本点 $D = \lbrace(X_1,y_1) ,(X_2,y_2)…(X_m,y_m) \rbrace$。<br>其中每个样本点为 $d$ 维 $X_i = (x_1, x_2 … x_d) $。<br>每个样本的标签取值为 $y_i = \pm 1$，$+1$ 表示属于该标签，$-1$表示不属于</p>
-<h2 id="超平面的表示"><a href="#超平面的表示" class="headerlink" title="超平面的表示"></a>超平面的表示</h2><p>设存在d维的超平面:$ w_1x_1+w_2x_2 + …w_dx_d + b = 0 $<br>令$W = (w_1,w_2…w_d)$<br>超平面方程可以写成:<br>$$<br>W^TX + b = 0<br>\tag{1.1}<br>$$<br>$W$为超平面的法向量，b为超平面的位移。<br>特殊地，当d=2时超平面是一条直线： $w_1x_1 + w_2x_2 + b = 0$ 斜率$-\cfrac{w_1}{w_2}$,截距$-\cfrac{b}{w_2}$</p>
-<h2 id="正确分类的表示"><a href="#正确分类的表示" class="headerlink" title="正确分类的表示"></a>正确分类的表示</h2><p>如果一个样本$(X_i, y_i)$正确分类，则必有：<br>$$<br>\begin{cases}<br>W^TX_i+b \ge + 1 , y_i= + 1 \\<br>W^TX_i+b \le - 1 , y_i= - 1<br>\end{cases}<br>\tag{1.4}<br>$$<br>也就是如果超平面能正确分类样本点，则当样本点$Y_i = +1$时，代入$X_i$到超平面方程后得到的值是大于 $+1$ 的，反之当样本点$Y_i = -1$时，代入$X_i$到超平面方程后得到的值是小于 $-1$ 的。注意到$Y_i$的取值仅仅是符号的作用，所以可以把式(1.4)简化为：<br>$$<br>y_i (W^TX_i+b) \ge 1<br>\tag{1.5}<br>$$</p>
-<h2 id="样本点到超平面的距离"><a href="#样本点到超平面的距离" class="headerlink" title="样本点到超平面的距离"></a>样本点到超平面的距离</h2><p>一个点 $X =(x_1, x_2,…, x_d)$到超平面的距离可表示为<br>$$<br>d = \cfrac{\vert w_1x_1+w_2x_2 + …w_dx_d + b \vert}{\sqrt{w_1^2+w_2^2 + .. w_d^2}}<br>\tag{1.2}<br>$$</p>
-<p>用矩阵的形式表示W和X，同时用 $\Vert w \Vert$ 表示 $ \sqrt{w_1^2+w_2^2 + .. w_d^2} $, 则式$（1.2）$ 可以写成：<br>$$<br>d = \cfrac{\vert W^TX \vert}{\Vert w \Vert}<br>\tag{1.3}<br>$$</p>
-<h2 id="目标函数的确立"><a href="#目标函数的确立" class="headerlink" title="目标函数的确立"></a>目标函数的确立</h2><p>当样本集严格线性可分时，存在不止一种$W$和$b$的组合满足上式。因此必须找出<strong>最优</strong>的超平面来分割。设$y_i = +1$ 的样本为<strong>正样本</strong>,$y_i = -1$ 的样本为<strong>负样本</strong>， 则最优的定义就是离超平面最近的正样本和负样本的距离都最大。设<strong>间隔</strong>为离超平面最近的正样本和负样本的距离之和，则目标就是找出一组$W$和$b$使得间隔的值最大。<br>设经过最近正样本的超平面为$W^TX+b=1$ 也即$W^TX+b-1=0$, 经过最近负样本的超平面为$W^TX+b +1 = 0 $。由于$W$相等故两直线平行，间隔为两平行线的距离：<br>$$<br>d = \cfrac{\vert (b-1) - (b+1) \vert}{\Vert w \Vert}<br>  =  \cfrac{2}{\Vert w \Vert}<br>\tag{1.6}<br>$$<br>由于最大化$\cfrac{2}{\Vert w \Vert}$比较难计算，因此转化成最小化$\cfrac{1}{2}\Vert w \Vert^2$</p>
-<p>因为我们要在正确分类的前提下求间隔的最大值，也就是结合式(1.5)和(1.6）转化成一个在一定约束条件下的规划问题(1.7)。<br>$$<br>\begin{cases}<br>\min\limits_{W, b} \cfrac{1}{2}\Vert w \Vert^2  \\<br>\text{subject to: }  y_i (W^TX_i+b)\ge 1 , i = 1,2,3..m<br>\end{cases}<br>\tag{1.7}<br>$$</p>
-<h2 id="整合约束和目标函数"><a href="#整合约束和目标函数" class="headerlink" title="整合约束和目标函数"></a>整合约束和目标函数</h2><p>在特定约束下求最值时麻烦的，因为不能直接求目标函数最值，然后再去比较是否符合约束。最简单的方式就是引入<em>拉格朗日算子</em>将目标函数和约束整合在一起。设$\alpha$是拉格朗日算子。<br>因为$y_i (W^TX_i+b) \ge 1$ 可写成 $1-y_i (W^TX_i+b) \le 0$,则有</p>
-<p>$$<br>\min \limits_{W, b}  L(W, b, \alpha) = \cfrac{1}{2}\Vert w \Vert^2 + \sum_{i=1}^{m}\alpha_i(1-y_i (W^TX_i+b))<br>\tag{1.8}<br>$$</p>
-<p>原问题转化为一个对$L(W, b, \alpha)$的最大最小值问题。也就是:<br>$$<br>\min \limits_{W, b}<br>(\max\limits_{\alpha}L(W, b, \alpha))<br>\tag{1.9}<br>$$</p>
-<p>由于先求$\alpha$的最值较为困难，所以再转化为</p>
-<p>$$<br>\max \limits_{\alpha}<br>(\min\limits_{W, b}L(W, b, \alpha))<br>\tag{1.10}<br>$$</p>
-<p>对式（1.10）的$W, b$求偏导数得到：<br>$$<br>W = \sum_{i = 1}^{m} \alpha_ix_iy_i<br>\tag{1.11}<br>$$</p>
-<p>$$<br>0 = \sum_{i = 1}^{m} \alpha_iy_i<br>\tag{1.12}<br>$$</p>
-<p>将式(1.11)和(1.12)代回(1.10)可得到仅关于$\alpha$的函数(1.13)：</p>
-<p>$$<br>\max \limits_{\alpha} \sum_{i = 1}^{m} \alpha_i - \cfrac{1}{2}\sum_{i = 1}^{m}\sum_{j = 1}^{m} \alpha_i\alpha_jy_iy_jx_i^Tx_j<br>\tag{1.13}<br>$$</p>
-<p>$$<br>\text{subject to:} \sum_{i = 1}^{m} \alpha_iy_i = 0 且 a_i \ge 0<br>$$</p>
-<p>根据KTT采用SMO算法解出$alpha$然后确定$W$和$b$。由于超平面是由$W$和$b$确定，因此超平面确定，至此模型训练完成。</p>
-<h1 id="从线性可分到不完全线性可分"><a href="#从线性可分到不完全线性可分" class="headerlink" title="从线性可分到不完全线性可分"></a>从线性可分到不完全线性可分</h1><p>为了使某些样本可以不满足约束$y_i (W^TX_i+b)\ge 1$, 引入松弛变量C。于是式(1.8)可以改写成</p>
-<p>$$<br>\min \limits_{W, b}  L(W, b, \alpha) = \cfrac{1}{2}\Vert w \Vert^2 + C*\sum_{i=1}^{m}loss((1-y_i (W^TX_i+b)))<br>\tag{1.8}<br>$$<br>其中$loss()$函数可以有以下选择：</p>
-<ul>
-<li>0/1损失函数：$<br>loss(z) =<br>\begin{cases}<br>1, if z &lt; 0 \\<br>0, otherwise<br>\end{cases}<br>$</li>
-<li>hinge损失函数：$loss(z) = \max (0, 1-z)$</li>
-<li>指数损失函数: $loss(z) = \exp(-z)$</li>
-<li>对率损失函数: $loss(z) = \log(1+\exp(-z))$</li>
-</ul>
-<p>待补充：</p>
-<ul>
-<li>从不完全线性可分到非线性可分</li>
-<li>引入核函数来处理非线性可分</li>
-<li>用SVM做回归分析：SVR</li>
-<li>核方法</li>
-</ul>
-<p>参考：<br>周志华《机器学习》<br>李航《统计学习方法》</p>
+        <p>当开始准备写今年第一篇日志时，翻到去年<a href="">日志</a>看到开篇提及的在欢乐的聚餐和斗地主中渡过，不禁感慨今年亦是如此相似，只是地点从南特去到了巴黎。或许耐寒基因不好，并没有在寒冷的冬天挤在人潮涌涌的香舍丽舍大街看倒数和烟花。我忽然发现记录下一些很有趣的片段并不断回味也是一件趣事，哪怕只有自己看，或者与自己至亲分享，总觉得无比快乐。</p>
+<h2 id="去天台喝杯咖啡"><a href="#去天台喝杯咖啡" class="headerlink" title="去天台喝杯咖啡"></a>去天台喝杯咖啡</h2><p>去年冬天回了一趟国并不能赶上春节，匆匆忙忙在三月份又返回法国，因为我开始在这边的一份六个月的长实习。入职当天天气还是很冷，披着风衣顶着小雨一路到了公司办完一切手续。中午跟同事们午餐并尬聊着，发现其实一切适应并没有想象中的难。<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018cafe.JPG" alt=""></p>
+<p>有时午饭以后，总是会跟着同事们<strong>去天台喝杯咖啡</strong>，聊天或者嗮太阳，直到下午开工。咖啡似乎在开始工作之后一直伴随着我。</p>
+<h2 id="春天花儿开"><a href="#春天花儿开" class="headerlink" title="春天花儿开"></a>春天花儿开</h2><p>一旦开始上班，假期就是一个奢侈的词。实习生没有年假，幸好有很多一日的假期在星期一或者星期五，这样我能有一个长周末。四月份的天气已经慢慢转暖，趁着小假去了一趟南特附近的小镇Clisson。欧洲城市一个样，乡村更显的有人情味，加之绿树城堡和鲜花更有万物生机的感觉。<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018flower.JPG" alt=""></p>
+<h2 id="我的脚不是我的"><a href="#我的脚不是我的" class="headerlink" title="我的脚不是我的"></a>我的脚不是我的</h2><p>并不是每一个假期都会出去，有的时候懒癌发作哪怕是稍长一点的假期也宁愿懒散地躺在床上晒太阳，直到夏天即将到来觉得再不出去就会发霉了。在一个风和日丽阳光普照的日子，我和同学们一起去海边骑行。依稀记得上一次环绕安纳西湖骑行40公里只是一个上午的事情，因此天真的认为38公里的路途并不艰难。</p>
+<p>然而事实证明我们的想法太天真。猛烈的紫外线，笨重的单车，崎岖的道路让我们在最后十公里的路程几乎五分钟歇一次脚。当时我就觉得或许今年都不会再骑单车了，结果还真的是。即便很疲惫，回想起趁着海浪褪去骑在露出的道路上还是很奇妙的感觉。</p>
+<h2 id="告一段落"><a href="#告一段落" class="headerlink" title="告一段落"></a>告一段落</h2><p>九月份除了是生日的月份，毕业的月份，还是一个踏上求职的月份。在答辩完收齐老师的评分卷，合上笔记本电脑，关上视频摄像头，我终于如释重负。我还清楚地记得企业导师和学校老师关心地询问我未来的想法，并认真的跟我说恭喜毕业，心情是高兴又失落。其实每逢一段转折，告一段落的节点处我总是会有这种感觉，强烈又短暂，很快便被我赶去火车站的仓促感替代。<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018cerimonie.jpg" alt=""></p>
+<p>毕业礼最开心的莫过于亲近的人都在身边。<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018dipome.jpg" alt=""></p>
+<h2 id="神圣又不美丽"><a href="#神圣又不美丽" class="headerlink" title="神圣又不美丽"></a>神圣又不美丽</h2><p>希腊对于我一直都是一个充满神秘的地方，帕特农神庙和雅典卫城的那些宏伟的断壁残垣一直隔着一本书的距离，直到自己亲眼目睹。在抵达神庙时感受到的是旅游胜地的人潮涌涌和聒噪的谈话声，竟然少了印象中的宏伟壮阔。</p>
+<p><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018greece.jpg" alt=""></p>
+<p>也许是经济衰败的原因，公共交通的服务公职人员冷漠的态度，繁忙时段的十分钟一趟的地铁，市中心一公里以外脏乱差的街区公路，似乎在拉低这座具有辉煌古文明的城市素质。或许雅典这里是我必定会选择去一次而不会再度重游却也念念不忘的欧洲城市。</p>
+<h2 id="熟悉的冬天"><a href="#熟悉的冬天" class="headerlink" title="熟悉的冬天"></a>熟悉的冬天</h2><p>十一月回到了广州，忽然想起已经有两年未曾在广州度过这段忽冷忽热的季节，偶尔穿着短袖挤地铁，偶尔穿着大衣去咖啡厅避寒，这就是熟悉的冬天。</p>
+<h2 id="阳光还是家乡"><a href="#阳光还是家乡" class="headerlink" title="阳光还是家乡"></a>阳光还是家乡</h2><p>在回国的飞机上无意中瞥见星座运势，虽然不怎么相信这些玄学，但面临选择这四个字我却记得清清楚楚。尼斯实验室的工作终究觉得太遥远，广州亲切的感觉终究还是无法抗拒。其实选择不仅是一个理性的过程，也是一个感性的过程，我也不清楚为什么执着于回到原点，或许原点更适合作起点吧。</p>
+<h2 id="圣诞在等我"><a href="#圣诞在等我" class="headerlink" title="圣诞在等我"></a>圣诞在等我</h2><p>十二月二十六日早上抵达巴黎，第二天晚上路过Place de Chatelet，惊喜地发现圣诞集市还没有收，熟悉的烤串和热红酒，也许是今年，也是明年最后一次品尝了。<br><img src="http://7xqa1o.com1.z0.glb.clouddn.com/Bonjour2018xmax.jpg" alt=""></p>
+<h2 id="期盼"><a href="#期盼" class="headerlink" title="期盼"></a>期盼</h2><p>当我在罗列着小标题的时候，我才发现自己原本以为非常单调的生活，还是夹杂着很多小趣事。转眼间就开始新的一年，开始工作的第一年一定要要好好加油，也祝愿自己，亲人和朋友都能顺顺利利地度过新的一年。</p>
 
       
     </div>
@@ -425,16 +411,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-            <a href="/tags/监督学习/" rel="tag"># 监督学习</a>
-          
-            <a href="/tags/算法/" rel="tag"># 算法</a>
-          
-        </div>
-      
 
       
       
@@ -444,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/15/ml-knn/" rel="next" title="KNN笔记">
-                <i class="fa fa-chevron-left"></i> KNN笔记
+              <a href="/2017/09/05/index_notes/" rel="next" title="索引笔记">
+                <i class="fa fa-chevron-left"></i> 索引笔记
               </a>
             
           </div>
@@ -453,10 +429,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/23/sort/" rel="prev" title="常见排序算法总结">
-                常见排序算法总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -586,7 +558,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公式推导"><span class="nav-number">2.</span> <span class="nav-text">公式推导</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#样本点的表示"><span class="nav-number">2.1.</span> <span class="nav-text">样本点的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超平面的表示"><span class="nav-number">2.2.</span> <span class="nav-text">超平面的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确分类的表示"><span class="nav-number">2.3.</span> <span class="nav-text">正确分类的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本点到超平面的距离"><span class="nav-number">2.4.</span> <span class="nav-text">样本点到超平面的距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标函数的确立"><span class="nav-number">2.5.</span> <span class="nav-text">目标函数的确立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合约束和目标函数"><span class="nav-number">2.6.</span> <span class="nav-text">整合约束和目标函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从线性可分到不完全线性可分"><span class="nav-number">3.</span> <span class="nav-text">从线性可分到不完全线性可分</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#去天台喝杯咖啡"><span class="nav-number">1.</span> <span class="nav-text">去天台喝杯咖啡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#春天花儿开"><span class="nav-number">2.</span> <span class="nav-text">春天花儿开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的脚不是我的"><span class="nav-number">3.</span> <span class="nav-text">我的脚不是我的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#告一段落"><span class="nav-number">4.</span> <span class="nav-text">告一段落</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神圣又不美丽"><span class="nav-number">5.</span> <span class="nav-text">神圣又不美丽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#熟悉的冬天"><span class="nav-number">6.</span> <span class="nav-text">熟悉的冬天</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阳光还是家乡"><span class="nav-number">7.</span> <span class="nav-text">阳光还是家乡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#圣诞在等我"><span class="nav-number">8.</span> <span class="nav-text">圣诞在等我</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期盼"><span class="nav-number">9.</span> <span class="nav-text">期盼</span></a></li></ol></div>
             
 
           </div>

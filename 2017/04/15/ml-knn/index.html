@@ -96,14 +96,14 @@
 <meta name="description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
 <meta name="keywords" content="机器学习,监督学习,算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习笔记-KNN">
+<meta property="og:title" content="KNN笔记">
 <meta property="og:url" content="http://yoursite.com/2017/04/15/ml-knn/index.html">
 <meta property="og:site_name" content="LI SHITING">
 <meta property="og:description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-14T08:17:37.000Z">
+<meta property="og:updated_time" content="2018-01-01T13:34:53.153Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习笔记-KNN">
+<meta name="twitter:title" content="KNN笔记">
 <meta name="twitter:description" content="算法 给一堆训练的点和对应的类别，不需要训练 给一个预测的点，计算该点和所有点的距离 对距离排序 选择其中前k个距离 找出前k个距离所对应的点的类别 数一下这些类别，哪种类别最多，那个要预测的点就归属在那个类别里  优点 因为不需要训练，所以也不需要创建规则，也就是机器学习出来的那个函数。因为规则就是所有训练数据点本身。 可以避免样本数量不平衡的问题，因为无论如何不平衡，预测点只和附近的k个点有关">
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>机器学习笔记-KNN | LI SHITING</title>
+  <title>KNN笔记 | LI SHITING</title>
   
 
 
@@ -294,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">机器学习笔记-KNN</h1>
+          <h1 class="post-title" itemprop="name headline">KNN笔记</h1>
         
 
         <div class="post-meta">
@@ -306,7 +306,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T08:12:43+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T08:12:43+02:00">
                 2017-04-15
               </time>
             
@@ -430,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/15/ml-decision-tree/" rel="next" title="机器学习笔记-决策树">
-                <i class="fa fa-chevron-left"></i> 机器学习笔记-决策树
+              <a href="/2017/03/23/ml-lr/" rel="next" title="逻辑回归笔记">
+                <i class="fa fa-chevron-left"></i> 逻辑回归笔记
               </a>
             
           </div>
@@ -440,8 +440,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/30/ml-svm/" rel="prev" title="机器学习笔记-SVM">
-                机器学习笔记-SVM <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/30/ml-svm/" rel="prev" title="SVM笔记">
+                SVM笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -515,7 +515,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -526,7 +526,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -537,7 +537,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -595,7 +595,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
